@@ -7,10 +7,11 @@ public class RoomLayoutManager : MonoBehaviour
     WallsManager wallsManager;
     public GameObject startRoomPrefab;
     GameObject startRoom;
-    public GameObject endRoomPrefab;
+    public GameObject exitRoomPrefab;
+    GameObject exitRoom;
     bool roomsSet = false;
     bool startingRoomPlaced = false;
-
+    bool exitRoomPlaced = false;
     public List<GameObject> treasureRoom = new List<GameObject>();
     public List<GameObject> shopRoom = new List<GameObject>();
 
@@ -25,12 +26,14 @@ public class RoomLayoutManager : MonoBehaviour
     void Awake()
     {
         startRoom = Instantiate(startRoomPrefab, transform);
+        exitRoom = Instantiate(exitRoomPrefab, transform);
         startRoom.SetActive(false);
+        exitRoom.SetActive(false);
         wallsManager = GetComponent<WallsManager>();
     }
     private void SetRoomLayout()
     {
-        int randomIndex = Random.Range(0, roomLayouts.Count);
+        int randomIndex = Random.Range(0, roomLayouts.Count - 1);
         roomLayouts[randomIndex].SetActive(true);
     }
     private void Update()
@@ -45,6 +48,17 @@ public class RoomLayoutManager : MonoBehaviour
             roomLayouts[0].SetActive(true);
             roomsSet = true;
             startingRoomPlaced = true;
+        }
+        else if(!exitRoomPlaced && gameObject.CompareTag("Exit"))
+        {
+            foreach(GameObject room in roomLayouts)
+            {
+                room.SetActive(false);
+            }
+            roomLayouts = new List<GameObject> { exitRoom };
+            roomLayouts[0].SetActive(true);
+            roomsSet = true;
+            exitRoomPlaced = true;
         }
 
         if (roomsSet) return;
@@ -63,7 +77,7 @@ public class RoomLayoutManager : MonoBehaviour
                 room.SetActive(false);
             }
         }
-        if (roomLayouts != null && !roomsSet)
+        if (roomLayouts.Count > 1 && !roomsSet)
         {
             SetRoomLayout();
             roomsSet = true;

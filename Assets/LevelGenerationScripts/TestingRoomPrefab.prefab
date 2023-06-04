@@ -2170,7 +2170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startRoomPrefab: {fileID: 5665145813895323664, guid: 21850dea496bc7c48901492a76e65978, type: 3}
-  endRoomPrefab: {fileID: 0}
+  exitRoomPrefab: {fileID: 5665145813895323664, guid: 0949654d3f2996a45bc0e2cb57539a64, type: 3}
   treasureRoom: []
   shopRoom: []
   NE:

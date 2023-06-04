@@ -18,6 +18,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
     public Vector2 targetCell;
     Dictionary<int, Vector2> cellPath = new Dictionary<int, Vector2>();
     public List<Vector2> cellPoints;
+    List<GameObject> treasureRooms = new List<GameObject>();
     public List<GameObject> cellObjectPool = new List<GameObject>();
     public List<GameObject> activeCells = new List<GameObject>();
     public List<GameObject> fillerCells = new List<GameObject>();
@@ -211,15 +212,19 @@ public class LoopEraseRandomWalk : MonoBehaviour
         Debug.Log("!! starting branching path @ point: " + cell.name + " heading to: " + nextPoint); ;
 
         ColorManager colorManager = cell.GetComponent<ColorManager>();
-        colorManager.spriteRenderer.color = Color.red;
+        colorManager.spriteRenderer.color = Color.cyan;
         branchingPathLoopCount++;
         neighbors.Clear();
-
+        treasureRooms.Add(cell);
+        List<GameObject> cellWalls = cell.GetComponent<WallsManager>().walls;
+        foreach (GameObject wall in cellWalls) wall.SetActive(false);
         if (branchingPathLoopCount >= desiredBranchingPaths)
         {
             CancelInvoke();
             GetRemainingGridProints();
             //place chest holding key inside the room
+            int randomTreasureRoom = Random.Range(0, treasureRooms.Count - 1);
+            treasureRooms[randomTreasureRoom].GetComponent<ColorManager>().spriteRenderer.color = Color.yellow;
         }
     }
     List<int> cellXPoint = new List<int>();
@@ -250,6 +255,15 @@ public class LoopEraseRandomWalk : MonoBehaviour
         }
         int randomIndex = Random.Range(0, possibleStartCells.Count - 1);
         possibleStartCells[randomIndex].tag = "Start";
+
+        List<GameObject> possibleEndCells = new List<GameObject>(); 
+        foreach(GameObject cell in activeCells)
+        {
+            if(cell.transform.position.y != highestCellYPoint) continue;
+            possibleEndCells.Add(cell);
+        }
+        int randomEndCellIndex = Random.Range(0, possibleEndCells.Count - 1);
+        possibleEndCells[randomEndCellIndex].tag = "Exit";
 
         EventManager.instance.TriggerEvent("spawn_player");
         //get list of all cells on highest level of grid

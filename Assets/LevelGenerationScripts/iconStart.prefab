@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7010598075214821336}
   - component: {fileID: 8913386381794123766}
   m_Layer: 0
-  m_Name: gridPoint
+  m_Name: iconStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

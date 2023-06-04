@@ -11,6 +11,7 @@ TagManager:
   - Holdable
   - Weapon
   - Slope
+  - Exit
   layers:
   - Default
   - TransparentFX
