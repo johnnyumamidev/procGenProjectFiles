@@ -1270,11 +1270,12 @@ MonoBehaviour:
   activeCells: []
   fillerCells: []
   pathIndex: 0
-  timeBetweenIteration: 0.001
+  timeBetweenIteration: 0.3
   numberOfLoops: 0
   pathLength: 12
   pathActive: 0
   desiredBranchingPaths: 5
+  minimumCellsFromStartCell: 4
 --- !u!1 &1960153246
 GameObject:
   m_ObjectHideFlags: 0

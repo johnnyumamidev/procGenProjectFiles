@@ -9,7 +9,6 @@ public class LoopEraseRandomWalk : MonoBehaviour
     Grid grid;
     public GameObject cellPrefab;
 
-
     List<Vector2> directions = new List<Vector2> { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
     List<string> directionNames = new List<string> { "North", "East", "South", "West" };
     Vector2 lastDirection;
@@ -166,17 +165,23 @@ public class LoopEraseRandomWalk : MonoBehaviour
     List<Vector2> points;
     int branchingPathLoopCount;
     public int desiredBranchingPaths = 1;
+    public int minimumCellsFromStartCell = 4;
     List<Vector2> neighbors = new List<Vector2>();
     private void CreateBranchingPaths()
     {
-        //get starting point
-    StartBranch:        
-        int randomXIndex = Random.Range(2, cellXPoint.Count-2);
-        int randomYIndex = Random.Range(2, cellYPoint.Count-2);
-        Vector2 randomPointWithinPath = new Vector2(cellXPoint[randomXIndex], cellYPoint[randomYIndex]);
+    //get starting point
+    StartBranch:
+        GetPointOnPath(out Vector2 randomPointWithinPath);
         if (!cellPath.ContainsValue(randomPointWithinPath))
         {
             Debug.Log(randomPointWithinPath + ", branch is not connected to main path");
+            goto StartBranch;
+        }
+        GetKeyFromValue(cellPath, randomPointWithinPath, out int pathKey);
+        GetKeyFromValue(cellPath, startCell.transform.position, out int startCellKey);
+        if(Mathf.Abs(pathKey - startCellKey) < minimumCellsFromStartCell)
+        {
+            Debug.Log(randomPointWithinPath + " start branch cell set too close to start of level");
             goto StartBranch;
         }
         //check neighbors and ensure that cell has at least one open neighbor
@@ -184,17 +189,20 @@ public class LoopEraseRandomWalk : MonoBehaviour
         for(int i = 0; i < directions.Count; i++)
         {
             Vector2 neighborPoint = randomPointWithinPath + directions[i];
-            neighbors.Add(neighborPoint);
             Debug.Log("getting " + randomPointWithinPath + " neighbors: " + neighborPoint);
             if (cellPath.ContainsValue(neighborPoint))
             {
                 Debug.Log(neighborPoint + " exists on path");
-                neighbors.Remove(neighborPoint);
+                continue;
             }
-            if (!grid.points.Contains(neighborPoint))
+            else if (!grid.points.Contains(neighborPoint))
             {
                 Debug.Log(neighborPoint + " is out of bounds");
-                neighbors.Remove(neighborPoint);
+                continue;
+            }
+            else
+            {
+                neighbors.Add(neighborPoint);
             }
         }
         if (neighbors.Count <= 0)
@@ -216,8 +224,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
         branchingPathLoopCount++;
         neighbors.Clear();
         treasureRooms.Add(cell);
-        List<GameObject> cellWalls = cell.GetComponent<WallsManager>().walls;
-        foreach (GameObject wall in cellWalls) wall.SetActive(false);
+
         if (branchingPathLoopCount >= desiredBranchingPaths)
         {
             CancelInvoke();
@@ -227,8 +234,18 @@ public class LoopEraseRandomWalk : MonoBehaviour
             treasureRooms[randomTreasureRoom].GetComponent<ColorManager>().spriteRenderer.color = Color.yellow;
         }
     }
+
+    private void GetPointOnPath(out Vector2 randomPointWithinPath)
+    {
+        int randomXIndex = Random.Range(2, cellXPoint.Count - 2);
+        int randomYIndex = Random.Range(2, cellYPoint.Count - 2);
+        randomPointWithinPath = new(cellXPoint[randomXIndex], cellYPoint[randomYIndex]);
+    }
+
     List<int> cellXPoint = new List<int>();
     List<int> cellYPoint = new List<int>();
+    GameObject startCell;
+    GameObject exitCell;
     private void SetStartAndEndCells()
     {
         List<Vector2> cellGridPoints = new List<Vector2>(cellPath.Values);
@@ -255,6 +272,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
         }
         int randomIndex = Random.Range(0, possibleStartCells.Count - 1);
         possibleStartCells[randomIndex].tag = "Start";
+        startCell = possibleStartCells[randomIndex];
 
         List<GameObject> possibleEndCells = new List<GameObject>(); 
         foreach(GameObject cell in activeCells)
@@ -264,6 +282,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
         }
         int randomEndCellIndex = Random.Range(0, possibleEndCells.Count - 1);
         possibleEndCells[randomEndCellIndex].tag = "Exit";
+        exitCell = possibleEndCells[randomEndCellIndex];
 
         EventManager.instance.TriggerEvent("spawn_player");
         //get list of all cells on highest level of grid
@@ -306,7 +325,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
             if (gridIndex == gridPoints.Count) break;
             cell.transform.position = gridPoints[gridIndex];
             gridIndex++;
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForSeconds(timeBetweenIteration);
         }
     }
 
