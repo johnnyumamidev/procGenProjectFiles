@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cc227372a98c7b48af388a0c7e17d80, type: 3}
+  m_Name: PlayerData
+  m_EditorClassIdentifier: 
+  maxPlayerHealth: 4
+  hurtStateTime: 0.6
+  hurtLaunchForce: 0.35
+  playerGravityScale: 0.9
+  playerMass: 1
+  maxSpeed: 3
+  moveSpeed: 26
+  jumpForce: 2.3
+  groundCheckRadius: 0.0125
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  groundCheckOffset: {x: 0, y: -0.07}
+  maxJumps: 1
+  coyoteTime: 0.3
+  landingRecoveryTimer: 0.06
+  jumpCooldown: 0.1
+  aerialDriftModifier: 0.03
+  maxAerialSpeed: 0.5
+  jumpReleaseTimeAllowance: 0.15
+  climbSpeed: 24
+  relaseChainForce: 0.6
