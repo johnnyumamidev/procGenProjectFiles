@@ -164,9 +164,11 @@ public class LoopEraseRandomWalk : MonoBehaviour
 
     List<Vector2> points;
     int branchingPathLoopCount;
+    int branchingPathIndex;
     public int desiredBranchingPaths = 1;
     public int minimumCellsFromStartCell = 4;
     List<Vector2> neighbors = new List<Vector2>();
+    List<Vector2> neighborDirection = new List<Vector2>();
     private void CreateBranchingPaths()
     {
     //get starting point
@@ -179,14 +181,14 @@ public class LoopEraseRandomWalk : MonoBehaviour
         }
         GetKeyFromValue(cellPath, randomPointWithinPath, out int pathKey);
         GetKeyFromValue(cellPath, startCell.transform.position, out int startCellKey);
-        if(Mathf.Abs(pathKey - startCellKey) < minimumCellsFromStartCell)
+        if (Mathf.Abs(pathKey - startCellKey) < minimumCellsFromStartCell)
         {
             Debug.Log(randomPointWithinPath + " start branch cell set too close to start of level");
             goto StartBranch;
         }
         //check neighbors and ensure that cell has at least one open neighbor
         //if no available neighbors, get new starting point
-        for(int i = 0; i < directions.Count; i++)
+        for (int i = 0; i < directions.Count; i++)
         {
             Vector2 neighborPoint = randomPointWithinPath + directions[i];
             Debug.Log("getting " + randomPointWithinPath + " neighbors: " + neighborPoint);
@@ -203,6 +205,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
             else
             {
                 neighbors.Add(neighborPoint);
+                neighborDirection.Add(directions[i]);
             }
         }
         if (neighbors.Count <= 0)
@@ -210,25 +213,35 @@ public class LoopEraseRandomWalk : MonoBehaviour
             Debug.Log("cell is surrounded on all sides, get new starting point");
             goto StartBranch;
         }
-
+        GameObject rootCell = activeCells[pathKey];
         int randomNeighborIndex = Random.Range(0, neighbors.Count-1);
         Vector2 nextPoint = neighbors[randomNeighborIndex];
 
         pathIndex++;
         cellPath.Add(pathIndex, nextPoint);
         GameObject cell = NewActiveCell();
-        Debug.Log("!! starting branching path @ point: " + cell.name + " heading to: " + nextPoint); ;
+        Debug.Log("!! starting branching path @ point: " + rootCell.name + " heading to: " + nextPoint + " " + cell.name); ;
+
+        WallsManager cellOnPathWallManager = rootCell.GetComponent<WallsManager>();
+        cellOnPathWallManager.DisableWallToTreasureRoom(neighborDirection[randomNeighborIndex]);
+        
+        WallsManager cellWalls = cell.GetComponent<WallsManager>();
+        cellWalls.lastDirection = neighborDirection[randomNeighborIndex];
+        cellWalls.isTreasureRoom = true;
 
         ColorManager colorManager = cell.GetComponent<ColorManager>();
         colorManager.spriteRenderer.color = Color.cyan;
+
         branchingPathLoopCount++;
         neighbors.Clear();
+        neighborDirection.Clear();
         treasureRooms.Add(cell);
 
         if (branchingPathLoopCount >= desiredBranchingPaths)
         {
             CancelInvoke();
             GetRemainingGridProints();
+
             //place chest holding key inside the room
             int randomTreasureRoom = Random.Range(0, treasureRooms.Count - 1);
             treasureRooms[randomTreasureRoom].GetComponent<ColorManager>().spriteRenderer.color = Color.yellow;
