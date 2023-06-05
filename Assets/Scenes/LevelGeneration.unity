@@ -1245,7 +1245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridWidth: 4
-  gridHeight: 8
+  gridHeight: 12
   cellWidth: 1
   cellHeight: 1
   startGridPosition: {fileID: 247739158}
@@ -1272,9 +1272,9 @@ MonoBehaviour:
   pathIndex: 0
   timeBetweenIteration: 0.01
   numberOfLoops: 0
-  pathLength: 12
+  pathLength: 20
   pathActive: 0
-  desiredBranchingPaths: 3
+  desiredBranchingPaths: 6
   minimumCellsFromStartCell: 4
 --- !u!1 &1960153246
 GameObject:
