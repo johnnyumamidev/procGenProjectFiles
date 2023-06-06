@@ -139,8 +139,6 @@ public class LoopEraseRandomWalk : MonoBehaviour
         GameObject cell = cellObjectPool[pathIndex];
         cell.SetActive(true);
         cell.transform.position = cellPath[pathIndex];
-        ColorManager colorManager = cell.GetComponent<ColorManager>();
-        colorManager.spriteRenderer.color = Color.white;
         activeCells.Add(cell);
         return cell;
     }

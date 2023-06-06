@@ -7,6 +7,7 @@ public class PlayerAttack : MonoBehaviour
 {
     PlayerInteraction playerInteraction;
     PlayerInput playerInput;
+
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -21,6 +22,15 @@ public class PlayerAttack : MonoBehaviour
     private void HandlePlayerAttack()
     {
         if (!playerInteraction.currentlyHoldingItem) return;
-        if (playerInput.performAttack != 0) Debug.Log("attack");
+        if (playerInteraction.currentlyHeldItem.GetType().ToString() != "Weapon") return;
+
+        if (playerInput.performAttack != 0)
+        {
+            EventManager.instance.TriggerEvent("attack_active");
+        }
+        else
+        {
+            EventManager.instance.TriggerEvent("attack_inactive");
+        }
     } 
 }

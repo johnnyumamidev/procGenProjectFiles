@@ -28,6 +28,7 @@ public class PlayerInteraction : MonoBehaviour
     //component references
     PlayerInput playerInput;
     PlayerHealth playerHealth;
+    PlayerLocomotion playerLocomotion;
     private readonly Collider2D[] colliders = new Collider2D[2];
     [SerializeField] private int numberFound;
 
@@ -40,6 +41,7 @@ public class PlayerInteraction : MonoBehaviour
         interactionTimer = interactionCooldown;
         playerInput = GetComponent<PlayerInput>();
         playerHealth = GetComponent<PlayerHealth>();
+        playerLocomotion= GetComponent<PlayerLocomotion>();
     }
 
     private UnityAction DoorUnlocked()
@@ -55,6 +57,8 @@ public class PlayerInteraction : MonoBehaviour
     void Update()
     {
         pointer.SetActive(false);
+        if (!playerLocomotion.isGrounded) return;
+
         if (!interactionReady)
         {
             interactionTimer -= Time.deltaTime;

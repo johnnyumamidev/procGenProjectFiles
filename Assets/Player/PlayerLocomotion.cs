@@ -92,10 +92,17 @@ public class PlayerLocomotion : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (playerInteraction.currentlyHoldingItem) return;
         if (collision.gameObject.CompareTag("Chain"))
         {
-            chain = collision;
+            if (playerInteraction.currentlyHoldingItem)
+            {
+                Debug.Log("currently holding item, cannot climb");
+                chain = null;
+            }
+            else
+            {
+                chain = collision;
+            }
         }
     }
     private void FlipDirection()

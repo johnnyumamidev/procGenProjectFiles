@@ -2,13 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-    protected static int currentHealth;
+    public EnemyData enemyData;
+    EnemyAttack enemyAttack;
+    EnemyMovement enemyMovement;
+    EnemyHealth enemyHealth;
+    EnemyAI enemyAI;
 
-    protected abstract void Movement();
-    protected abstract void DetectPlayer();
-
-    protected abstract void TakeDamage();
-
+    private void Awake()
+    {
+        enemyAttack= GetComponent<EnemyAttack>();
+        enemyMovement= GetComponent<EnemyMovement>();
+        enemyHealth= GetComponent<EnemyHealth>();
+        enemyAI= GetComponent<EnemyAI>();
+    }
+    private void Update()
+    {
+        enemyAI.HandleAI();
+        enemyMovement.HandleAllMovement();
+        enemyHealth.HandleHealth();
+    }
 }

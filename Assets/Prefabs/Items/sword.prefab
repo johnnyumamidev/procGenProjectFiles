@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1832077479
+  m_SortingLayer: 1
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 4fff9d0918cf5794598dca97631dcbfd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -121,7 +121,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.1}
+  m_Offset: {x: 0, y: 0.05}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.49999997, y: 0.09227661}
@@ -149,6 +149,6 @@ MonoBehaviour:
   isBeingCarried: 0
   playerInteractor: {fileID: 0}
   playerInteraction: {fileID: 0}
-  spawnDirection: {x: 0, y: 0}
+  spawnDirection: {x: 0, y: 1}
   openChestForce: 1.5
   carryOffset: {x: 0, y: 0}

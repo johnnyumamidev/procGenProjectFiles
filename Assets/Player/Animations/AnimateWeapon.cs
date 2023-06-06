@@ -9,5 +9,6 @@ public class AnimateWeapon : MonoBehaviour
     private void Update()
     {
         weaponHold.position = animationTarget.position;
+        weaponHold.rotation = animationTarget.rotation;
     }
 }
