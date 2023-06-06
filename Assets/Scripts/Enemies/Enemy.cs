@@ -20,7 +20,10 @@ public class Enemy : MonoBehaviour
     private void Update()
     {
         enemyAI.HandleAI();
-        enemyMovement.HandleAllMovement();
         enemyHealth.HandleHealth();
+    }
+    private void FixedUpdate()
+    {
+        enemyMovement.HandleAllMovement();
     }
 }
