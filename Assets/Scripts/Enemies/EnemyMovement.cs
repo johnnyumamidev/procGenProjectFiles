@@ -65,9 +65,8 @@ public class EnemyMovement : MonoBehaviour
         {
             enemyRigidbody.isKinematic = true;
             enemyCollider.enabled = false;
+            enemyRigidbody.velocity = Vector2.zero;
         }
-
-       
 
         enemyRigidbody.velocity = velocity;
     }

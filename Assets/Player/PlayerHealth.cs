@@ -32,8 +32,8 @@ public class PlayerHealth : MonoBehaviour
     public void HandleHealth()
     {
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        HandlePlayerDeath();
         HandleHurtState();
+        HandlePlayerDeath();
     }
 
     private void HandlePlayerDeath()

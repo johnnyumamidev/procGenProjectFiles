@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: Grounded
   speed: 7.5
-  maxHealth: 2
+  maxHealth: 4
   detectPlayerRadius: 0.3
   attackRange: 0.1
   attackSpeed: 2

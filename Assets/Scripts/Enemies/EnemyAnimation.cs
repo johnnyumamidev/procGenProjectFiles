@@ -4,20 +4,43 @@ using UnityEngine;
 
 public class EnemyAnimation : MonoBehaviour
 {
+    [SerializeField] Transform enemyParentObject;
     EnemyAI enemyAi;
     EnemyMovement enemyMovement;
     public Animator animator;
     int animatorIndex;
-    public List<string> animationStates = new List<string>();
+    public List<string> animationStates;
+
+    Sprite sprite;
+    SpriteMask spriteMask;
+
+    public GameObject bloodParticles;
+    public GameObject corpse;
     private void Awake()
     {
+        spriteMask = GetComponent<SpriteMask>();
+
+        string enemyName = enemyParentObject.name;
+        animationStates = new List<string>
+        {
+            enemyName + "Walk",
+            enemyName + "Search",
+            enemyName + "Walk",
+            enemyName + "Attack",
+            enemyName + "Death"
+        };
+
         enemyMovement = GetComponentInParent<EnemyMovement>();
         enemyAi = GetComponentInParent<EnemyAI>();
-        if(animator == null) animator = GetComponentInChildren<Animator>();
+
+        if(animator == null) animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
+        sprite = GetComponent<SpriteRenderer>().sprite;
+        spriteMask.sprite = sprite;
+
         if (enemyAi.currentState == EnemyAI.EnemyState.Patrol) animatorIndex = 0;
         if (enemyAi.currentState == EnemyAI.EnemyState.Search) animatorIndex = 1;
         if (enemyAi.currentState == EnemyAI.EnemyState.Chase) animatorIndex = 2;
@@ -25,11 +48,21 @@ public class EnemyAnimation : MonoBehaviour
         if (enemyAi.currentState == EnemyAI.EnemyState.Dead) animatorIndex = 4;
 
         animator.Play(animationStates[animatorIndex]);
+        Debug.Log(enemyParentObject.name + animatorIndex);
     }
 
     private void Lunge()
     {
         enemyMovement.SetLungeTrue();
         EventManager.instance.TriggerEvent("lunge");
+    }
+
+    private void SpawnCorpse()
+    {
+        GameObject _corpse = Instantiate(corpse, transform.position, Quaternion.identity);
+        SpriteRenderer corpseSprite = _corpse.GetComponent<SpriteRenderer>();
+        corpseSprite.sprite = sprite;
+        Instantiate(bloodParticles, transform.position, Quaternion.identity);
+        Destroy(enemyParentObject.gameObject);
     }
 }

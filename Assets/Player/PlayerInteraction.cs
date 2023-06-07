@@ -106,7 +106,7 @@ public class PlayerInteraction : MonoBehaviour
         if (currentlyHoldingItem && playerHealth.playerHurtState)
         {
             Debug.Log("hurt !! dropping " + currentlyHeldItem.interactableObject.name);
-            DropCurrentlyHeldItem();
+            if(currentlyHeldItem.GetType().ToString() != "Weapon") DropCurrentlyHeldItem();
         }
         if(currentlyHoldingItem) { pointer.SetActive(false); }
     }

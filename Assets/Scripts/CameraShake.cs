@@ -48,4 +48,9 @@ public class CameraShake : MonoBehaviour
             }
         }
     }
+
+    private void OnDisable()
+    {
+        cinemachinePerlin.m_AmplitudeGain = 0;
+    }
 }
