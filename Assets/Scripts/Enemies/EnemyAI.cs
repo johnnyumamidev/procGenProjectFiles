@@ -22,15 +22,26 @@ public class EnemyAI : MonoBehaviour
     private void Start()
     {
         currentState = EnemyState.Patrol;
-        SetEnemyState(currentState);   
+        SetEnemyState(currentState);
     }
 
     public void HandleAI()
     {
+        if (currentState == EnemyState.Dead) return;
         DetectPlayerSphere();
+        CheckTargetWithinAttackRange();
     }
 
-    private void SetEnemyState(EnemyState newState)
+    private void CheckTargetWithinAttackRange()
+    {
+        Collider2D attackRange = Physics2D.OverlapCircle(transform.position, enemy.enemyData.attackRange, playerLayer);
+        if (attackRange)
+        {
+            SetEnemyState(EnemyState.Attack);
+        }
+    }
+
+    public void SetEnemyState(EnemyState newState)
     {
         currentState = newState;
     }
@@ -40,6 +51,7 @@ public class EnemyAI : MonoBehaviour
         if (overlap)
         {
             Vector2 playerPosition = overlap.transform.position;
+            targetPosition = playerPosition;
             Vector2 enemyPosition = transform.position;
             float rayCastRange = Vector2.Distance(playerPosition, enemyPosition);
             RaycastHit2D lineOfSight = Physics2D.Raycast(enemyPosition, DirectionToTarget(playerPosition, enemyPosition), rayCastRange, obstaclesLayer);
@@ -70,6 +82,11 @@ public class EnemyAI : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, directionToTarget);
         Gizmos.color = Color.yellow;
-        if(enemy != null) Gizmos.DrawWireSphere(transform.position, enemy.enemyData.detectPlayerRadius);
+        if (enemy != null)
+        {
+            Gizmos.DrawWireSphere(transform.position, enemy.enemyData.detectPlayerRadius);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, enemy.enemyData.attackRange);
+        } 
     }
 }

@@ -15,4 +15,8 @@ MonoBehaviour:
   enemyType: Grounded
   speed: 7.5
   maxHealth: 2
-  detectPlayerRadius: 0.18
+  detectPlayerRadius: 0.3
+  attackRange: 0.1
+  attackSpeed: 2
+  attackRadius: 0.05
+  lungeForce: 2.2

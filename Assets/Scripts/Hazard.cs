@@ -10,7 +10,6 @@ public class Hazard : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             EventManager.instance.TriggerEvent("damage");
-            EventManager.instance.TriggerEvent("player_hurt_state");
             AudioManager.instance.PlayerDamage();
         }
     }

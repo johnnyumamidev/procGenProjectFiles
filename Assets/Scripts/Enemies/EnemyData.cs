@@ -15,4 +15,10 @@ public class EnemyData : ScriptableObject
 
     [Header("AI/Detection")]
     public float detectPlayerRadius;
+    public float attackRange;
+
+    [Header("Attack")]
+    public float attackSpeed;
+    public float attackRadius = 0.05f;
+    public float lungeForce = 10f;
 }

@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
     float maxHealth;
     public float currentHealth;
     public bool playerHurtState = false;
+    bool isInvincible;
     [SerializeField] float hurtTimer;
 
     public GameObject bloodParticles;
@@ -20,7 +21,6 @@ public class PlayerHealth : MonoBehaviour
         SetHealthToFull();
         EventManager.instance.AddListener("damage", TakeDamage());
         EventManager.instance.AddListener("reset_health", ResetHealth());
-        EventManager.instance.AddListener("player_hurt_state", PlayerHurtState());
         EventManager.instance.AddListener("retry", Retry());
     }
 
@@ -38,13 +38,19 @@ public class PlayerHealth : MonoBehaviour
 
     private void HandlePlayerDeath()
     {
-        if (currentHealth <= 0) EventManager.instance.TriggerEvent("game_over");
+        if (currentHealth <= 0)
+        {
+            isInvincible = true;
+            EventManager.instance.TriggerEvent("game_over");
+        }
     }
 
     private void HandleHurtState()
     {
+        isInvincible = false;
         if (playerHurtState)
         {
+            isInvincible = true;
             bloodParticles.SetActive(true);
             hurtTimer += Time.deltaTime;
         }
@@ -62,19 +68,14 @@ public class PlayerHealth : MonoBehaviour
     {
         UnityAction action = () =>
         {
-            currentHealth--;
-            EventManager.instance.TriggerEvent("update_animator");
-            EventManager.instance.TriggerEvent("camera_shake");
-            Debug.Log("damage taken, total health: " + currentHealth);
-        };
-        return action;
-    }
-
-    private UnityAction PlayerHurtState()
-    {
-        UnityAction action = () =>
-        {
-            playerHurtState = true;
+            if (!isInvincible)
+            {
+                currentHealth--;
+                playerHurtState = true;
+                EventManager.instance.TriggerEvent("update_animator");
+                EventManager.instance.TriggerEvent("camera_shake");
+                Debug.Log("damage taken, total health: " + currentHealth);
+            }
         };
         return action;
     }

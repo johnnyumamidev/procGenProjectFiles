@@ -335,6 +335,8 @@ public class LoopEraseRandomWalk : MonoBehaviour
             }
             if (gridIndex == gridPoints.Count) break;
             cell.transform.position = gridPoints[gridIndex];
+            ColorManager cellColor = cell.GetComponent<ColorManager>();
+            cellColor.spriteRenderer.color = Color.black;
             gridIndex++;
             yield return new WaitForSeconds(timeBetweenIteration);
         }

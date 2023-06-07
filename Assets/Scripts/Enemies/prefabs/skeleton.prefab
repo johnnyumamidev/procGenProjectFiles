@@ -1,5 +1,84 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &424871439574574697
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4637821938144658065}
+  m_Layer: 0
+  m_Name: AttackHitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4637821938144658065
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424871439574574697}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.04750389, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5961614246145486386}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4276743499069454366
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6067750522825318671}
+  - component: {fileID: 5924207724553433080}
+  m_Layer: 0
+  m_Name: WallCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6067750522825318671
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4276743499069454366}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.04, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5961614246145486386}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &5924207724553433080
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4276743499069454366}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.02
 --- !u!1 &5961614246145486409
 GameObject:
   m_ObjectHideFlags: 0
@@ -16,7 +95,6 @@ GameObject:
   - component: {fileID: 5961614246145486384}
   - component: {fileID: 5961614246145486387}
   - component: {fileID: 4213994224559800261}
-  - component: {fileID: -9038915618090356662}
   m_Layer: 0
   m_Name: skeleton
   m_TagString: Untagged
@@ -36,6 +114,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4637821938144658065}
+  - {fileID: 6067750522825318671}
   - {fileID: 2620284140831860470}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -74,7 +154,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.005}
+  m_Offset: {x: 0, y: 0.0025}
   m_Size: {x: 0.06, y: 0.09}
   m_Direction: 0
 --- !u!114 &5961614246145486385
@@ -122,6 +202,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ede4d50f3e9dfb4295584b966b0b450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackPoint: {fileID: 4637821938144658065}
+  attackDelayTimer: 0.3
+  attackActive: 0
 --- !u!114 &5961614246145486387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +217,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 448d485b161a0734db83ee6b13e51ea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrolPoints: []
+  wallCheckCollider: {fileID: 5924207724553433080}
+  westwayPointPosition: {x: -1, y: 0}
+  eastwayPointPosition: {x: 1, y: 0}
+  lastWaypointReached: {fileID: 0}
+  waypointOffsetMultiplier: 0.4
 --- !u!114 &4213994224559800261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,18 +235,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 5961614246145486385}
---- !u!114 &-9038915618090356662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5961614246145486409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 326486c97c29b174594e1739ded99007, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6530765280802745200
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,8 +246,9 @@ GameObject:
   - component: {fileID: 2620284140831860470}
   - component: {fileID: 5019523667000567232}
   - component: {fileID: 3381951052289736813}
+  - component: {fileID: 1479615334748895816}
   m_Layer: 0
-  m_Name: enemySprite
+  m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,7 +267,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5961614246145486386}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5019523667000567232
 SpriteRenderer:
@@ -234,12 +310,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 39fd2b0c651baae4a8d341b601425d92, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c22163bbaf4a87240b376cd6987609ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.1, y: 0.1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -265,3 +341,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1479615334748895816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6530765280802745200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 326486c97c29b174594e1739ded99007, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 3381951052289736813}
+  animationStates:
+  - SkeletonWalk
+  - SkeletonSearch
+  - SkeletonWalk
+  - SkeletonAttack
+  - SkeletonDeath
