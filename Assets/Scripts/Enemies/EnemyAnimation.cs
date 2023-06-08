@@ -48,7 +48,6 @@ public class EnemyAnimation : MonoBehaviour
         if (enemyAi.currentState == EnemyAI.EnemyState.Dead) animatorIndex = 4;
 
         animator.Play(animationStates[animatorIndex]);
-        Debug.Log(enemyParentObject.name + animatorIndex);
     }
 
     private void Lunge()
