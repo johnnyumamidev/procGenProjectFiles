@@ -5,27 +5,21 @@ using UnityEngine;
 public abstract class Item : MonoBehaviour, IInteractable
 {
     Rigidbody2D itemRigidbody;
-    BoxCollider2D itemCollider;
+    [SerializeField] BoxCollider2D itemCollider;
 
     public bool isBeingCarried;
     public Transform playerInteractor;
     public PlayerInteraction playerInteraction;
     PlayerLocomotion playerLocomotion;
-    public Vector2 spawnDirection;
 
-    public float openChestForce = 1.5f;
     public Vector2 carryOffset;
 
     public GameObject interactableObject { get => this.gameObject; }
 
-    private void Awake()
+    private void OnEnable()
     {
         itemRigidbody = GetComponent<Rigidbody2D>();
-        itemCollider = GetComponent<BoxCollider2D>();
-        itemRigidbody.AddRelativeForce(spawnDirection * openChestForce, ForceMode2D.Impulse);
-
-        float randomXDirection = Random.Range(-1, 1);
-        spawnDirection = new Vector2(randomXDirection, 1);
+        if(itemCollider == null) itemCollider = GetComponent<BoxCollider2D>();
     }
 
     public bool DropItem()
@@ -57,7 +51,7 @@ public abstract class Item : MonoBehaviour, IInteractable
 
     protected virtual void Update()
     {
-        itemCollider.isTrigger = false;
+        if (itemCollider != null) itemCollider.isTrigger = false;
         itemRigidbody.isKinematic = false;
         Vector2 playerPosition = Vector2.zero;
         if (playerInteractor != null)

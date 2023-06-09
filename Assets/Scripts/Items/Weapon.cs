@@ -6,12 +6,17 @@ using UnityEngine.Events;
 
 public class Weapon : Item
 {
-    BoxCollider2D boxCollider;
+    public WeaponData weaponData;
+    SpriteRenderer spriteRenderer;
+
     bool attackActive = false;
     public float attackActiveTime = 0.5f;
 
-    private void Start()
+    private void Awake()
     {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = weaponData.weaponSprite;
+        this.gameObject.name = weaponData.weaponType;
         EventManager.instance.AddListener("attack_active", AttackActive());
         EventManager.instance.AddListener("attack_inactive", AttackInactive());
     }

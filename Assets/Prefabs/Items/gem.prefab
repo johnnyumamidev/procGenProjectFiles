@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a46396d300688340878ddef53f13de6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  delayTime: 0.3
 --- !u!58 &9081268922810159283
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -60,7 +61,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.0075
+  m_Radius: 0.055
 --- !u!1 &4923449610857225328
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,10 +273,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 2
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0.25
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -296,4 +297,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.03
+  m_Radius: 0.05
