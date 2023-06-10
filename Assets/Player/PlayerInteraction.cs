@@ -35,6 +35,8 @@ public class PlayerInteraction : MonoBehaviour
     public bool currentlyHoldingItem = false;
     public IInteractable currentlyHeldItem;
 
+    bool npcDetected;
+    NPC currentNPC;
     private void Awake()
     {
         EventManager.instance.AddListener("unlock", DoorUnlocked());
@@ -56,6 +58,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
+        npcDetected = false;
         pointer.SetActive(false);
         if (!playerLocomotion.isGrounded) return;
 
@@ -93,14 +96,28 @@ public class PlayerInteraction : MonoBehaviour
                     Debug.Log("current item: " + currentlyHeldItem.ToString());
                 }
             }
+
+            if (colliders[0].CompareTag("NPC"))
+            {
+                npcDetected = true;
+                currentNPC = colliders[0].GetComponent<NPC>();
+            }
         }
 
-        if (currentlyHoldingItem && playerInput.performInteract != 0 && interactionReady)
+        if (playerInput.performInteract != 0 && interactionReady)
         {
-            audioSource.clip = pickUpSFX;
-            audioSource.Play();
-            DropCurrentlyHeldItem();
-            interactionReady = false;
+            if (currentlyHoldingItem)
+            {
+                audioSource.clip = pickUpSFX;
+                audioSource.Play();
+                DropCurrentlyHeldItem();
+                interactionReady = false;
+            }
+
+            if (npcDetected)
+            {
+                if (currentNPC != null) currentNPC.NPCAction();
+            }
         }
 
         if (currentlyHoldingItem && playerHealth.playerHurtState)

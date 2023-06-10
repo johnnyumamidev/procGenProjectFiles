@@ -28,7 +28,7 @@ public class Gem : MonoBehaviour, ICollectable
 
     public void Collect()
     {
-        Debug.Log("gem collected");
+        EventManager.instance.TriggerEvent("increase_currency");
         Destroy(transform.parent.gameObject);
     }
 }

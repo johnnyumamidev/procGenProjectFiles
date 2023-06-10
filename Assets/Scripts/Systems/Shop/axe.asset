@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ec6c039921fc74429bb4d6389f14c48, type: 3}
-  m_Name: Sword
+  m_Script: {fileID: 11500000, guid: 1625a79445db41249b39dd9a81ce899a, type: 3}
+  m_Name: axe
   m_EditorClassIdentifier: 
-  weaponType: Sword
-  damage: 2
-  weaponSprite: {fileID: 21300000, guid: 4fff9d0918cf5794598dca97631dcbfd, type: 3}
+  itemName: Axe
+  itemCost: 3
+  itemSprite: {fileID: 2800000, guid: 998f149fcb8ae7e4295fed08c958677f, type: 3}

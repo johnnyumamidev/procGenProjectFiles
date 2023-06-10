@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: Axe
   damage: 2
-  weaponSprite: {fileID: 21300000, guid: 4fff9d0918cf5794598dca97631dcbfd, type: 3}
+  weaponSprite: {fileID: 21300000, guid: 998f149fcb8ae7e4295fed08c958677f, type: 3}

@@ -12,6 +12,7 @@ TagManager:
   - Weapon
   - Slope
   - Exit
+  - NPC
   layers:
   - Default
   - TransparentFX

@@ -2,11 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager instance;
     public GameObject gameOverText;
+    public TextMeshProUGUI currencyText;
+    public PlayerManager playerManager;
 
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Update()
     {
         gameOverText.SetActive(false);
@@ -15,5 +23,7 @@ public class UIManager : MonoBehaviour
         {
             gameOverText.SetActive(true);
         }
+
+        if(playerManager != null) currencyText.text = "Gems: " + playerManager.playerInventory.currentCurrency;
     }
 }

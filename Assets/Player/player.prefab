@@ -719,6 +719,7 @@ GameObject:
   - component: {fileID: 4580992208806731952}
   - component: {fileID: 114232993364126648}
   - component: {fileID: 5237456163975843966}
+  - component: {fileID: 3748327625944530278}
   m_Layer: 7
   m_Name: player
   m_TagString: Player
@@ -826,6 +827,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07f6bcea3b8a2514095682386ea1f244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInventory: {fileID: 0}
 --- !u!114 &1038560861563616663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,7 +898,7 @@ MonoBehaviour:
   pickUpSFX: {fileID: 8300000, guid: 3d877f7ce6d987a4e86d33b39e8ef51a, type: 3}
   interactionCooldown: 0.6
   pointer: {fileID: 8994837338288673200}
-  pointerOffset: {x: 0, y: 0.06}
+  pointerOffset: {x: 0, y: 0.125}
   interactionHitbox: {fileID: 2640057195080109582}
   weaponHoldPosition: {fileID: 4225212420695081728}
   interactionRadius: 0.05
@@ -917,6 +919,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4256d3a13f6c349a3ccf6e2adbb925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3748327625944530278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6190944844710348074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1490db60519afc40b94dffce9c6bd29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testCurrency: 100
+  currentCurrency: 0
 --- !u!1 &6529052810601548658
 GameObject:
   m_ObjectHideFlags: 0
