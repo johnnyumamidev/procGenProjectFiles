@@ -9,4 +9,13 @@ public class ShopSlot : MonoBehaviour
     public TextMeshProUGUI shopItemPriceText;
     public RawImage shopItemSprite;
     public TextMeshProUGUI shopItemNameText;
+    public int shopItemPrice;
+
+    public void BuyItem()
+    {
+        for(int i = 1; i <= shopItemPrice; i++)
+        {
+            EventManager.instance.TriggerEvent("decrease_currency");
+        }
+    }
 }

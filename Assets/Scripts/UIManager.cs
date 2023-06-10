@@ -17,13 +17,14 @@ public class UIManager : MonoBehaviour
     }
     private void Update()
     {
+        if(playerManager != null) currencyText.text = "Gems: " + playerManager.playerInventory.currentCurrency;
+        
+        if (gameOverText == null) return;
         gameOverText.SetActive(false);
 
         if (GameStateManager.instance.currentState == "Game Over")
         {
             gameOverText.SetActive(true);
         }
-
-        if(playerManager != null) currencyText.text = "Gems: " + playerManager.playerInventory.currentCurrency;
     }
 }

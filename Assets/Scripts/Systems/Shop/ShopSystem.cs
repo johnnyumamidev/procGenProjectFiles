@@ -36,6 +36,7 @@ public class ShopSystem : MonoBehaviour
             ShopItemData itemData = shopItems[itemIndex];
             shopSlot.shopItemData = itemData;
             shopSlot.shopItemPriceText.text = "$$" + itemData.itemCost.ToString();
+            shopSlot.shopItemPrice = itemData.itemCost;
             shopSlot.shopItemSprite.texture = itemData.itemSprite;
             shopSlot.shopItemNameText.text = itemData.itemName;
             shopItems.Remove(itemData);
