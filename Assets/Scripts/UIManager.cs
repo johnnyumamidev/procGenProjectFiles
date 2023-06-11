@@ -11,20 +11,19 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI currencyText;
     public PlayerManager playerManager;
 
-    private void Awake()
+    private void OnEnable()
     {
         instance = this;
+        if (gameOverText == null) return;
+        gameOverText.SetActive(false);
     }
     private void Update()
     {
         if(playerManager != null) currencyText.text = "Gems: " + playerManager.playerInventory.currentCurrency;
-        
-        if (gameOverText == null) return;
-        gameOverText.SetActive(false);
+    }
 
-        if (GameStateManager.instance.currentState == "Game Over")
-        {
-            gameOverText.SetActive(true);
-        }
+    public void GameOverScreen()
+    {
+        gameOverText.SetActive(true);
     }
 }

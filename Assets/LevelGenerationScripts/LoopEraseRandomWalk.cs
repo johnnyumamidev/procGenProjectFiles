@@ -295,7 +295,6 @@ public class LoopEraseRandomWalk : MonoBehaviour
         possibleEndCells[randomEndCellIndex].tag = "Exit";
         exitCell = possibleEndCells[randomEndCellIndex];
 
-        EventManager.instance.TriggerEvent("spawn_player");
         //get list of all cells on highest level of grid
         //randomly select one to be the last room
     }

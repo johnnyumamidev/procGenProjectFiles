@@ -14,16 +14,11 @@ public class CameraPositioner : MonoBehaviour
     {
         if (instance == null) instance = this;
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
-        EventManager.instance.AddListener("set_camera", SetCamera());
     }
 
-    private UnityAction SetCamera()
+    public void SetCamera()
     {
-        UnityAction action = () => 
-        { 
-            Debug.Log("setting camera to current room");
-            virtualCamera.Follow = roomToFollow;
-        };
-        return action;
+        Debug.Log("setting camera to current room");
+        virtualCamera.Follow = roomToFollow;
     }
 }

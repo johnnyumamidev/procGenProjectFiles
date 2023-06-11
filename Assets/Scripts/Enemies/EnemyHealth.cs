@@ -16,7 +16,6 @@ public class EnemyHealth : MonoBehaviour
         enemyAi = GetComponent<EnemyAI>();
         enemyAnimation = GetComponentInChildren<EnemyAnimation>();
         currentHealth = enemy.enemyData.maxHealth;
-        EventManager.instance.AddListener(gameObject.name + "_take_damage", TakeDamage());
     }
 
     public void HandleHealth()
@@ -24,21 +23,15 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, enemy.enemyData.maxHealth);
         if (currentHealth <= 0)
         {
-            enemyAi.SetEnemyState(EnemyAI.EnemyState.Dead);   
+            enemyAi.SetEnemyState(EnemyAI.EnemyState.Dead);
             Debug.Log(gameObject.name + " died");
         }
-
     }
 
-    private UnityAction TakeDamage()
+    private void TakeDamage()
     {
-        UnityAction action = () =>
-        {
-            if (currentHealth == 0) return;
-            currentHealth--;
-            enemyAnimation.animator.Play("EnemyHurt");
-            Debug.Log(gameObject.name + "took damage, health remaining: " + currentHealth);
-        };
-        return action;
+        if (currentHealth == 0) return;
+        currentHealth--;
+        enemyAnimation.animator.Play("EnemyHurt");
     }
 }

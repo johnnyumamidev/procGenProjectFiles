@@ -5,6 +5,9 @@ using UnityEngine.Events;
 
 public class SpawnUnits : MonoBehaviour
 {
+    [SerializeField] GameEvent spawnPlayerEvent;
+    [SerializeField] UnityEvent spawnPlayerResponse;
+
     public GameObject playerPrefab;
     GameObject player;
     bool playerSpawned = false;
@@ -14,33 +17,28 @@ public class SpawnUnits : MonoBehaviour
     {
         player = Instantiate(playerPrefab, spawnPosition.transform.position, Quaternion.identity);
         levelGenerator = GetComponent<LoopEraseRandomWalk>();
-        EventManager.instance.AddListener("spawn_player", SpawnPlayer());
     }
 
-    private void PlayerSpawn()
+    private void SpawnPlayer()
     {
-        player.transform.position = spawnPosition.position;
-    }
-
-    private UnityAction SpawnPlayer()
-    {
-        UnityAction action = () =>
+        if (levelGenerator == null)
         {
-            if (levelGenerator == null)
-            {
-                PlayerSpawn();
-                return;
-            }
+            player.transform.position = spawnPosition.position;
+            return;
+        }
 
-            foreach (GameObject cell in levelGenerator.activeCells)
+        foreach (GameObject cell in levelGenerator.activeCells)
+        {
+            if (cell.tag == "Start" && !playerSpawned)
             {
-                if(cell.tag == "Start" && !playerSpawned)
-                {
-                    player.transform.position = cell.transform.position;
-                    playerSpawned = true;
-                }
+                player.transform.position = cell.transform.position;
+                playerSpawned = true;
             }
-        };
-        return action;
+        }
+    }
+
+    public void OnEventRaised()
+    {
+        spawnPlayerResponse.Invoke();
     }
 }

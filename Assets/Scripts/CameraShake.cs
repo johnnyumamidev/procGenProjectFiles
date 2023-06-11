@@ -16,17 +16,6 @@ public class CameraShake : MonoBehaviour
     {
         cinemachineCamera = GetComponent<CinemachineVirtualCamera>();
         cinemachinePerlin = cinemachineCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-        EventManager.instance.AddListener("camera_shake", ShakeEvent());
-    }
-
-    private UnityAction ShakeEvent()
-    {
-        UnityAction action = () =>
-        {
-            ShakeCamera(shakeIntensity, shakeTime);
-        };
-        return action;
     }
 
     public void ShakeCamera(float intensity, float time)
@@ -47,10 +36,5 @@ public class CameraShake : MonoBehaviour
                 cinemachinePerlin.m_AmplitudeGain = 0f;
             }
         }
-    }
-
-    private void OnDisable()
-    {
-        cinemachinePerlin.m_AmplitudeGain = 0;
     }
 }

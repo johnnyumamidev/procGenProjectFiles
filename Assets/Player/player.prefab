@@ -856,6 +856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39bd2d6f0da69e145af15c8305ec2b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerDeathEvent: {fileID: 0}
   playerData: {fileID: 11400000, guid: aac8b2e13d0114144915ce3f7b29f346, type: 2}
   currentHealth: 0
   playerHurtState: 0
@@ -931,7 +932,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1490db60519afc40b94dffce9c6bd29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testCurrency: 100
+  shopEvent: {fileID: 11400000, guid: a9396019e0edbc54f82924777be3fe85, type: 2}
+  shopResponse:
+    m_PersistentCalls:
+      m_Calls: []
+  subtractCurrencyEvent: {fileID: 11400000, guid: 1166a175c1c2e6640a187c0589ef92fd, type: 2}
+  subtractCurrency:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3748327625944530278}
+        m_TargetAssemblyTypeName: PlayerInventory, Assembly-CSharp
+        m_MethodName: UpdateCurrency
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: -1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  testCurrency: 25
   currentCurrency: 0
 --- !u!1 &6529052810601548658
 GameObject:

@@ -492,6 +492,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71eec4ea6d0070d4d817fb5f08eb56f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buyItemEvent: {fileID: 11400000, guid: a9396019e0edbc54f82924777be3fe85, type: 2}
+  updateCurrencyEvent: {fileID: 11400000, guid: 1166a175c1c2e6640a187c0589ef92fd, type: 2}
   shopItemData: {fileID: 0}
   shopItemPriceText: {fileID: 8022388474424195696}
   shopItemSprite: {fileID: 3458820661196056949}

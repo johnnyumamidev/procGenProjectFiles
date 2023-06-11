@@ -11,12 +11,9 @@ public class PlayerManager : MonoBehaviour
     PlayerAttack playerAttack;
     public PlayerInventory playerInventory;
 
-    private void OnEnable()
-    {
-        UIManager.instance.playerManager = this;
-    }
     void Start()
     {
+        UIManager.instance.playerManager = this;
         playerInput = GetComponent<PlayerInput>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
         playerHealth = GetComponent<PlayerHealth>();

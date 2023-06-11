@@ -5,6 +5,9 @@ using UnityEngine.Events;
 
 public class PlayerHealth : MonoBehaviour
 {
+    [Header("GameEvents")]
+    [SerializeField] GameEvent playerDeathEvent;
+
     [Header("Health")]
     public PlayerData playerData;
     float maxHealth;
@@ -41,7 +44,7 @@ public class PlayerHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             isInvincible = true;
-            EventManager.instance.TriggerEvent("game_over");
+            playerDeathEvent.Raise();
         }
     }
 
