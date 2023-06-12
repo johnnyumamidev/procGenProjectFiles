@@ -8,7 +8,7 @@ public class Weapon : Item, IEventListener
 {
     [SerializeField] GameEvent attackActiveEvent;
     [SerializeField] GameEvent attackInactiveEvent;
-
+    public LayerMask enemylayer;
     public WeaponData weaponData;
     SpriteRenderer spriteRenderer;
 
@@ -36,7 +36,12 @@ public class Weapon : Item, IEventListener
         Enemy enemy = collision.GetComponent<Enemy>();
         if(enemy != null && attackActive)
         {
-            EventManager.instance.TriggerEvent(collision.name + "_take_damage");
+            Collider2D[] results = new Collider2D[1];
+            ContactFilter2D enemyFilter = new ContactFilter2D();
+            enemyFilter.SetLayerMask(enemylayer);
+            itemCollider.OverlapCollider(enemyFilter, results);
+            GameEvent enemyDamageEvent = results[0].GetComponent<EnemyHealth>().enemyDamageEvent;
+            enemyDamageEvent.Raise();
         }
     }
     private void OnEnable()

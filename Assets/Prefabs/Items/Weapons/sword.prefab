@@ -154,5 +154,9 @@ MonoBehaviour:
   carryOffset: {x: 0, y: 0}
   attackActiveEvent: {fileID: 11400000, guid: fd52f688c9c8e1c41a5f69dbaadeb864, type: 2}
   attackInactiveEvent: {fileID: 11400000, guid: 4ec811c0e1a031e4a85398136742d83a, type: 2}
+  enemyDamageEvent: {fileID: 11400000, guid: cc3c4879912a0734fbb3a5cac50fc75d, type: 2}
+  enemylayer:
+    serializedVersion: 2
+    m_Bits: 256
   weaponData: {fileID: 11400000, guid: 69d1f3ad57bf8e749a6d8f2022521e17, type: 2}
   attackActiveTime: 0.5

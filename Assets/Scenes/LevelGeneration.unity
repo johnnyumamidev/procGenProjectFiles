@@ -824,6 +824,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbec9d44c9b4d274daf9b6cadd8b232b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerDeathEvent: {fileID: 11400000, guid: 1bc2fe83325d44643b19b9fe19b1b282, type: 2}
+  playerDeath:
+    m_PersistentCalls:
+      m_Calls: []
   currentState: 
 --- !u!4 &1072851276
 Transform:
@@ -1328,6 +1332,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomToFollow: {fileID: 0}
+  playerEntersRoomEvent: {fileID: 11400000, guid: 01209f0775204fd449cbfdf7baec49a4, type: 2}
+  playerEntersRoom:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2052828656
 GameObject:
   m_ObjectHideFlags: 0

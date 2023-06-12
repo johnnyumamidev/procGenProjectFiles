@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EnemyAttack : MonoBehaviour
+public class EnemyAttack : MonoBehaviour, IEventListener
 {
+    [SerializeField] EnemyAnimation enemyAnimation;
     [SerializeField] GameEvent playerDamage;
+    [SerializeField] GameEvent enemyLungeEvent;
+    [SerializeField] UnityEvent enemyLunge;
 
     Enemy enemy;
     EnemyAI enemyAi;
@@ -14,21 +17,27 @@ public class EnemyAttack : MonoBehaviour
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
-        enemyAi= GetComponent<EnemyAI>();
-        EventManager.instance.AddListener(gameObject.name + "lunge", LungeAttack());
+        enemyAi = GetComponent<EnemyAI>();
     }
-    public UnityAction LungeAttack()
+    private void Start()
     {
-        UnityAction action = () =>
+        if (enemyAnimation == null)
         {
-            attackActive = true;
-            Collider2D hit = Physics2D.OverlapCircle(attackPoint.position, enemy.enemyData.attackRadius, enemyAi.playerLayer);
-            if (hit)
-            {
-                playerDamage.Raise();
-            }
-        };
-        return action;
+            enemyAnimation = GetComponentInChildren<EnemyAnimation>();
+        }
+        else
+        {
+            enemyLungeEvent = enemyAnimation.enemyLungeEvent;
+        }
+    }
+    public void LungeAttack()
+    {
+        attackActive = true;
+        Collider2D hit = Physics2D.OverlapCircle(attackPoint.position, enemy.enemyData.attackRadius, enemyAi.playerLayer);
+        if (hit)
+        {
+            playerDamage.Raise();
+        }
     }
 
     private void OnDrawGizmos()
@@ -38,5 +47,17 @@ public class EnemyAttack : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(attackPoint.position, enemy.enemyData.attackRadius);
         }
+    }
+    private void OnEnable()
+    {
+        enemyLungeEvent.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        enemyLungeEvent.UnregisterListener(this);
+    }
+    public void OnEventRaised(GameEvent gameEvent)
+    {
+        enemyLunge?.Invoke();
     }
 }

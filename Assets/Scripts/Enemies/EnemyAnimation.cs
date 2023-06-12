@@ -14,10 +14,14 @@ public class EnemyAnimation : MonoBehaviour
     Sprite sprite;
     SpriteMask spriteMask;
 
-    public GameObject bloodParticles;
     public GameObject corpse;
+
+    public GameEvent enemyLungeEvent;
     private void Awake()
     {
+        if(enemyLungeEvent == null) 
+            enemyLungeEvent = new GameEvent();
+
         spriteMask = GetComponent<SpriteMask>();
 
         string enemyName = enemyParentObject.name;
@@ -53,7 +57,7 @@ public class EnemyAnimation : MonoBehaviour
     private void Lunge()
     {
         enemyMovement.SetLungeTrue();
-        EventManager.instance.TriggerEvent("lunge");
+        enemyLungeEvent.Raise();
     }
 
     private void SpawnCorpse()
@@ -61,7 +65,6 @@ public class EnemyAnimation : MonoBehaviour
         GameObject _corpse = Instantiate(corpse, transform.position, Quaternion.identity);
         SpriteRenderer corpseSprite = _corpse.GetComponent<SpriteRenderer>();
         corpseSprite.sprite = sprite;
-        Instantiate(bloodParticles, transform.position, Quaternion.identity);
         Destroy(enemyParentObject.gameObject);
     }
 }

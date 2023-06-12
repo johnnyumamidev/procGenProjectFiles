@@ -529,6 +529,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5b0f9fcdc2d1449a33b69e6ba7ee29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &183425635 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5961614246145486384, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
+  m_PrefabInstance: {fileID: 1498983533}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ede4d50f3e9dfb4295584b966b0b450, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &187104932 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3280308202906435044, guid: de98abb1b830ddc4cbb59ee40741c4c2, type: 3}
@@ -1583,10 +1594,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1479615334748895816, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
+      propertyPath: enemyLungeEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 218d85f3371a21a478fbdc7603dcd84b, type: 2}
+    - target: {fileID: 4213994224559800261, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
+      propertyPath: bloodParticles
+      value: 
+      objectReference: {fileID: 3284542681884259800, guid: ed9323130985624439312500935413cd, type: 3}
     - target: {fileID: 4213994224559800261, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
       propertyPath: enemyDamageEvent
       value: 
-      objectReference: {fileID: 11400000, guid: cc3c4879912a0734fbb3a5cac50fc75d, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4213994224559800261, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
       propertyPath: enemyDamage.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -1619,6 +1638,38 @@ PrefabInstance:
       propertyPath: playerDamage
       value: 
       objectReference: {fileID: 11400000, guid: ced1e306c53c4f34e963f9f6edb0ba8f, type: 2}
+    - target: {fileID: 5961614246145486384, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
+      propertyPath: enemyLungeEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 218d85f3371a21a478fbdc7603dcd84b, type: 2}
+    - target: {fileID: 5961614246145486384, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486384, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486384, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 183425635}
+    - target: {fileID: 5961614246145486384, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486384, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LungeAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486384, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EnemyAttack, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486384, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486386, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -1629,7 +1680,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486386, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.6375051
+      value: 1.0375082
       objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486386, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1666,6 +1717,10 @@ PrefabInstance:
     - target: {fileID: 5961614246145486409, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
       propertyPath: m_Name
       value: Bat
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486409, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60d81a3b91be69c4aa511df87c147393, type: 3}
@@ -4573,10 +4628,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1479615334748895816, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
+      propertyPath: enemyLungeEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 218d85f3371a21a478fbdc7603dcd84b, type: 2}
+    - target: {fileID: 4213994224559800261, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
+      propertyPath: bloodParticles
+      value: 
+      objectReference: {fileID: 3284542681884259800, guid: ed9323130985624439312500935413cd, type: 3}
     - target: {fileID: 4213994224559800261, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
       propertyPath: enemyDamageEvent
       value: 
-      objectReference: {fileID: 11400000, guid: cc3c4879912a0734fbb3a5cac50fc75d, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4213994224559800261, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
       propertyPath: enemyDamage.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -4609,6 +4672,38 @@ PrefabInstance:
       propertyPath: playerDamage
       value: 
       objectReference: {fileID: 11400000, guid: ced1e306c53c4f34e963f9f6edb0ba8f, type: 2}
+    - target: {fileID: 5961614246145486384, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
+      propertyPath: enemyLungeEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 218d85f3371a21a478fbdc7603dcd84b, type: 2}
+    - target: {fileID: 5961614246145486384, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486384, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486384, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 183425635}
+    - target: {fileID: 5961614246145486384, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486384, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: LungeAttack
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486384, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: EnemyAttack, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486384, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
+      propertyPath: enemyLunge.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486386, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -4656,6 +4751,10 @@ PrefabInstance:
     - target: {fileID: 5961614246145486409, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
       propertyPath: m_Name
       value: Skeleton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486409, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fea0de501141504a8be2bf8b38e37e6, type: 3}
