@@ -23,31 +23,26 @@ public class PlayerAnimationManager : MonoBehaviour
     public Transform weaponHolder;
     private void Awake()
     {
-        EventManager.instance.AddListener("update_animator", UpdateAnimator());
         playerInteraction = GetComponentInParent<PlayerInteraction>();
         playerHealth = GetComponentInParent<PlayerHealth>();
         if (playerInput == null) playerInput = GetComponentInParent<PlayerInput>();
         if (playerLocomotion == null) playerLocomotion = GetComponentInParent<PlayerLocomotion>();
     }
 
-    private UnityAction UpdateAnimator()
+    public void UpdateAnimator()
     {
-        UnityAction action = () =>
+        if (armorIndex > 0)
         {
-            if (armorIndex > 0)
-            {
-                animator.gameObject.SetActive(false);
-                armorIndex--;
-                armorState[armorIndex].SetActive(true);
-            }
-            else if (armorIndex == 0 && GameStateManager.instance.currentState == "Game Over")
-            {
-                animator.gameObject.SetActive(false);
-                armorIndex = 3;
-                armorState[armorIndex].SetActive(true);
-            }
-        };
-        return action;
+            animator.gameObject.SetActive(false);
+            armorIndex--;
+            armorState[armorIndex].SetActive(true);
+        }
+        else if (armorIndex == 0 && GameStateManager.instance.currentState == "Game Over")
+        {
+            animator.gameObject.SetActive(false);
+            armorIndex = 3;
+            armorState[armorIndex].SetActive(true);
+        }
     }
 
     private void Start()

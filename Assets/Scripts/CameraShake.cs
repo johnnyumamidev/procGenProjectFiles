@@ -18,12 +18,12 @@ public class CameraShake : MonoBehaviour
         cinemachinePerlin = cinemachineCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
 
-    public void ShakeCamera(float intensity, float time)
+    public void ShakeCamera()
     {
         Debug.Log("camera shake");
         
-        cinemachinePerlin.m_AmplitudeGain = intensity;
-        shakeTimer = time;
+        cinemachinePerlin.m_AmplitudeGain = shakeIntensity;
+        shakeTimer = shakeTime;
     }
 
     void Update()

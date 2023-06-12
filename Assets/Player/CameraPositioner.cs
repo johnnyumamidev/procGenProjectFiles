@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Cinemachine;
 
-public class CameraPositioner : MonoBehaviour
+public class CameraPositioner : MonoBehaviour, IEventListener
 {
     CinemachineVirtualCamera virtualCamera;
     public static CameraPositioner instance;
@@ -20,5 +20,21 @@ public class CameraPositioner : MonoBehaviour
     {
         Debug.Log("setting camera to current room");
         virtualCamera.Follow = roomToFollow;
+    }
+
+    [SerializeField] GameEvent playerEntersRoomEvent;
+    [SerializeField] UnityEvent playerEntersRoom;
+
+    private void OnEnable()
+    {
+        playerEntersRoomEvent.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        playerEntersRoomEvent.UnregisterListener(this);
+    }
+    public void OnEventRaised(GameEvent gameEvent)
+    {
+        playerEntersRoom.Invoke();
     }
 }

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PlayerDetector : MonoBehaviour
 {
-    [SerializeField] GameEvent gameEvent;
+    [SerializeField] GameEvent playerEntersEvent;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             CameraPositioner.instance.roomToFollow = gameObject.transform;
-            gameEvent.Raise();
+            playerEntersEvent.Raise();
         }
     }
 }

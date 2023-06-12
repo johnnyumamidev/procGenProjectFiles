@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IEventListener
 {
     [Header("GameEvents")]
     [SerializeField] GameEvent playerDeathEvent;
+    [SerializeField] GameEvent playerDamageEvent;
+    [SerializeField] UnityEvent playerDamage;
 
     [Header("Health")]
     public PlayerData playerData;
@@ -22,7 +24,6 @@ public class PlayerHealth : MonoBehaviour
     {
         maxHealth = playerData.maxPlayerHealth;
         SetHealthToFull();
-        EventManager.instance.AddListener("damage", TakeDamage());
         EventManager.instance.AddListener("reset_health", ResetHealth());
         EventManager.instance.AddListener("retry", Retry());
     }
@@ -67,20 +68,14 @@ public class PlayerHealth : MonoBehaviour
         return action;
     }
 
-    private UnityAction TakeDamage()
+    public void TakeDamage()
     {
-        UnityAction action = () =>
+        if (!isInvincible)
         {
-            if (!isInvincible)
-            {
-                currentHealth--;
-                playerHurtState = true;
-                EventManager.instance.TriggerEvent("update_animator");
-                EventManager.instance.TriggerEvent("camera_shake");
-                Debug.Log("damage taken, total health: " + currentHealth);
-            }
-        };
-        return action;
+            currentHealth--;
+            playerHurtState = true;
+            Debug.Log("damage taken, total health: " + currentHealth);
+        }
     }
 
     private UnityAction Retry()
@@ -91,5 +86,18 @@ public class PlayerHealth : MonoBehaviour
             EventManager.instance.TriggerEvent("update_animator");
         };
         return action;
+    }
+
+    private void OnEnable()
+    {
+        playerDamageEvent.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        playerDamageEvent.UnregisterListener(this);
+    }
+    public void OnEventRaised(GameEvent gameEvent)
+    {
+        playerDamage?.Invoke();
     }
 }

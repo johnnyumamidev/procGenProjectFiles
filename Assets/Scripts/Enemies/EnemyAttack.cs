@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class EnemyAttack : MonoBehaviour
 {
+    [SerializeField] GameEvent playerDamage;
+
     Enemy enemy;
     EnemyAI enemyAi;
     public Transform attackPoint;
@@ -13,7 +15,7 @@ public class EnemyAttack : MonoBehaviour
     {
         enemy = GetComponent<Enemy>();
         enemyAi= GetComponent<EnemyAI>();
-        EventManager.instance.AddListener("lunge", LungeAttack());
+        EventManager.instance.AddListener(gameObject.name + "lunge", LungeAttack());
     }
     public UnityAction LungeAttack()
     {
@@ -23,7 +25,7 @@ public class EnemyAttack : MonoBehaviour
             Collider2D hit = Physics2D.OverlapCircle(attackPoint.position, enemy.enemyData.attackRadius, enemyAi.playerLayer);
             if (hit)
             {
-                EventManager.instance.TriggerEvent("damage");
+                playerDamage.Raise();
             }
         };
         return action;

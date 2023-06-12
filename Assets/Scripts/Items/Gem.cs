@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Gem : MonoBehaviour, ICollectable
 {
+    [SerializeField] GameEvent increaseCurrencyEvent;
+
     bool isCollectable = false;
     public float delayTime = 0.5f;
     private void Start()
@@ -28,7 +30,7 @@ public class Gem : MonoBehaviour, ICollectable
 
     public void Collect()
     {
-        EventManager.instance.TriggerEvent("increase_currency");
+        increaseCurrencyEvent.Raise();
         Destroy(transform.parent.gameObject);
     }
 }

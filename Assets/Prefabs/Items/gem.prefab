@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a46396d300688340878ddef53f13de6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  increaseCurrencyEvent: {fileID: 11400000, guid: 73e2a8cd91b1233419c3edf64b4d1963, type: 2}
   delayTime: 0.3
 --- !u!58 &9081268922810159283
 CircleCollider2D:
