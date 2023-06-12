@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GameStateManager : MonoBehaviour
+public class GameStateManager : MonoBehaviour, IEventListener
 {
+    [SerializeField] GameEvent playerDeathEvent;
+    [SerializeField] UnityEvent playerDeath;
+
     public static GameStateManager instance;
     public string currentState;
    
@@ -13,41 +16,37 @@ public class GameStateManager : MonoBehaviour
     {
         if (instance == null) instance = this;
     }
-
     void Start()
     {
         StartGameState();
     }
-
     private void StartGameState()
     {
         UpdateGameState("In Progress");
     }
-
-    private void Update()
-    {
-        HandleGameStates();
-    }
-
-    private void HandleGameStates()
-    {
-
-    }
-
     public void UpdateGameState(string index)
     {
         currentState = index;
     }
-
     public void Retry()
     {
         StartGameState();
     }
-
     public void MainMenu()
     {
         Debug.Log("go to main menu");
         StartGameState();
     }
-
+    private void OnEnable()
+    {
+        playerDeathEvent.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        playerDeathEvent.UnregisterListener(this);   
+    }
+    public void OnEventRaised(GameEvent gameEvent)
+    {
+        playerDeath?.Invoke();
+    }
 }

@@ -146,10 +146,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c16c7e21da8d14baf7e5cf7dacb344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemRigidbody: {fileID: 5414711761623677813}
   itemCollider: {fileID: 2820442247069567101}
   isBeingCarried: 0
   playerInteractor: {fileID: 0}
   playerInteraction: {fileID: 0}
   carryOffset: {x: 0, y: 0}
+  attackActiveEvent: {fileID: 11400000, guid: fd52f688c9c8e1c41a5f69dbaadeb864, type: 2}
+  attackInactiveEvent: {fileID: 11400000, guid: 4ec811c0e1a031e4a85398136742d83a, type: 2}
   weaponData: {fileID: 11400000, guid: 69d1f3ad57bf8e749a6d8f2022521e17, type: 2}
   attackActiveTime: 0.5

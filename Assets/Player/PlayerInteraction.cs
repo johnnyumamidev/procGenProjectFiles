@@ -7,7 +7,7 @@ using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using static UnityEditor.Progress;
 
-public class PlayerInteraction : MonoBehaviour
+public class PlayerInteraction : MonoBehaviour, IEventListener
 {
     public AudioSource audioSource;
     public AudioClip pickUpSFX;
@@ -39,21 +39,16 @@ public class PlayerInteraction : MonoBehaviour
     NPC currentNPC;
     private void Awake()
     {
-        EventManager.instance.AddListener("unlock", DoorUnlocked());
         interactionTimer = interactionCooldown;
         playerInput = GetComponent<PlayerInput>();
         playerHealth = GetComponent<PlayerHealth>();
         playerLocomotion= GetComponent<PlayerLocomotion>();
     }
 
-    private UnityAction DoorUnlocked()
+    public void UnlockDoor()
     {
-        UnityAction action = () => 
-        {
-            Debug.Log("door unlocked, dropping held item");
-            currentlyHoldingItem = false;
-        };
-        return action;
+        Debug.Log("door unlocked, dropping held item");
+        currentlyHoldingItem = false;
     }
 
     void Update()
@@ -140,5 +135,20 @@ public class PlayerInteraction : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(interactionHitbox.position, interactionRadius);
+    }
+
+    [SerializeField] GameEvent unlockEvent;
+    [SerializeField] UnityEvent unlock;
+    private void OnEnable()
+    {
+        unlockEvent.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        unlockEvent.UnregisterListener(this);
+    }
+    public void OnEventRaised(GameEvent gameEvent)
+    {
+        unlock?.Invoke();
     }
 }

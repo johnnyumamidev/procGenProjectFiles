@@ -24,8 +24,6 @@ public class PlayerHealth : MonoBehaviour, IEventListener
     {
         maxHealth = playerData.maxPlayerHealth;
         SetHealthToFull();
-        EventManager.instance.AddListener("reset_health", ResetHealth());
-        EventManager.instance.AddListener("retry", Retry());
     }
 
     private void SetHealthToFull()
@@ -62,12 +60,6 @@ public class PlayerHealth : MonoBehaviour, IEventListener
         if (hurtTimer >= playerData.hurtStateTime) playerHurtState = false;
     }
 
-    private UnityAction ResetHealth()
-    {
-        UnityAction action = () => { currentHealth = maxHealth; };
-        return action;
-    }
-
     public void TakeDamage()
     {
         if (!isInvincible)
@@ -78,14 +70,9 @@ public class PlayerHealth : MonoBehaviour, IEventListener
         }
     }
 
-    private UnityAction Retry()
+    public void Retry()
     {
-        UnityAction action = () =>
-        {
-            SetHealthToFull();
-            EventManager.instance.TriggerEvent("update_animator");
-        };
-        return action;
+        SetHealthToFull();
     }
 
     private void OnEnable()

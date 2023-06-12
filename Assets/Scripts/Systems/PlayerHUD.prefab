@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2725893362098581110}
   - component: {fileID: 2725893362098581111}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: CurrentFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -403,7 +403,7 @@ GameObject:
   - component: {fileID: 2725893363310912955}
   - component: {fileID: 2725893363310912952}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: PlayerCurrency
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

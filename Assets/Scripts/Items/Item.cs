@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Item : MonoBehaviour, IInteractable
 {
-    Rigidbody2D itemRigidbody;
+    [SerializeField] Rigidbody2D itemRigidbody;
     [SerializeField] BoxCollider2D itemCollider;
 
     public bool isBeingCarried;

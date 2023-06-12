@@ -4,8 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Weapon : Item
+public class Weapon : Item, IEventListener
 {
+    [SerializeField] GameEvent attackActiveEvent;
+    [SerializeField] GameEvent attackInactiveEvent;
+
     public WeaponData weaponData;
     SpriteRenderer spriteRenderer;
 
@@ -17,8 +20,6 @@ public class Weapon : Item
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = weaponData.weaponSprite;
         this.gameObject.name = weaponData.weaponType;
-        EventManager.instance.AddListener("attack_active", AttackActive());
-        EventManager.instance.AddListener("attack_inactive", AttackInactive());
     }
     protected override void Update()
     {
@@ -38,21 +39,19 @@ public class Weapon : Item
             EventManager.instance.TriggerEvent(collision.name + "_take_damage");
         }
     }
-
-    private UnityAction AttackActive()
+    private void OnEnable()
     {
-        UnityAction action = () =>
-        {
-            attackActive = true;
-        };
-        return action;
+        attackActiveEvent.RegisterListener(this);
+        attackInactiveEvent.RegisterListener(this);
     }
-    private UnityAction AttackInactive()
+    private void OnDisable()
     {
-        UnityAction action = () =>
-        {
-            attackActive = false;
-        };
-        return action;
+        attackActiveEvent.UnregisterListener(this);
+        attackInactiveEvent.UnregisterListener(this);
+    }
+    public void OnEventRaised(GameEvent gameEvent)
+    {
+        if (gameEvent == attackActiveEvent) attackActive = true;
+        if (gameEvent == attackInactiveEvent) attackActive = false;
     }
 }

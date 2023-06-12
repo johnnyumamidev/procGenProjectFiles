@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    PlayerInput playerInput;
     PlayerLocomotion playerLocomotion;
     PlayerHealth playerHealth;
     PlayerAttack playerAttack;
+    public PlayerInput playerInput;
     public PlayerInventory playerInventory;
 
     void Start()
@@ -33,6 +33,7 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameStateManager.instance.currentState == "Game Over") return;
         playerLocomotion.HandleAllMovement();   
     }
 }

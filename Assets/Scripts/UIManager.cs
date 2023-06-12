@@ -9,32 +9,67 @@ public class UIManager : MonoBehaviour, IEventListener
 {
     [SerializeField] GameEvent playerDeathEvent;
     [SerializeField] UnityEvent playerDeath;
+    [SerializeField] GameEvent playerSpawnEvent;
+    [SerializeField] GameEvent shopkeepEvent;
+    [SerializeField] UnityEvent shopkeep;
+
+    public Button retryButton;
+
     public static UIManager instance;
     public GameObject gameOverText;
     public TextMeshProUGUI currencyText;
     public PlayerManager playerManager;
-
-    private void OnEnable()
+    private void Awake()
     {
-        instance = this;
-        if(playerDeathEvent != null) playerDeathEvent.RegisterListener(this);
+        retryButton.onClick.AddListener(RaiseSpawnEvent);
     }
     private void Update()
     {
-        if(playerManager != null) currencyText.text = "Gems: " + playerManager.playerInventory.currentCurrency;
+        if (playerManager != null) currencyText.text = "Gems: " + playerManager.playerInventory.currentCurrency;
+        CloseMenu();
     }
 
     public void GameOverScreen()
     {
         gameOverText.SetActive(true);
     }
+    private void OnEnable()
+    {
+        instance = this;
+        if(playerDeathEvent != null) playerDeathEvent.RegisterListener(this);
+        shopkeepEvent.RegisterListener(this);
+    }
     private void OnDisable()
     {
         playerDeathEvent.UnregisterListener(this);
+        shopkeepEvent.UnregisterListener(this);
     }
     public void OnEventRaised(GameEvent gameEvent)
     {
         Debug.Log("player death");
-        playerDeath.Invoke();
+        if (gameEvent == playerDeathEvent) playerDeath.Invoke();
+        if (gameEvent == shopkeepEvent) shopkeep.Invoke();
+    }
+    private void RaiseSpawnEvent()
+    {
+        playerSpawnEvent.Raise();
+        GameStateManager.instance.currentState = "In Progress";
+        gameOverText.SetActive(false);
+    }
+    public void CloseMenu()
+    {
+        if (playerManager.playerInput.performCancel != 0)
+        {
+            Debug.Log("close menu");
+            itemsDisplay.SetActive(false);
+        }
+    }
+    public GameObject itemsDisplay;
+    public void DisplayItems()
+    {
+        if (itemsDisplay != null)
+        {
+            itemsDisplay.SetActive(true);
+        }
     }
 }

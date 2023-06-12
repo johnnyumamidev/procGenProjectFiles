@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    public NPCData npcData;
+    [SerializeField] GameEvent NPCEvent;
+
     public void NPCAction()
     {
-        npcData.Action();
+        NPCEvent.Raise();
     }
 }

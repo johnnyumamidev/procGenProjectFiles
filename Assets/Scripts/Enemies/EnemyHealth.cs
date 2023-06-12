@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class EnemyHealth : MonoBehaviour
+public class EnemyHealth : MonoBehaviour, IEventListener
 {
+    [SerializeField] GameEvent enemyDamageEvent;
+    [SerializeField] UnityEvent enemyDamage;
+
     public Enemy enemy;
     EnemyAI enemyAi;
     EnemyAnimation enemyAnimation;
@@ -27,11 +30,22 @@ public class EnemyHealth : MonoBehaviour
             Debug.Log(gameObject.name + " died");
         }
     }
-
-    private void TakeDamage()
+    public void TakeDamage()
     {
         if (currentHealth == 0) return;
         currentHealth--;
         enemyAnimation.animator.Play("EnemyHurt");
+    }
+    private void OnEnable()
+    {
+        enemyDamageEvent.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        enemyDamageEvent.UnregisterListener(this);
+    }
+    public void OnEventRaised(GameEvent gameEvent)
+    {
+        enemyDamage?.Invoke();
     }
 }

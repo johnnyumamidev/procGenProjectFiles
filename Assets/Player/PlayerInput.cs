@@ -6,11 +6,13 @@ using UnityEngine.InputSystem;
 public class PlayerInput : MonoBehaviour
 {
     public PlayerInputActions inputActions;
+    InputAction uiCancel;
     InputAction movement;
     InputAction jump;
     InputAction interact;
     InputAction attack;
 
+    public float performCancel;
     public Vector2 movementInput;
     public float performJump;
     public float performInteract;
@@ -22,6 +24,10 @@ public class PlayerInput : MonoBehaviour
 
     private void OnEnable()
     {
+        //UI
+        uiCancel = inputActions.UI.Cancel;
+        uiCancel.Enable();
+        //gameplay
         movement = inputActions.Player.Move;
         jump = inputActions.Player.Jump;
         interact = inputActions.Player.Interact;
@@ -34,6 +40,8 @@ public class PlayerInput : MonoBehaviour
 
     private void OnDisable()
     {
+        uiCancel.Disable();
+
         movement.Disable();
         jump.Disable();
         interact.Disable();
@@ -42,6 +50,8 @@ public class PlayerInput : MonoBehaviour
 
     public void HandleAllInputs()
     {
+        performCancel = uiCancel.ReadValue<float>();
+
         movementInput = movement.ReadValue<Vector2>();
         performJump = jump.ReadValue<float>();
         performInteract = interact.ReadValue<float>();

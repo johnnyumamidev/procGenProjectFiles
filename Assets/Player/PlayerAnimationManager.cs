@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class PlayerAnimationManager : MonoBehaviour
+public class PlayerAnimationManager : MonoBehaviour, IEventListener
 {
     Animator animator;
     PlayerInput playerInput;
@@ -37,12 +37,13 @@ public class PlayerAnimationManager : MonoBehaviour
             armorIndex--;
             armorState[armorIndex].SetActive(true);
         }
-        else if (armorIndex == 0 && GameStateManager.instance.currentState == "Game Over")
-        {
-            animator.gameObject.SetActive(false);
-            armorIndex = 3;
-            armorState[armorIndex].SetActive(true);
-        }
+    }
+
+    public void ResetAnimator()
+    {
+        animator.gameObject.SetActive(false);
+        armorIndex = 3;
+        armorState[armorIndex].SetActive(true);
     }
 
     private void Start()
@@ -89,5 +90,20 @@ public class PlayerAnimationManager : MonoBehaviour
 
         if (playerHealth.playerHurtState) animStateIndex = 10;
         if (playerHealth.currentHealth == 0) animStateIndex = 11;
+    }
+
+    [SerializeField] GameEvent playerSpawnEvent;
+    [SerializeField] UnityEvent playerSpawned;
+    private void OnEnable()
+    {
+        playerSpawnEvent.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        playerSpawnEvent.UnregisterListener(this);
+    }
+    public void OnEventRaised(GameEvent gameEvent)
+    {
+        playerSpawned?.Invoke();
     }
 }

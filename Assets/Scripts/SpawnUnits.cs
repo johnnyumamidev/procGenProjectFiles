@@ -19,7 +19,7 @@ public class SpawnUnits : MonoBehaviour
         levelGenerator = GetComponent<LoopEraseRandomWalk>();
     }
 
-    private void SpawnPlayer()
+    public void SpawnPlayer()
     {
         if (levelGenerator == null)
         {

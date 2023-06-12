@@ -72,6 +72,34 @@ MonoBehaviour:
   - {fileID: 4024330525864565237}
   armorIndex: 3
   weaponHolder: {fileID: 0}
+  playerSpawnEvent: {fileID: 11400000, guid: 4d7409beafd90094faf4dcae2346121e, type: 2}
+  playerSpawned:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3082843066818496674}
+        m_TargetAssemblyTypeName: PlayerHealth, Assembly-CSharp
+        m_MethodName: Retry
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6614855453520299886}
+        m_TargetAssemblyTypeName: PlayerAnimationManager, Assembly-CSharp
+        m_MethodName: ResetAnimator
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1824120305904263463
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,6 +856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07f6bcea3b8a2514095682386ea1f244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInput: {fileID: 0}
   playerInventory: {fileID: 0}
 --- !u!114 &1038560861563616663
 MonoBehaviour:
@@ -841,6 +870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b7e25ff2e09e4346ac0a62a9a81a83d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  performCancel: 0
   movementInput: {x: 0, y: 0}
   performJump: 0
   performInteract: 0
@@ -940,7 +970,7 @@ MonoBehaviour:
   pickUpSFX: {fileID: 8300000, guid: 3d877f7ce6d987a4e86d33b39e8ef51a, type: 3}
   interactionCooldown: 0.6
   pointer: {fileID: 8994837338288673200}
-  pointerOffset: {x: 0, y: 0.125}
+  pointerOffset: {x: 0, y: 0.07}
   interactionHitbox: {fileID: 2640057195080109582}
   weaponHoldPosition: {fileID: 4225212420695081728}
   interactionRadius: 0.05
@@ -949,6 +979,22 @@ MonoBehaviour:
     m_Bits: 64
   numberFound: 0
   currentlyHoldingItem: 0
+  unlockEvent: {fileID: 11400000, guid: e3d840b40cd3d50429745670df3254ba, type: 2}
+  unlock:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114232993364126648}
+        m_TargetAssemblyTypeName: PlayerInteraction, Assembly-CSharp
+        m_MethodName: UnlockDoor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5237456163975843966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -961,6 +1007,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4256d3a13f6c349a3ccf6e2adbb925, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackActive: {fileID: 11400000, guid: fd52f688c9c8e1c41a5f69dbaadeb864, type: 2}
+  attackInactive: {fileID: 11400000, guid: 4ec811c0e1a031e4a85398136742d83a, type: 2}
 --- !u!114 &3748327625944530278
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1905,6 +1953,18 @@ PrefabInstance:
     - target: {fileID: 3818596565289514206, guid: 04e1c090f5e0b5f419d5ebad89597236, type: 3}
       propertyPath: m_Name
       value: CM vcam1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3818596565822812817, guid: 04e1c090f5e0b5f419d5ebad89597236, type: 3}
+      propertyPath: mNoiseOffsets.x
+      value: 906.6124
+      objectReference: {fileID: 0}
+    - target: {fileID: 3818596565822812817, guid: 04e1c090f5e0b5f419d5ebad89597236, type: 3}
+      propertyPath: mNoiseOffsets.y
+      value: -15.768188
+      objectReference: {fileID: 0}
+    - target: {fileID: 3818596565822812817, guid: 04e1c090f5e0b5f419d5ebad89597236, type: 3}
+      propertyPath: mNoiseOffsets.z
+      value: -704.75366
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04e1c090f5e0b5f419d5ebad89597236, type: 3}

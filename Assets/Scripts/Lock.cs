@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class Lock : MonoBehaviour
 {
+    [SerializeField] GameEvent unlockEvent;
+
     Door door;
     public GameObject openEffect;
     private void Awake()
@@ -16,7 +18,7 @@ public class Lock : MonoBehaviour
         Key key = collision.GetComponent<Key>();
         if (key != null)
         {
-            EventManager.instance.TriggerEvent("unlock");
+            unlockEvent.Raise();
             AudioManager.instance.DoorUnlockSFX();
             Instantiate(openEffect, transform.position, Quaternion.identity);
             door.UnlockDoor();

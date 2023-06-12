@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b310ee8dcae1b204285fe8b5e56ef695, type: 3}
-  m_Name: Shop
+  m_Script: {fileID: 11500000, guid: 8beb0c0cb39fb7c459e98a83c438c97f, type: 3}
+  m_Name: SpawnPlayer
   m_EditorClassIdentifier: 
-  NPCType: Shopkeep

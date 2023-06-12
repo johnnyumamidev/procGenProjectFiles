@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    [SerializeField] GameEvent attackActive;
+    [SerializeField] GameEvent attackInactive;
+
     PlayerInteraction playerInteraction;
     PlayerInput playerInput;
 
@@ -26,11 +29,11 @@ public class PlayerAttack : MonoBehaviour
 
         if (playerInput.performAttack != 0)
         {
-            EventManager.instance.TriggerEvent("attack_active");
+            attackActive.Raise();
         }
         else
         {
-            EventManager.instance.TriggerEvent("attack_inactive");
+            attackInactive.Raise();
         }
     } 
 }

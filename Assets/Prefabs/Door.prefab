@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd4138ff81ae5f48afe3d56cc8e985d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unlockEvent: {fileID: 11400000, guid: e3d840b40cd3d50429745670df3254ba, type: 2}
   openEffect: {fileID: 1270730725752895384, guid: eed1c2c122f281343b9f6b6e1ec6e478, type: 3}
 --- !u!61 &3438694003005828396
 BoxCollider2D:

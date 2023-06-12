@@ -6,26 +6,8 @@ using UnityEngine.UI;
 
 public class ShopSystem : MonoBehaviour
 {
-    public GameObject itemsDisplay;
     public List<GameObject> shopSlots = new List<GameObject>();
     public List<ShopItemData> shopItems = new List<ShopItemData>();
-
-    private void OnEnable()
-    {
-        EventManager.instance.AddListener("Shopkeep_event", DisplayItems());
-    }
-
-    private UnityAction DisplayItems()
-    {
-        UnityAction action = () =>
-        {
-            if (itemsDisplay != null)
-            {
-                itemsDisplay.SetActive(true);      
-            }
-        };
-        return action;
-    }
 
     void Start()
     {
@@ -41,11 +23,5 @@ public class ShopSystem : MonoBehaviour
             shopSlot.shopItemNameText.text = itemData.itemName;
             shopItems.Remove(itemData);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
