@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 public class ShopSlot : MonoBehaviour
 {
@@ -28,6 +29,9 @@ public class ShopSlot : MonoBehaviour
     public void BuyItem()
     {
         buyItemEvent.Raise();
+        shopButton.gameObject.SetActive(false);
+        EventSystem eventSystem = FindObjectOfType<EventSystem>();
+        eventSystem.SetSelectedGameObject(GameObject.FindGameObjectWithTag("Shop"));
     }
 
     public UnityAction CheckPlayerCurrency(PlayerInventory playerInventory)
