@@ -287,6 +287,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ede4d50f3e9dfb4295584b966b0b450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAnimation: {fileID: 1479615334748895816}
+  playerDamage: {fileID: 11400000, guid: ced1e306c53c4f34e963f9f6edb0ba8f, type: 2}
+  enemyLungeEvent: {fileID: 11400000, guid: 218d85f3371a21a478fbdc7603dcd84b, type: 2}
+  enemyLunge:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5961614246145486384}
+        m_TargetAssemblyTypeName: EnemyAttack, Assembly-CSharp
+        m_MethodName: LungeAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   attackPoint: {fileID: 4637821938144658065}
   attackActive: 0
 --- !u!114 &5961614246145486387
@@ -318,7 +336,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5b0f9fcdc2d1449a33b69e6ba7ee29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyDamageEvent: {fileID: 11400000, guid: cc3c4879912a0734fbb3a5cac50fc75d, type: 2}
+  enemyDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4213994224559800261}
+        m_TargetAssemblyTypeName: EnemyHealth, Assembly-CSharp
+        m_MethodName: TakeDamage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   enemy: {fileID: 5961614246145486385}
+  bloodParticles: {fileID: 3284542681884259800, guid: ed9323130985624439312500935413cd, type: 3}
 --- !u!1 &6530765280802745200
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,6 +477,8 @@ MonoBehaviour:
   enemyParentObject: {fileID: 5961614246145486386}
   animator: {fileID: 3381951052289736813}
   animationStates: []
+  corpse: {fileID: 0}
+  enemyLungeEvent: {fileID: 0}
 --- !u!331 &324601575314843559
 SpriteMask:
   m_ObjectHideFlags: 0

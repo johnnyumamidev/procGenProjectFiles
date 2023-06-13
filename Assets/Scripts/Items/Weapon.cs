@@ -36,11 +36,7 @@ public class Weapon : Item, IEventListener
         Enemy enemy = collision.GetComponent<Enemy>();
         if(enemy != null && attackActive)
         {
-            Collider2D[] results = new Collider2D[1];
-            ContactFilter2D enemyFilter = new ContactFilter2D();
-            enemyFilter.SetLayerMask(enemylayer);
-            itemCollider.OverlapCollider(enemyFilter, results);
-            GameEvent enemyDamageEvent = results[0].GetComponent<EnemyHealth>().enemyDamageEvent;
+            GameEvent enemyDamageEvent = collision.GetComponent<EnemyHealth>().enemyDamageEvent;
             enemyDamageEvent.Raise();
         }
     }
