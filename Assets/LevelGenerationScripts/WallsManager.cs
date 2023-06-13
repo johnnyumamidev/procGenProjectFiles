@@ -24,13 +24,12 @@ public class WallsManager : MonoBehaviour
     }
     void Update()
     {
-        if (isTreasureRoom && !wallsDisabled)
+        if (isTreasureRoom)
         {
             DisableWallTowardsPreviousRoom();
-            wallsDisabled = true;
         }
 
-        else if (!wallsDisabled)
+        if (!wallsDisabled)
         {
             DisableWallTowardsNextRoom(direction);
             if (roomIndex > 0)

@@ -167,23 +167,32 @@ public class LoopEraseRandomWalk : MonoBehaviour
     public int minimumCellsFromStartCell = 4;
     List<Vector2> neighbors = new List<Vector2>();
     List<Vector2> neighborDirection = new List<Vector2>();
+    List<Vector2> branchingCellPoints = new List<Vector2>();
     private void CreateBranchingPaths()
     {
+        List<Vector2> availablePoints = new List<Vector2>(cellPath.Values);
     //get starting point
     StartBranch:
         GetPointOnPath(out Vector2 randomPointWithinPath);
-        if (!cellPath.ContainsValue(randomPointWithinPath))
+        if (!availablePoints.Contains(randomPointWithinPath))
         {
-            Debug.Log(randomPointWithinPath + ", branch is not connected to main path");
+            Debug.Log(randomPointWithinPath + ", cell is not a valid branching point");
             goto StartBranch;
         }
         GetKeyFromValue(cellPath, randomPointWithinPath, out int pathKey);
         GetKeyFromValue(cellPath, startCell.transform.position, out int startCellKey);
+        Debug.Log("branch start, Cell#: " + pathKey);
         if (Mathf.Abs(pathKey - startCellKey) < minimumCellsFromStartCell)
         {
             Debug.Log(randomPointWithinPath + " start branch cell set too close to start of level");
             goto StartBranch;
         }
+        else if (branchingCellPoints.Contains(randomPointWithinPath))
+        {
+            Debug.Log(randomPointWithinPath + " is already a branching point");
+            goto StartBranch;
+        }
+
         //check neighbors and ensure that cell has at least one open neighbor
         //if no available neighbors, get new starting point
         for (int i = 0; i < directions.Count; i++)
@@ -211,7 +220,9 @@ public class LoopEraseRandomWalk : MonoBehaviour
             Debug.Log("cell is surrounded on all sides, get new starting point");
             goto StartBranch;
         }
-        GameObject rootCell = activeCells[pathKey];
+        availablePoints.Remove(randomPointWithinPath);
+
+        GameObject rootCell = cellObjectPool[pathKey];
         int randomNeighborIndex = Random.Range(0, neighbors.Count-1);
         Vector2 nextPoint = neighbors[randomNeighborIndex];
 
@@ -231,6 +242,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
         colorManager.spriteRenderer.color = Color.cyan;
 
         branchingPathLoopCount++;
+        branchingCellPoints.Add(nextPoint);
         neighbors.Clear();
         neighborDirection.Clear();
         treasureRooms.Add(cell);
