@@ -292,12 +292,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: 0}
   player: {fileID: 129479006}
-  hookRange: 0.05
+  hookRange: 0.075
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 8
-  hookPrefab: {fileID: 1973964671367144221, guid: 4a1f6d6ef81f42f4eb2f66031965c78c, type: 3}
-  shootForce: 4.25
+  hookPrefab: {fileID: 1973964671367144221, guid: 63ae92fdd1876dc4ebbfdd1d63826719, type: 3}
+  shootForce: 4.75
   offset: 0
   cooldownLength: 0.5
 --- !u!1001 &587563688

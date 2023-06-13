@@ -19,6 +19,7 @@ public class PlayerLocomotion : MonoBehaviour
     float aerialDrift;
     public bool isClimbing;
     [SerializeField] Collider2D playerCollider;
+    [SerializeField] Collider2D climbChainCollider;
     Collider2D chain;
     public bool isNearChain;
     [Header("Facing Right Check")]
@@ -45,7 +46,7 @@ public class PlayerLocomotion : MonoBehaviour
     {
         float _gravityScale = setGravity;
         //if climbing
-        if (!isGrounded && chain != null && playerCollider.IsTouching(chain)) _gravityScale = 0;
+        if (!isGrounded && chain != null && climbChainCollider.IsTouching(chain)) _gravityScale = 0;
 
         if (isOnSlope && playerInput.movementInput == Vector2.zero)
         {
@@ -80,7 +81,7 @@ public class PlayerLocomotion : MonoBehaviour
         isNearChain = false;
         isClimbing = false;
         if (chain == null) return;
-        if (!playerCollider.IsTouching(chain)) return;
+        if (!climbChainCollider.IsTouching(chain)) return;
         isNearChain = true;
         if (!isGrounded && rigidBody.velocity.y != 0) rigidBody.velocity = Vector2.zero; 
         if (Mathf.Abs(playerInput.movementInput.y) > 0.4f) isClimbing = true;
@@ -124,7 +125,7 @@ public class PlayerLocomotion : MonoBehaviour
         {
             timeSinceFalling += Time.deltaTime;
             aerialDrift = playerInput.movementInput.x * playerData.aerialDriftModifier;
-            if (chain != null && playerCollider.IsTouching(chain)) return;
+            if (chain != null && climbChainCollider.IsTouching(chain)) return;
             //aerial drift ->
             if (playerInput.movementInput.x != 0 && rigidBody.velocity.x <= playerData.maxAerialSpeed) { rigidBody.velocity += new Vector2(aerialDrift, 0); }
             return;

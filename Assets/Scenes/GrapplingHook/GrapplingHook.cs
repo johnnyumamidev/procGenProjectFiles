@@ -41,7 +41,9 @@ public class GrapplingHook : MonoBehaviour
     private void FireHook()
     {
         Debug.Log("fire grappling hook");
-        GameObject hook = Instantiate(hookPrefab, playerPosition + point, Quaternion.identity);
+        float theta = Mathf.Atan2(point.x, point.y);
+        float pointRotation = Mathf.Rad2Deg * theta;
+        GameObject hook = Instantiate(hookPrefab, playerPosition + point, Quaternion.Euler(0,0,pointRotation - 90));
         Rigidbody2D hookRigidbody = hook.GetComponentInChildren<Rigidbody2D>();
         hookRigidbody.AddForce(playerInput.aimDirection * shootForce, ForceMode2D.Impulse);
     }

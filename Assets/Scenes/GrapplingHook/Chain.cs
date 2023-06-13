@@ -13,14 +13,18 @@ public class Chain : MonoBehaviour
         GenerateChain();
     }
 
-    IEnumerator SpawnDelay()
+    IEnumerator FreezeChain()
     {
         yield return new WaitForSeconds(delayTime);
+        foreach(GameObject segment in chainSegments)
+        {
+            segment.GetComponent<BoxCollider2D>().isTrigger = true;
+            segment.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeAll;
+        }
     }
-
+    List<GameObject> chainSegments = new List<GameObject>();
     private void GenerateChain()
     {
-        List<GameObject> chainSegments = new List<GameObject>();
         Rigidbody2D previousBody = hookRigidBody;
         for(int i = 0; i < numberOfLinks; i++)
         {
@@ -37,5 +41,6 @@ public class Chain : MonoBehaviour
         {
             segment.GetComponent<BoxCollider2D>().isTrigger = false;
         }
+        //StartCoroutine(FreezeChain());
     }
 }
