@@ -13,7 +13,7 @@ public class PlayerManager : MonoBehaviour
 
     void Start()
     {
-        UIManager.instance.playerManager = this;
+        if(UIManager.instance != null) UIManager.instance.playerManager = this;
         playerInput = GetComponent<PlayerInput>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
         playerHealth = GetComponent<PlayerHealth>();
