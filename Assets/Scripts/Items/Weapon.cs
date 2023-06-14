@@ -8,6 +8,9 @@ public class Weapon : Item, IEventListener
 {
     [SerializeField] GameEvent attackActiveEvent;
     [SerializeField] GameEvent attackInactiveEvent;
+    [SerializeField] GameEvent playerFacingRight;
+    [SerializeField] GameEvent playerFacingLeft;
+
     public LayerMask enemylayer;
     public WeaponData weaponData;
     SpriteRenderer spriteRenderer;
@@ -44,15 +47,21 @@ public class Weapon : Item, IEventListener
     {
         attackActiveEvent.RegisterListener(this);
         attackInactiveEvent.RegisterListener(this);
+        playerFacingRight.RegisterListener(this);
+        playerFacingLeft.RegisterListener(this);
     }
     private void OnDisable()
     {
         attackActiveEvent.UnregisterListener(this);
         attackInactiveEvent.UnregisterListener(this);
+        playerFacingRight.UnregisterListener(this);
+        playerFacingLeft.UnregisterListener(this);
     }
     public void OnEventRaised(GameEvent gameEvent)
     {
         if (gameEvent == attackActiveEvent) attackActive = true;
         if (gameEvent == attackInactiveEvent) attackActive = false;
+        if (gameEvent == playerFacingRight) spriteRenderer.sortingOrder = 2;
+        if (gameEvent == playerFacingLeft) spriteRenderer.sortingOrder = 0;
     }
 }

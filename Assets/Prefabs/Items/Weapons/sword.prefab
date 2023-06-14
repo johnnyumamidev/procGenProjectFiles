@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1832077479
   m_SortingLayer: 1
-  m_SortingOrder: 3
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 4fff9d0918cf5794598dca97631dcbfd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -154,7 +154,8 @@ MonoBehaviour:
   carryOffset: {x: 0, y: 0}
   attackActiveEvent: {fileID: 11400000, guid: fd52f688c9c8e1c41a5f69dbaadeb864, type: 2}
   attackInactiveEvent: {fileID: 11400000, guid: 4ec811c0e1a031e4a85398136742d83a, type: 2}
-  enemyDamageEvent: {fileID: 11400000, guid: cc3c4879912a0734fbb3a5cac50fc75d, type: 2}
+  playerFacingRight: {fileID: 11400000, guid: a13dfc91202f93a4486dd5ee6e7ee400, type: 2}
+  playerFacingLeft: {fileID: 11400000, guid: 0908a43a5bc7cee4680de257fd8a7194, type: 2}
   enemylayer:
     serializedVersion: 2
     m_Bits: 256

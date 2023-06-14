@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour, IEventListener
         if (playerManager.playerInput.performCancel != 0)
         {
             Debug.Log("close menu");
-            itemsDisplay.SetActive(false);
+            if(itemsDisplay != null) itemsDisplay.SetActive(false);
         }
     }
     public GameObject itemsDisplay;

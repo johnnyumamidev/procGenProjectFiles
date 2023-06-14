@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3818596565289514206}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.13750109, y: 0.6750054, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -86,6 +86,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomToFollow: {fileID: 0}
+  playerEntersRoomEvent: {fileID: 11400000, guid: 01209f0775204fd449cbfdf7baec49a4, type: 2}
+  playerEntersRoom:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3818596565289514195}
+        m_TargetAssemblyTypeName: CameraPositioner, Assembly-CSharp
+        m_MethodName: SetCamera
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3818596565289514194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,4 +221,4 @@ MonoBehaviour:
   m_PivotOffset: {x: 0, y: 0, z: 0}
   m_AmplitudeGain: 0
   m_FrequencyGain: 1
-  mNoiseOffsets: {x: 0, y: 0, z: 0}
+  mNoiseOffsets: {x: 906.6124, y: -15.768188, z: -704.75366}

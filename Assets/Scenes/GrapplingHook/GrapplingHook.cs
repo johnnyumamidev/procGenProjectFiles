@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,8 @@ public class GrapplingHook : MonoBehaviour
     public float offset;
     public float cooldownLength = 0.5f;
 
-    bool hookFired = false;
+    bool hookThrown = false;
+    bool aimingHook = false;
 
     Vector2 point;
     Vector2 playerPosition;
@@ -30,15 +32,26 @@ public class GrapplingHook : MonoBehaviour
         playerPosition = player.position;
         point = playerInput.aimDirection.normalized * hookRange;
 
-        if (!hookFired && playerInput.performShoot != 0)
+        if (!aimingHook && playerInput.performShoot != 0)
         {
-            FireHook();
-            hookFired = true;
+            AimHook();
+            aimingHook = true;
             StartCoroutine(HookCooldown());
+        }
+        else if(aimingHook && !hookThrown && playerInput.performShoot == 0)
+        {
+            aimingHook = false;
+            ThrowHook();
+            hookThrown = true;
         }
     }
 
-    private void FireHook()
+    private void AimHook()
+    {
+        Debug.Log("aiming grappling hook");
+    }
+
+    private void ThrowHook()
     {
         Debug.Log("fire grappling hook");
         float theta = Mathf.Atan2(point.x, point.y);
@@ -50,10 +63,10 @@ public class GrapplingHook : MonoBehaviour
 
     private IEnumerator HookCooldown()
     {
-        while(hookFired)
+        while(hookThrown)
         {
             yield return new WaitForSeconds(cooldownLength);
-            hookFired = false;
+            hookThrown = false;
         }
     }
 

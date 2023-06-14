@@ -10,6 +10,7 @@ public class PlayerDetector : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             CameraPositioner.instance.roomToFollow = gameObject.transform;
+            CameraPositioner.instance.playerTransform = collision.transform;
             playerEntersEvent.Raise();
         }
     }

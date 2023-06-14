@@ -1335,7 +1335,19 @@ MonoBehaviour:
   playerEntersRoomEvent: {fileID: 11400000, guid: 01209f0775204fd449cbfdf7baec49a4, type: 2}
   playerEntersRoom:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1984258749}
+        m_TargetAssemblyTypeName: CameraPositioner, Assembly-CSharp
+        m_MethodName: SetCamera
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2052828656
 GameObject:
   m_ObjectHideFlags: 0
@@ -1482,18 +1494,18 @@ PrefabInstance:
     - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: cellPrefab
       value: 
-      objectReference: {fileID: 7481954256667548557, guid: 21f0ffc1f43c4b44f8ba10bc53e6c6e1, type: 3}
+      objectReference: {fileID: 7481954256667548557, guid: 75a5ccc4d63ba5649a98956dcde83862, type: 3}
     - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: pathLength
-      value: 8
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: timeBetweenIteration
-      value: 0.1
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: desiredBranchingPaths
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7577643431785102187, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: m_RootOrder

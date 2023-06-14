@@ -10,6 +10,7 @@ public class CameraPositioner : MonoBehaviour, IEventListener
     CinemachineVirtualCamera virtualCamera;
     public static CameraPositioner instance;
     public Transform roomToFollow;
+    public Transform playerTransform;
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -20,6 +21,11 @@ public class CameraPositioner : MonoBehaviour, IEventListener
     {
         Debug.Log("setting camera to current room");
         virtualCamera.Follow = roomToFollow;
+    }
+
+    public void FollowPlayer()
+    {
+        virtualCamera.Follow = playerTransform;
     }
 
     [SerializeField] GameEvent playerEntersRoomEvent;

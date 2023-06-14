@@ -24,6 +24,8 @@ public class PlayerLocomotion : MonoBehaviour
     public bool isNearChain;
     [Header("Facing Right Check")]
     public bool facingRight = true;
+    [SerializeField] GameEvent playerFacingRight;
+    [SerializeField] GameEvent playerFacingLeft;
     Vector2 playerPosition;
 
     private void Awake()
@@ -112,6 +114,9 @@ public class PlayerLocomotion : MonoBehaviour
         Vector3 scaler = transform.localScale;
         scaler.x *= -1;
         transform.localScale = scaler;
+
+        if (facingRight) playerFacingRight.Raise();
+        if (!facingRight) playerFacingLeft.Raise();
     }
 
     private void HandleJump()
