@@ -34,6 +34,7 @@ public class RoomLayoutManager : MonoBehaviour
     private void SetRoomLayout()
     {
         int randomIndex = Random.Range(0, roomLayouts.Count - 1);
+        if (roomLayouts.Count == 1) randomIndex = 0;
         roomLayouts[randomIndex].SetActive(true);
     }
     private void Update()
@@ -77,7 +78,7 @@ public class RoomLayoutManager : MonoBehaviour
                 room.SetActive(false);
             }
         }
-        if (roomLayouts.Count > 1 && !roomsSet)
+        if (roomLayouts.Count > 0 && !roomsSet)
         {
             SetRoomLayout();
             roomsSet = true;

@@ -2330,7 +2330,7 @@ GameObject:
   - component: {fileID: 5696332704329739147}
   - component: {fileID: 2293243910186625454}
   m_Layer: 0
-  m_Name: RoomCell
+  m_Name: RoomCell 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

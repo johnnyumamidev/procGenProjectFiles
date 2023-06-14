@@ -1332,6 +1332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomToFollow: {fileID: 0}
+  playerTransform: {fileID: 0}
   playerEntersRoomEvent: {fileID: 11400000, guid: 01209f0775204fd449cbfdf7baec49a4, type: 2}
   playerEntersRoom:
     m_PersistentCalls:

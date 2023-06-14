@@ -28,8 +28,8 @@ MonoBehaviour:
   maxJumps: 1
   coyoteTime: 0.3
   landingRecoveryTimer: 0.06
-  jumpCooldown: 0.1
-  aerialDriftModifier: 0.03
+  jumpCooldown: 0.3
+  aerialDriftModifier: 0.02
   maxAerialSpeed: 0.5
   jumpReleaseTimeAllowance: 0.15
   climbSpeed: 24
