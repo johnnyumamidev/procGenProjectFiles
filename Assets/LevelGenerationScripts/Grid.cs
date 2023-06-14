@@ -18,9 +18,9 @@ public class Grid : MonoBehaviour
 
     private void GenerateGrid()
     {
-        for (int x = 1; x <= gridWidth; x += cellWidth)
+        for (int x = 1; x <= gridWidth; x++)
         {
-            for (int y = 1; y <= gridHeight; y += cellHeight)
+            for (int y = 1; y <= gridHeight; y++)
             {
                 point = new Vector2(startGridPosition.position.x + (x * cellWidth), startGridPosition.position.y + (y * cellHeight));
                 points.Add(point);

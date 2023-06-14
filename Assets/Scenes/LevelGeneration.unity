@@ -1485,11 +1485,15 @@ PrefabInstance:
       objectReference: {fileID: 7481954256667548557, guid: 21f0ffc1f43c4b44f8ba10bc53e6c6e1, type: 3}
     - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: pathLength
-      value: 12
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
+      propertyPath: timeBetweenIteration
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: desiredBranchingPaths
-      value: 6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7577643431785102187, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: m_RootOrder

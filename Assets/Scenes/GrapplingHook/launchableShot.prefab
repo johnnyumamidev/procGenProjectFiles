@@ -48,7 +48,7 @@ MonoBehaviour:
   delayTime: 0.2
   hookRigidBody: {fileID: 7779305441593359462}
   chainSegmentPrefab: {fileID: 4536794104993011427, guid: 9877e01313bf8674eb266d1ac111658b, type: 3}
-  numberOfLinks: 8
+  numberOfLinks: 10
 --- !u!1 &6548205479870961321
 GameObject:
   m_ObjectHideFlags: 0
