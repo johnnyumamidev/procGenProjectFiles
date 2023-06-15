@@ -6,9 +6,9 @@ public class EnemyAnimation : MonoBehaviour
 {
     [SerializeField] Transform enemyParentObject;
     EnemyAI enemyAi;
-    EnemyMovement enemyMovement;
+    EnemyStates enemyStates;
     public Animator animator;
-    int animatorIndex;
+    [SerializeField] int animatorIndex;
     public List<string> animationStates;
 
     Sprite sprite;
@@ -19,7 +19,11 @@ public class EnemyAnimation : MonoBehaviour
     public GameEvent enemyLungeEvent;
     private void Awake()
     {
-        if(enemyLungeEvent == null) 
+        if(enemyStates == null) enemyStates = GetComponentInParent<EnemyStates>();
+        enemyAi = GetComponentInParent<EnemyAI>();
+        if(animator == null) animator = GetComponent<Animator>();
+
+        if (enemyLungeEvent == null) 
             enemyLungeEvent = new GameEvent();
 
         spriteMask = GetComponent<SpriteMask>();
@@ -33,11 +37,6 @@ public class EnemyAnimation : MonoBehaviour
             enemyName + "Attack",
             enemyName + "Death"
         };
-
-        enemyMovement = GetComponentInParent<EnemyMovement>();
-        enemyAi = GetComponentInParent<EnemyAI>();
-
-        if(animator == null) animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -45,18 +44,18 @@ public class EnemyAnimation : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>().sprite;
         spriteMask.sprite = sprite;
 
-        if (enemyAi.currentState == EnemyAI.EnemyState.Patrol) animatorIndex = 0;
-        if (enemyAi.currentState == EnemyAI.EnemyState.Search) animatorIndex = 1;
-        if (enemyAi.currentState == EnemyAI.EnemyState.Chase) animatorIndex = 2;
-        if (enemyAi.currentState == EnemyAI.EnemyState.Attack) animatorIndex = 3;
-        if (enemyAi.currentState == EnemyAI.EnemyState.Dead) animatorIndex = 4;
+        if (enemyStates.currentState == EnemyStates.State.Patrol) animatorIndex = 0;
+        if (enemyStates.currentState == EnemyStates.State.Search) animatorIndex = 1;
+        if (enemyStates.currentState == EnemyStates.State.Chase) animatorIndex = 2;
+        if (enemyStates.currentState == EnemyStates.State.Attack) animatorIndex = 3;
+        if (enemyStates.currentState == EnemyStates.State.Dead) animatorIndex = 4;
 
         animator.Play(animationStates[animatorIndex]);
     }
 
     private void Lunge()
     {
-        enemyMovement.SetLungeTrue();
+        enemyAi.velocity = Vector2.zero;
         enemyLungeEvent.Raise();
     }
 

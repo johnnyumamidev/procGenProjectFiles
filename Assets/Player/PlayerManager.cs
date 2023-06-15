@@ -25,7 +25,7 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         playerHealth.HandleHealth();
-        if (GameStateManager.instance.currentState == "Game Over") return;
+        if (GameStateManager.instance != null && GameStateManager.instance.currentState == "Game Over") return;
         playerInput.HandleAllInputs();
         playerAttack.HandleAllAttackActions();
         playerInventory.HandleInventory();
@@ -33,7 +33,8 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (GameStateManager.instance.currentState == "Game Over") return;
+
+        if (GameStateManager.instance != null && GameStateManager.instance.currentState == "Game Over") return;
         playerLocomotion.HandleAllMovement();   
     }
 }

@@ -11,13 +11,13 @@ public class EnemyAttack : MonoBehaviour, IEventListener
     [SerializeField] UnityEvent enemyLunge;
 
     Enemy enemy;
-    EnemyAI enemyAi;
+    EnemyStates enemyStates;
     public Transform attackPoint;
     [SerializeField] bool attackActive = false;
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
-        enemyAi = GetComponent<EnemyAI>();
+        enemyStates = GetComponent<EnemyStates>();
     }
     private void Start()
     {
@@ -33,7 +33,7 @@ public class EnemyAttack : MonoBehaviour, IEventListener
     public void LungeAttack()
     {
         attackActive = true;
-        Collider2D hit = Physics2D.OverlapCircle(attackPoint.position, enemy.enemyData.attackRadius, enemyAi.playerLayer);
+        Collider2D hit = Physics2D.OverlapCircle(attackPoint.position, enemy.enemyData.attackRadius, enemyStates.playerLayer);
         if (hit)
         {
             playerDamage.Raise();

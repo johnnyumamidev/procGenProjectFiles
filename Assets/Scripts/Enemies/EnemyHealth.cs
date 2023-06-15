@@ -9,7 +9,7 @@ public class EnemyHealth : MonoBehaviour, IEventListener
     [SerializeField] UnityEvent enemyDamage;
 
     public Enemy enemy;
-    EnemyAI enemyAi;
+    EnemyStates enemyStates;
     EnemyAnimation enemyAnimation;
     int currentHealth;
     public GameObject bloodParticles;
@@ -19,8 +19,9 @@ public class EnemyHealth : MonoBehaviour, IEventListener
     private void Awake()
     {
         if(enemyDamageEvent == null) enemyDamageEvent = new GameEvent();
+        enemyDamageEvent.name = gameObject.name + " damage";
         enemy = GetComponent<Enemy>();
-        enemyAi = GetComponent<EnemyAI>();
+        enemyStates = GetComponent<EnemyStates>();
         enemyAnimation = GetComponentInChildren<EnemyAnimation>();
         currentHealth = enemy.enemyData.maxHealth;
     }
@@ -31,7 +32,7 @@ public class EnemyHealth : MonoBehaviour, IEventListener
         if (currentHealth <= 0 && !deathEvent)
         {
             Instantiate(bloodParticles, transform.position, Quaternion.identity);
-            enemyAi.SetEnemyState(EnemyAI.EnemyState.Dead);
+            enemyStates.SetEnemyState(EnemyStates.State.Dead);
             deathEvent = true;
         }
     }
