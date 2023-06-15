@@ -10,10 +10,4 @@ public class SkeletonAI : EnemyAI
     {
         SpawnPatrolPoints(patrolMultiplier);   
     }
-
-    protected override void PatrolArea()
-    {
-        base.PatrolArea();
-        Debug.Log(gameObject.name + " overriding patrol");
-    }
 }

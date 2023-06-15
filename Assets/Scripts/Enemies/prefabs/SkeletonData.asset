@@ -18,5 +18,5 @@ MonoBehaviour:
   detectPlayerRadius: 0.3
   attackRange: 0.1
   attackSpeed: 2
-  attackRadius: 0.05
-  lungeForce: 2.2
+  attackRadius: 0.03
+  lungeForce: 125

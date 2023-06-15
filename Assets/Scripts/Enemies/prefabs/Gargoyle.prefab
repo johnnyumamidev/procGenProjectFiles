@@ -320,10 +320,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallCheckCollider: {fileID: 5924207724553433080}
-  westwayPointPosition: {x: -1, y: 0}
-  eastwayPointPosition: {x: 1, y: 0}
+  westWaypointPosition: {x: 0, y: 0}
+  eastWaypointPosition: {x: 0, y: 0}
   lastWaypointReached: {fileID: 0}
   waypointOffsetMultiplier: 0.4
+  velocity: {x: 0, y: 0}
+  chaseDelay: 0
+  playerDetectedNotification: {fileID: 7080578528276923255, guid: ce37b971cfb6c2a46b106b89abd2bfa3, type: 3}
+  enemyLungeEvent: {fileID: 11400000, guid: 218d85f3371a21a478fbdc7603dcd84b, type: 2}
+  enemyLunge:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4213994224559800261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,6 +483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyParentObject: {fileID: 5961614246145486386}
   animator: {fileID: 3381951052289736813}
+  animatorIndex: 0
   animationStates: []
   corpse: {fileID: 0}
   enemyLungeEvent: {fileID: 0}

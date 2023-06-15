@@ -22,8 +22,10 @@ public class EnemyAI : MonoBehaviour, IEventListener
     public Vector2 velocity;
 
     Vector2 chaseDirection;
-    
+    public float chaseDelay;
     bool facingRight = false;
+
+    public GameObject playerDetectedNotification;
     private void Awake()
     {
         enemyStates = GetComponent<EnemyStates>();
@@ -31,6 +33,48 @@ public class EnemyAI : MonoBehaviour, IEventListener
         enemyRigidbody = GetComponent<Rigidbody2D>();
         enemyCollider = GetComponent<CapsuleCollider2D>();
     }
+    public void HandleAllMovement()
+    {
+        Debug.Log("exlamation point active: " + playerDetectedNotification.activeSelf);
+        if (velocity.x < 0 && facingRight) Flip();
+        else if (velocity.x > 0 && !facingRight) Flip();
+
+        if (enemyStates.currentState == EnemyStates.State.Patrol) PatrolArea();
+        if (enemyStates.currentState == EnemyStates.State.Search) { return; }
+        if (enemyStates.currentState == EnemyStates.State.Chase) ChaseTarget();
+
+        if (enemyStates.currentState == EnemyStates.State.Dead)
+        {
+            enemyRigidbody.isKinematic = true;
+            enemyCollider.enabled = false;
+            enemyRigidbody.velocity = Vector2.zero;
+        }
+
+        if (enemyStates.currentState == EnemyStates.State.Attack)
+        {
+            if (!isLunging)
+            {
+                Debug.Log("preparing attack!");
+                playerDetectedNotification.SetActive(true);
+                SetVelocity(Vector2.zero);
+            }
+            else
+            {
+                Lunge();
+                isLunging = false;
+            }
+        }
+        else
+        {
+            playerDetectedNotification.SetActive(false);
+            Debug.Log(gameObject.name + " not currently attacking");
+            SetVelocity(velocity);
+        }
+    }
+
+    // === PROTECTED/VIRTUAL FUNCTIONS === //
+    // may get overridden by child classes that inherit from enemyAI //
+
     protected void SpawnPatrolPoints(float _waypointOffsetMultiplier)
     {
         Vector2 enemyPosition = transform.position;
@@ -46,50 +90,18 @@ public class EnemyAI : MonoBehaviour, IEventListener
         eastWaypoint.position = enemyPosition + (eastWaypointPosition * _waypointOffsetMultiplier);
     }
 
-    public void HandleAllMovement()
-    {
-        if (velocity.x < 0 && facingRight) Flip();
-        else if (velocity.x > 0 && !facingRight) Flip();
-
-        if (enemyStates.currentState == EnemyStates.State.Patrol) PatrolArea();
-        if (enemyStates.currentState == EnemyStates.State.Search) { return; }
-        if (enemyStates.currentState == EnemyStates.State.Chase) ChaseTarget();
-        if (enemyStates.currentState == EnemyStates.State.Attack) LungeAtTarget();
-
-        if (enemyStates.currentState == EnemyStates.State.Dead)
-        {
-            enemyRigidbody.isKinematic = true;
-            enemyCollider.enabled = false;
-            enemyRigidbody.velocity = Vector2.zero;
-        }
-
-        SetVelocity(velocity);
-        Debug.Log(velocity);
-    }
-
-    private void SetVelocity(Vector2 _velocity)
+    protected void SetVelocity(Vector2 _velocity)
     {
         enemyRigidbody.velocity = _velocity;
     }
-
-    bool isLunging;
-    public void SetLungeTrue()
+    protected virtual void Lunge()
     {
-        Debug.Log(gameObject.name + " lunging!");
-        isLunging = true;
+        playerDetectedNotification.SetActive(false);
+        Vector2 direction = Vector2.right;
+        if (!facingRight) direction = Vector2.left;
+        enemyRigidbody.AddRelativeForce(direction * enemy.enemyData.lungeForce);
     }
-    void LungeAtTarget()
-    {
-        if (isLunging)
-        {
-            Vector2 direction = Vector2.right;
-            if (!facingRight) direction = Vector2.left;
-            velocity = direction * enemy.enemyData.lungeForce;
-            isLunging = false;
-        }
-    }
-
-    private void Flip()
+    protected void Flip()
     {
         facingRight = !facingRight;
         float xScale = transform.localScale.x;
@@ -105,15 +117,20 @@ public class EnemyAI : MonoBehaviour, IEventListener
             if (enemyRigidbody.velocity.x > 0) lastWaypointReached = eastWaypoint;
             else { lastWaypointReached = westWaypoint; }
         }
+
         if (Vector2.Distance(transform.position, westWaypoint.position) < 0.1f) lastWaypointReached = westWaypoint;
         else if (Vector2.Distance(transform.position, eastWaypoint.position) < 0.1f) lastWaypointReached = eastWaypoint;
 
-
         Vector2 currentPosition = transform.position;
-        if (lastWaypointReached == null) velocity = Vector2.right * enemy.enemyData.speed * Time.fixedDeltaTime;
-
-        if (lastWaypointReached == eastWaypoint) velocity = Vector2.left * enemy.enemyData.speed * Time.fixedDeltaTime;
-        else if (lastWaypointReached == westWaypoint) velocity = Vector2.right * enemy.enemyData.speed * Time.fixedDeltaTime;
+        if (lastWaypointReached == null)
+        {
+            velocity = Vector2.right * enemy.enemyData.speed * Time.fixedDeltaTime;
+        }
+        else
+        {
+            if (lastWaypointReached == eastWaypoint) velocity = Vector2.left * enemy.enemyData.speed * Time.fixedDeltaTime;
+            else if (lastWaypointReached == westWaypoint) velocity = Vector2.right * enemy.enemyData.speed * Time.fixedDeltaTime;
+        }
     }
 
     protected virtual void ChaseTarget()
@@ -123,6 +140,8 @@ public class EnemyAI : MonoBehaviour, IEventListener
         else if(chaseDirection.x < 0 && facingRight) Flip();
         velocity = chaseDirection.normalized * enemy.enemyData.speed * Time.fixedDeltaTime;
     }
+    
+    // GAME EVENTS //
     [SerializeField] GameEvent enemyLungeEvent;
     [SerializeField] UnityEvent enemyLunge;
     private void OnEnable()
@@ -136,5 +155,10 @@ public class EnemyAI : MonoBehaviour, IEventListener
     public void OnEventRaised(GameEvent gameEvent)
     {
         enemyLunge?.Invoke();
+    }
+    bool isLunging;
+    public void SetLungingTrue()
+    {
+        isLunging = true;
     }
 }
