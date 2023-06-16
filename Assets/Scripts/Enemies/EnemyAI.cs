@@ -55,7 +55,6 @@ public class EnemyAI : MonoBehaviour, IEventListener
         {
             if (!isLunging)
             {
-                Debug.Log("preparing attack!");
                 AttackAnticipation();
             }
             else

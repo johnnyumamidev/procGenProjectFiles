@@ -16,7 +16,7 @@ MonoBehaviour:
   speed: 15
   maxHealth: 4
   detectPlayerRadius: 0.45
-  attackRange: 0.05
+  attackRange: 0.25
   attackSpeed: 2
-  attackRadius: 0.175
-  lungeForce: 550
+  attackRadius: 0.2
+  lungeForce: 1000

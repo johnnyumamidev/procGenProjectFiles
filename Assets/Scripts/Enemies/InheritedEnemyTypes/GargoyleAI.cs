@@ -5,10 +5,8 @@ using UnityEngine;
 public class GargoyleAI : EnemyAI
 {
     public float gargoylePatrolModifier;
-    public float attackStartRange = 0.5f;
 
-    public float flyingHeight;
-    public float flightSpeed;
+    public float flightHeight = 2.5f;
     void Start()
     {
         SpawnPatrolPoints(gargoylePatrolModifier);
@@ -17,46 +15,23 @@ public class GargoyleAI : EnemyAI
     protected override void ChaseTarget()
     {
         chaseDirection = enemyStates.targetPosition - enemyRigidbody.position;
-        velocity = new Vector2(chaseDirection.normalized.x, 0) * enemy.enemyData.speed * Time.fixedDeltaTime;
-        
-        if(chaseDirection.x < attackStartRange)
+        float yVelocity = 0;
+        float xVelocity = chaseDirection.normalized.x;
+        if (enemyRigidbody.position.y < flightHeight)
         {
-            enemyStates.SetEnemyState(EnemyStates.State.Attack);
+            xVelocity = 0;
+            yVelocity = 1;
+            enemyStates.attackReady = false;
         }
         else
         {
-            enemyStates.SetEnemyState(EnemyStates.State.Chase);
+            enemyStates.attackReady = true;
         }
+        velocity = new Vector2(xVelocity, yVelocity) * enemy.enemyData.speed * Time.fixedDeltaTime;
     }
 
-    protected override void AttackAnticipation()
-    {
-        if (enemyCollider.IsTouchingLayers(enemyStates.obstaclesLayer))
-        {
-            Debug.Log("gargoyle has slammed onto ground");
-            StartCoroutine(FlyToSlamPosition());
-        }
-        else
-        {
-            playerDetectedNotification.SetActive(true);
-            SetVelocity(Vector2.zero);
-        }
-    }
-
-    public float slamAttackCooldown = 0.5f;
-    private IEnumerator FlyToSlamPosition()
-    {
-        yield return new WaitForSeconds(slamAttackCooldown);
-        Debug.Log("go back to attack start position");
-        while(enemyRigidbody.position.y < flyingHeight)
-        {
-            enemyRigidbody.AddRelativeForce(Vector2.up);
-        }
-    }
     protected override void Lunge()
     {
-        Debug.Log("gargoyle slam!");
-        Vector2 direction = Vector2.down;
-        enemyRigidbody.AddRelativeForce(direction * enemy.enemyData.lungeForce);
+        enemyRigidbody.AddForce(Vector2.down * enemy.enemyData.lungeForce);
     }
 }

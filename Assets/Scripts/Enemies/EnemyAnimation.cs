@@ -59,6 +59,11 @@ public class EnemyAnimation : MonoBehaviour
         enemyLungeEvent.Raise();
     }
 
+    private void EndAttackState()
+    {
+        enemyStates.SetEnemyState(EnemyStates.State.Chase);
+    }
+
     private void SpawnCorpse()
     {
         GameObject _corpse = Instantiate(corpse, transform.position, Quaternion.identity);

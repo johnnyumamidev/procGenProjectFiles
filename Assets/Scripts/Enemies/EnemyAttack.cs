@@ -13,7 +13,6 @@ public class EnemyAttack : MonoBehaviour, IEventListener
     Enemy enemy;
     EnemyStates enemyStates;
     public Transform attackPoint;
-    [SerializeField] bool attackActive = false;
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
@@ -32,7 +31,6 @@ public class EnemyAttack : MonoBehaviour, IEventListener
     }
     public void LungeAttack()
     {
-        attackActive = true;
         Collider2D hit = Physics2D.OverlapCircle(attackPoint.position, enemy.enemyData.attackRadius, enemyStates.playerLayer);
         if (hit)
         {
@@ -42,9 +40,9 @@ public class EnemyAttack : MonoBehaviour, IEventListener
 
     private void OnDrawGizmos()
     {
-        if(enemy != null && attackActive)
+        if(enemy != null)
         {
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(attackPoint.position, enemy.enemyData.attackRadius);
         }
     }

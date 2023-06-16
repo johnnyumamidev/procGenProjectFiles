@@ -11,6 +11,10 @@ public class EnemyStates : MonoBehaviour
     public LayerMask obstaclesLayer;
 
     public Vector2 targetPosition;
+
+    public Transform attackHitbox;
+
+    public bool attackReady = true;
     public enum State
     {
         Patrol, Chase, Attack, Search, Dead
@@ -29,6 +33,7 @@ public class EnemyStates : MonoBehaviour
     {
         if (currentState == State.Dead) return;
         DetectPlayerSphere();
+        if (!attackReady) return;
         CheckTargetWithinAttackRange();
     }
     public void SetEnemyState(State newState)
@@ -38,7 +43,7 @@ public class EnemyStates : MonoBehaviour
 
     private void CheckTargetWithinAttackRange()
     {
-        Collider2D attackRange = Physics2D.OverlapCircle(transform.position, enemy.enemyData.attackRange, playerLayer);
+        Collider2D attackRange = Physics2D.OverlapCircle(attackHitbox.position, enemy.enemyData.attackRange, playerLayer);
         if (attackRange)
         {
             SetEnemyState(State.Attack);
@@ -56,11 +61,7 @@ public class EnemyStates : MonoBehaviour
             float rayCastRange = Vector2.Distance(playerPosition, enemyPosition);
             RaycastHit2D lineOfSight = Physics2D.Raycast(enemyPosition, DirectionToTarget(playerPosition, enemyPosition), rayCastRange, obstaclesLayer);
 
-            if (lineOfSight)
-            {
-                DirectionToTarget(lineOfSight.point, enemyPosition);
-                SetEnemyState(State.Search);
-            }
+            if (currentState == State.Attack) return;
             else
             {
                 DirectionToTarget(playerPosition, enemyPosition);
@@ -86,7 +87,7 @@ public class EnemyStates : MonoBehaviour
         {
             Gizmos.DrawWireSphere(transform.position, enemy.enemyData.detectPlayerRadius);
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, enemy.enemyData.attackRange);
+            Gizmos.DrawWireSphere(attackHitbox.position, enemy.enemyData.attackRange);
         } 
     }
 }
