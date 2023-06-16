@@ -50,6 +50,7 @@ public class EnemyHealth : MonoBehaviour, IEventListener
     private void OnDisable()
     {
         enemyDamageEvent.UnregisterListener(this);
+        enemyDamageEvent = null;
     }
     public void OnEventRaised(GameEvent gameEvent)
     {

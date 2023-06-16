@@ -7,9 +7,9 @@ using static EnemyStates;
 
 public class EnemyAI : MonoBehaviour, IEventListener
 {
-    Enemy enemy;
-    EnemyStates enemyStates;
-    Rigidbody2D enemyRigidbody;
+    protected Enemy enemy;
+    [SerializeField] EnemyStates enemyStates;
+    protected Rigidbody2D enemyRigidbody;
     CapsuleCollider2D enemyCollider;
     public CircleCollider2D wallCheckCollider;
 
@@ -19,7 +19,7 @@ public class EnemyAI : MonoBehaviour, IEventListener
     public Vector2 eastWaypointPosition;
     [SerializeField] Transform lastWaypointReached;
     [SerializeField] protected float waypointOffsetMultiplier = 0.25f;
-    public Vector2 velocity;
+    public Vector2 velocity = Vector2.zero;
 
     Vector2 chaseDirection;
     public float chaseDelay;
@@ -28,14 +28,15 @@ public class EnemyAI : MonoBehaviour, IEventListener
     public GameObject playerDetectedNotification;
     private void Awake()
     {
+        enemyRigidbody = GetComponent<Rigidbody2D>();
         enemyStates = GetComponent<EnemyStates>();
         enemy = GetComponent<Enemy>();
-        enemyRigidbody = GetComponent<Rigidbody2D>();
         enemyCollider = GetComponent<CapsuleCollider2D>();
+
+        if (enemy.enemyData.enemyType == "Flying") enemyRigidbody.gravityScale = 0;
     }
     public void HandleAllMovement()
     {
-        Debug.Log("exlamation point active: " + playerDetectedNotification.activeSelf);
         if (velocity.x < 0 && facingRight) Flip();
         else if (velocity.x > 0 && !facingRight) Flip();
 
@@ -60,6 +61,7 @@ public class EnemyAI : MonoBehaviour, IEventListener
             }
             else
             {
+                playerDetectedNotification.SetActive(false);
                 Lunge();
                 isLunging = false;
             }
@@ -96,7 +98,6 @@ public class EnemyAI : MonoBehaviour, IEventListener
     }
     protected virtual void Lunge()
     {
-        playerDetectedNotification.SetActive(false);
         Vector2 direction = Vector2.right;
         if (!facingRight) direction = Vector2.left;
         enemyRigidbody.AddRelativeForce(direction * enemy.enemyData.lungeForce);
@@ -106,7 +107,7 @@ public class EnemyAI : MonoBehaviour, IEventListener
         facingRight = !facingRight;
         float xScale = transform.localScale.x;
         xScale *= -1;
-        transform.localScale = new Vector3(xScale, 1, 1);
+        transform.localScale = new Vector3(xScale, transform.localScale.y, 0);
     }
 
     protected virtual void PatrolArea()

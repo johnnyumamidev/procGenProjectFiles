@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c501edd0d902794aa75c3892a2ff4b5, type: 3}
   m_Name: GargoyleData
   m_EditorClassIdentifier: 
-  enemyType: Grounded
+  enemyType: Flying
   speed: 15
   maxHealth: 4
   detectPlayerRadius: 0.3
   attackRange: 0.1
   attackSpeed: 2
   attackRadius: 0.05
-  lungeForce: 2.2
+  lungeForce: 300
