@@ -363,9 +363,25 @@ PrefabInstance:
       propertyPath: enemyLungeEvent
       value: 
       objectReference: {fileID: 11400000, guid: 218d85f3371a21a478fbdc7603dcd84b, type: 2}
+    - target: {fileID: 4637821938144658065, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486386, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486386, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486386, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5961614246145486386, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.4399999
       objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486386, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -373,7 +389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486386, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.322676
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486386, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -419,6 +435,10 @@ PrefabInstance:
       propertyPath: enemyStates
       value: 
       objectReference: {fileID: 1150791742}
+    - target: {fileID: 6385500433272083514, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
+      propertyPath: attackPositionYOffset
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
 --- !u!114 &1150791742 stripped

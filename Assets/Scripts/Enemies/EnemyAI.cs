@@ -8,9 +8,9 @@ using static EnemyStates;
 public class EnemyAI : MonoBehaviour, IEventListener
 {
     protected Enemy enemy;
-    [SerializeField] EnemyStates enemyStates;
+    protected EnemyStates enemyStates;
     protected Rigidbody2D enemyRigidbody;
-    CapsuleCollider2D enemyCollider;
+    protected CapsuleCollider2D enemyCollider;
     public CircleCollider2D wallCheckCollider;
 
     Transform westWaypoint;
@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour, IEventListener
     [SerializeField] protected float waypointOffsetMultiplier = 0.25f;
     public Vector2 velocity = Vector2.zero;
 
-    Vector2 chaseDirection;
+    protected Vector2 chaseDirection;
     public float chaseDelay;
     bool facingRight = false;
 
@@ -56,8 +56,7 @@ public class EnemyAI : MonoBehaviour, IEventListener
             if (!isLunging)
             {
                 Debug.Log("preparing attack!");
-                playerDetectedNotification.SetActive(true);
-                SetVelocity(Vector2.zero);
+                AttackAnticipation();
             }
             else
             {
@@ -72,6 +71,12 @@ public class EnemyAI : MonoBehaviour, IEventListener
             Debug.Log(gameObject.name + " not currently attacking");
             SetVelocity(velocity);
         }
+    }
+
+    protected virtual void AttackAnticipation()
+    {
+        playerDetectedNotification.SetActive(true);
+        SetVelocity(Vector2.zero);
     }
 
     // === PROTECTED/VIRTUAL FUNCTIONS === //

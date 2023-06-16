@@ -15,8 +15,8 @@ MonoBehaviour:
   enemyType: Flying
   speed: 15
   maxHealth: 4
-  detectPlayerRadius: 0.3
-  attackRange: 0.1
+  detectPlayerRadius: 0.45
+  attackRange: 0.05
   attackSpeed: 2
-  attackRadius: 0.05
-  lungeForce: 300
+  attackRadius: 0.175
+  lungeForce: 550

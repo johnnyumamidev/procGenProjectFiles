@@ -31,6 +31,10 @@ public class EnemyStates : MonoBehaviour
         DetectPlayerSphere();
         CheckTargetWithinAttackRange();
     }
+    public void SetEnemyState(State newState)
+    {
+        currentState = newState;
+    }
 
     private void CheckTargetWithinAttackRange()
     {
@@ -41,10 +45,6 @@ public class EnemyStates : MonoBehaviour
         }
     }
 
-    public void SetEnemyState(State newState)
-    {
-        currentState = newState;
-    }
     private void DetectPlayerSphere()
     {
         Collider2D overlap = Physics2D.OverlapCircle(transform.position, enemy.enemyData.detectPlayerRadius, playerLayer);
