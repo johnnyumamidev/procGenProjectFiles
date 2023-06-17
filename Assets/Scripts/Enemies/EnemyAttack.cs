@@ -57,7 +57,7 @@ public class EnemyAttack : MonoBehaviour, IEventListener
             bullets.Add(bullet);
 
             float theta = Mathf.Atan2(firingPoint.position.x, firingPoint.position.y);
-            float spreadRadians = Mathf.PI * bulletSpread / 90f;
+            float spreadRadians = Mathf.PI * bulletSpread / 30f;
 
             float bulletSpreadMultiplier = spreadRadians * i;
 

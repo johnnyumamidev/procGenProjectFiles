@@ -587,12 +587,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486390, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
       propertyPath: chanceToFireProjecile
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486409, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
       propertyPath: m_Name
       value: Gargoyle
       objectReference: {fileID: 0}
+    - target: {fileID: 6385500433272083514, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
+      propertyPath: prepareProjectilesEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: e4ddda9bd4cf385448ca33f3edaeeb71, type: 2}
     - target: {fileID: 6385500433272083514, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
       propertyPath: rangedAttackPositions.Array.data[0]
       value: 

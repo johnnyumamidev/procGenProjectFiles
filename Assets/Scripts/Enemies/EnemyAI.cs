@@ -26,6 +26,8 @@ public class EnemyAI : MonoBehaviour, IEventListener
     [SerializeField] public bool facingRight = false;
 
     public GameObject playerDetectedNotification;
+
+    [SerializeField] protected bool projectilesFired = false;
     private void Awake()
     {
         enemyRigidbody = GetComponent<Rigidbody2D>();
@@ -161,9 +163,10 @@ public class EnemyAI : MonoBehaviour, IEventListener
     // GAME EVENTS //
     [SerializeField] GameEvent enemyLungeEvent;
     [SerializeField] UnityEvent enemyLunge;
+
     private void OnEnable()
     {
-        enemyLungeEvent.RegisterListener(this); 
+        enemyLungeEvent.RegisterListener(this);
     }
     private void OnDisable()
     {
@@ -171,7 +174,7 @@ public class EnemyAI : MonoBehaviour, IEventListener
     }
     public void OnEventRaised(GameEvent gameEvent)
     {
-        enemyLunge?.Invoke();
+        if(gameEvent == enemyLungeEvent) enemyLunge?.Invoke();
     }
     protected bool isLunging;
     public void SetLungingTrue()

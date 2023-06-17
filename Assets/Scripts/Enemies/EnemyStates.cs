@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyStates : MonoBehaviour
 {
     Enemy enemy;
+    EnemyAI enemyAi;
     public State currentState;
     public LayerMask playerLayer;
     public LayerMask obstaclesLayer;
@@ -22,6 +23,7 @@ public class EnemyStates : MonoBehaviour
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
+        enemyAi = GetComponent<EnemyAI>();
     }
     private void Start()
     {

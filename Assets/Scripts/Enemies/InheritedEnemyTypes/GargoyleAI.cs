@@ -10,6 +10,7 @@ public class GargoyleAI : EnemyAI
     public float flightHeight = 2.5f;
 
     [SerializeField] GameEvent gargoyleProjectileEvent;
+
     void Start()
     {
         SpawnPatrolPoints(gargoylePatrolModifier);
@@ -17,6 +18,7 @@ public class GargoyleAI : EnemyAI
 
     protected override void ChaseTarget()
     {
+        projectilesFired = false;
         isLunging = false;
         chaseDirection = enemyStates.targetPosition - enemyRigidbody.position;
         float yVelocity = 0;
@@ -31,20 +33,19 @@ public class GargoyleAI : EnemyAI
         {
             enemyStates.attackReady = true;
             hasRolledForRangedPosition = false;
-            projectilesFired = false;
             if (enemyStates.targetPosition.x > enemyRigidbody.position.x && !facingRight) Flip();
             else if (enemyStates.targetPosition.x < enemyRigidbody.position.x && facingRight) Flip();
         }
         velocity = new Vector2(xVelocity, yVelocity) * enemy.enemyData.speed * Time.fixedDeltaTime;
     }
-    
-    bool hasRolledForRangedPosition = false;
-    bool projectilesFired = false;
+
+    [SerializeField] bool hasRolledForRangedPosition = false;
     int index = 0;
 
     public List<Transform> rangedAttackPositions = new List<Transform>();
     protected override void PositionForProjectile()
     {
+        if (projectilesFired) projectilesFired = false;
         if (!hasRolledForRangedPosition)
         {
             index = GetRandomIndex();
@@ -62,11 +63,19 @@ public class GargoyleAI : EnemyAI
             if (enemyStates.targetPosition.x > enemyRigidbody.position.x && !facingRight) Flip();
             else if (enemyStates.targetPosition.x < enemyRigidbody.position.x && facingRight) Flip();
             if (projectilesFired) return;
+            StartCoroutine(DelayProjectileLaunch());
+        }
+    }
+    public float projectileDelay = 0.5f;
+    private IEnumerator DelayProjectileLaunch()
+    {
+        yield return new WaitForSeconds(projectileDelay);
+        if (!projectilesFired)
+        {
             gargoyleProjectileEvent.Raise();
             projectilesFired = true;
         }
     }
-
     private int GetRandomIndex()
     {
         int randomIndex = Random.Range(0, rangedAttackPositions.Count - 1);
