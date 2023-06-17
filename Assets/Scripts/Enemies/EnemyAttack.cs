@@ -11,7 +11,6 @@ public class EnemyAttack : MonoBehaviour, IEventListener
     [SerializeField] GameEvent enemyLungeEvent;
     [SerializeField] UnityEvent enemyLunge;
     [SerializeField] GameEvent projectileEvent;
-    [SerializeField] UnityEvent fireProjectile;
     Enemy enemy;
     EnemyAI enemyAI;
     EnemyStates enemyStates;
@@ -47,6 +46,7 @@ public class EnemyAttack : MonoBehaviour, IEventListener
     List<GameObject> bullets = new List<GameObject>();
     public float bulletSpeed = 20f;
     public int bulletSpread;
+    public float angleDivider = 30f;
     public Transform firingPoint;
     public void FireProjectile()
     {
@@ -57,12 +57,12 @@ public class EnemyAttack : MonoBehaviour, IEventListener
             bullets.Add(bullet);
 
             float theta = Mathf.Atan2(firingPoint.position.x, firingPoint.position.y);
-            float spreadRadians = Mathf.PI * bulletSpread / 30f;
+            float spreadRadians = Mathf.PI * bulletSpread / angleDivider;
 
             float bulletSpreadMultiplier = spreadRadians * i;
 
             Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
-            Vector2 _velocity = new Vector2(Mathf.Cos(theta - bulletSpreadMultiplier), Mathf.Sin(theta - bulletSpreadMultiplier));
+            Vector2 _velocity = new Vector2(Mathf.Cos(theta - bulletSpreadMultiplier), Mathf.Sin(theta - bulletSpreadMultiplier)) * bulletSpeed * Time.fixedDeltaTime;
             if (!enemyAI.facingRight) _velocity *= -1;
             bulletRigidbody.velocity = _velocity;
 
@@ -82,16 +82,13 @@ public class EnemyAttack : MonoBehaviour, IEventListener
     private void OnEnable()
     {
         enemyLungeEvent.RegisterListener(this);
-        projectileEvent.RegisterListener(this);
     }
     private void OnDisable()
     {
         enemyLungeEvent.UnregisterListener(this);
-        projectileEvent.UnregisterListener(this);
     }
     public void OnEventRaised(GameEvent gameEvent)
     {
         if(gameEvent == enemyLungeEvent)enemyLunge?.Invoke();
-        if(gameEvent == projectileEvent) fireProjectile?.Invoke();
     }
 }

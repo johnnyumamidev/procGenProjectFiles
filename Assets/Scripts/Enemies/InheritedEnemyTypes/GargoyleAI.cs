@@ -2,14 +2,13 @@ using Mono.Cecil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GargoyleAI : EnemyAI
 {
     public float gargoylePatrolModifier;
 
     public float flightHeight = 2.5f;
-
-    [SerializeField] GameEvent gargoyleProjectileEvent;
 
     void Start()
     {
@@ -18,7 +17,6 @@ public class GargoyleAI : EnemyAI
 
     protected override void ChaseTarget()
     {
-        projectilesFired = false;
         isLunging = false;
         chaseDirection = enemyStates.targetPosition - enemyRigidbody.position;
         float yVelocity = 0;
@@ -43,49 +41,65 @@ public class GargoyleAI : EnemyAI
     int index = 0;
 
     public List<Transform> rangedAttackPositions = new List<Transform>();
+    Transform lastPositionChosen;
     protected override void PositionForProjectile()
     {
-        if (projectilesFired) projectilesFired = false;
         if (!hasRolledForRangedPosition)
         {
+        RollRandomPosition:
             index = GetRandomIndex();
+
+            if (lastPositionChosen != null && rangedAttackPositions[index] == lastPositionChosen)
+            {
+                goto RollRandomPosition;
+            }
+            hasRolledForRangedPosition = true;
         }
+        lastPositionChosen = rangedAttackPositions[index];
         Vector2 rangedPosition = rangedAttackPositions[index].position;
         Vector2 directionToPosition = rangedPosition - enemyRigidbody.position;
 
-        if (Vector2.Distance(enemyRigidbody.position, rangedPosition) > 0.05f)
+        if (Vector2.Distance(enemyRigidbody.position, rangedPosition) > 0.01f)
         {
+            enemyStates.attackReady = false;
             velocity = new Vector2(directionToPosition.normalized.x, 0) * enemy.enemyData.speed * Time.fixedDeltaTime;
         }
         else
         {
+            enemyStates.attackReady = true;
             velocity = Vector2.zero;
             if (enemyStates.targetPosition.x > enemyRigidbody.position.x && !facingRight) Flip();
             else if (enemyStates.targetPosition.x < enemyRigidbody.position.x && facingRight) Flip();
-            if (projectilesFired) return;
-            StartCoroutine(DelayProjectileLaunch());
+            if (!enemyStates.attackReady) return;
+            else if (!projectilesFired)
+            {
+                projectileEvent.Raise();
+                StartCoroutine(ResetProjectilesFired());
+            }
         }
     }
-    public float projectileDelay = 0.5f;
-    private IEnumerator DelayProjectileLaunch()
+
+    public float projectileCooldownTime = 1f;
+    public void ProjectilesFired()
     {
-        yield return new WaitForSeconds(projectileDelay);
-        if (!projectilesFired)
+        projectilesFired = true;
+    }
+    public IEnumerator ResetProjectilesFired()
+    {
+        while (projectilesFired)
         {
-            gargoyleProjectileEvent.Raise();
-            projectilesFired = true;
+            yield return new WaitForSeconds(projectileCooldownTime);
+            projectilesFired = false;
         }
     }
     private int GetRandomIndex()
     {
         int randomIndex = Random.Range(0, rangedAttackPositions.Count - 1);
-        hasRolledForRangedPosition = true;
         return randomIndex;
     }
 
     protected override void Lunge()
     {
-        enemyStates.attackReady = false;
         enemyRigidbody.AddForce(Vector2.down * enemy.enemyData.lungeForce);
     }
 }

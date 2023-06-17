@@ -161,20 +161,25 @@ public class EnemyAI : MonoBehaviour, IEventListener
     }
     
     // GAME EVENTS //
-    [SerializeField] GameEvent enemyLungeEvent;
+    [SerializeField] protected GameEvent enemyLungeEvent;
     [SerializeField] UnityEvent enemyLunge;
 
+    [SerializeField] protected GameEvent projectileEvent;
+    [SerializeField] UnityEvent fireProjectile;
     private void OnEnable()
     {
         enemyLungeEvent.RegisterListener(this);
+        projectileEvent.RegisterListener(this);
     }
     private void OnDisable()
     {
-        enemyLungeEvent.UnregisterListener(this);   
+        enemyLungeEvent.UnregisterListener(this);
+        projectileEvent.UnregisterListener(this);
     }
     public void OnEventRaised(GameEvent gameEvent)
     {
-        if(gameEvent == enemyLungeEvent) enemyLunge?.Invoke();
+        if (gameEvent == enemyLungeEvent) enemyLunge?.Invoke();
+        if (gameEvent == projectileEvent) fireProjectile?.Invoke();
     }
     protected bool isLunging;
     public void SetLungingTrue()
