@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
 
 public class EnemyAttack : MonoBehaviour, IEventListener
 {
@@ -9,10 +10,13 @@ public class EnemyAttack : MonoBehaviour, IEventListener
     [SerializeField] GameEvent playerDamage;
     [SerializeField] GameEvent enemyLungeEvent;
     [SerializeField] UnityEvent enemyLunge;
-
+    [SerializeField] GameEvent projectileEvent;
+    [SerializeField] UnityEvent fireProjectile;
     Enemy enemy;
     EnemyStates enemyStates;
     public Transform attackPoint;
+
+    [SerializeField] GameObject enemyProjectilePrefab;
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
@@ -38,6 +42,28 @@ public class EnemyAttack : MonoBehaviour, IEventListener
         }
     }
 
+    List<GameObject> projectiles = new List<GameObject>();
+    List<GameObject> bullets = new List<GameObject>();
+    public int numberOfProjectiles = 5;
+    public float bulletSpeed = 20f;
+    public Transform firingPoint;
+
+    public void FireProjectile()
+    {
+        Debug.Log(gameObject.name + " firing projectile");
+
+        if(projectiles.Count < numberOfProjectiles)
+        {
+            GameObject bullet = Instantiate(enemyProjectilePrefab, firingPoint.position, Quaternion.identity);
+            bullets.Add(bullet);
+
+            Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
+            Vector2 bulletDirection = firingPoint.position - transform.position;
+            Vector2 _velocity = bulletDirection.normalized * bulletSpeed * Time.fixedDeltaTime;
+            bulletRigidbody.velocity = _velocity;
+        }
+    }
+
     private void OnDrawGizmos()
     {
         if(enemy != null)
@@ -49,13 +75,16 @@ public class EnemyAttack : MonoBehaviour, IEventListener
     private void OnEnable()
     {
         enemyLungeEvent.RegisterListener(this);
+        projectileEvent.RegisterListener(this);
     }
     private void OnDisable()
     {
         enemyLungeEvent.UnregisterListener(this);
+        projectileEvent.UnregisterListener(this);
     }
     public void OnEventRaised(GameEvent gameEvent)
     {
-        enemyLunge?.Invoke();
+        if(gameEvent == enemyLungeEvent)enemyLunge?.Invoke();
+        if(gameEvent == projectileEvent) fireProjectile?.Invoke();
     }
 }

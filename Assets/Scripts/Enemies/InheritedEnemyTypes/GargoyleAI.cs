@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class GargoyleAI : EnemyAI
     public float gargoylePatrolModifier;
 
     public float flightHeight = 2.5f;
+
+    [SerializeField] GameEvent gargoyleProjectileEvent;
     void Start()
     {
         SpawnPatrolPoints(gargoylePatrolModifier);
@@ -14,6 +17,7 @@ public class GargoyleAI : EnemyAI
 
     protected override void ChaseTarget()
     {
+        isLunging = false;
         chaseDirection = enemyStates.targetPosition - enemyRigidbody.position;
         float yVelocity = 0;
         float xVelocity = chaseDirection.normalized.x;
@@ -26,12 +30,49 @@ public class GargoyleAI : EnemyAI
         else
         {
             enemyStates.attackReady = true;
+            hasRolledForRangedPosition = false;
+            if (enemyStates.targetPosition.x > enemyRigidbody.position.x && !facingRight) Flip();
+            else if (enemyStates.targetPosition.x < enemyRigidbody.position.x && facingRight) Flip();
         }
         velocity = new Vector2(xVelocity, yVelocity) * enemy.enemyData.speed * Time.fixedDeltaTime;
+    }
+    
+    bool hasRolledForRangedPosition = false;
+    int index = 0;
+
+    public List<Transform> rangedAttackPositions = new List<Transform>();
+    protected override void PositionForProjectile()
+    {
+        if (!hasRolledForRangedPosition)
+        {
+            index = GetRandomIndex();
+        }
+        Vector2 rangedPosition = rangedAttackPositions[index].position;
+        Vector2 directionToPosition = rangedPosition - enemyRigidbody.position;
+
+        if (Vector2.Distance(enemyRigidbody.position, rangedPosition) > 0.05f)
+        {
+            velocity = new Vector2(directionToPosition.normalized.x, 0) * enemy.enemyData.speed * Time.fixedDeltaTime;
+        }
+        else
+        {
+            velocity = Vector2.zero;
+            gargoyleProjectileEvent.Raise();
+            if (enemyStates.targetPosition.x > enemyRigidbody.position.x && !facingRight) Flip();
+            else if (enemyStates.targetPosition.x < enemyRigidbody.position.x && facingRight) Flip();
+        }
+    }
+
+    private int GetRandomIndex()
+    {
+        int randomIndex = Random.Range(0, rangedAttackPositions.Count - 1);
+        hasRolledForRangedPosition = true;
+        return randomIndex;
     }
 
     protected override void Lunge()
     {
+        enemyStates.attackReady = false;
         enemyRigidbody.AddForce(Vector2.down * enemy.enemyData.lungeForce);
     }
 }

@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class EnemyAnimation : MonoBehaviour
+public class EnemyAnimation : MonoBehaviour, IEventListener
 {
+    Enemy enemy;
     [SerializeField] Transform enemyParentObject;
     EnemyAI enemyAi;
     EnemyStates enemyStates;
@@ -17,8 +19,10 @@ public class EnemyAnimation : MonoBehaviour
     public GameObject corpse;
 
     public GameEvent enemyLungeEvent;
+    [SerializeField] GameEvent projectileEvent;
     private void Awake()
     {
+        enemy = GetComponentInParent<Enemy>();
         if(enemyStates == null) enemyStates = GetComponentInParent<EnemyStates>();
         enemyAi = GetComponentInParent<EnemyAI>();
         if(animator == null) animator = GetComponent<Animator>();
@@ -35,7 +39,8 @@ public class EnemyAnimation : MonoBehaviour
             enemyName + "Search",
             enemyName + "Walk",
             enemyName + "Attack",
-            enemyName + "Death"
+            enemyName + "Death",
+            enemyName + "RangeAttack"
         };
     }
 
@@ -44,13 +49,19 @@ public class EnemyAnimation : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>().sprite;
         spriteMask.sprite = sprite;
 
+        animator.Play(animationStates[animatorIndex]);
+
         if (enemyStates.currentState == EnemyStates.State.Patrol) animatorIndex = 0;
         if (enemyStates.currentState == EnemyStates.State.Search) animatorIndex = 1;
         if (enemyStates.currentState == EnemyStates.State.Chase) animatorIndex = 2;
         if (enemyStates.currentState == EnemyStates.State.Attack) animatorIndex = 3;
         if (enemyStates.currentState == EnemyStates.State.Dead) animatorIndex = 4;
+        if (!enemy.enemyData.hasRangedWeapon) return;
 
-        animator.Play(animationStates[animatorIndex]);
+        if (enemyStates.currentState == EnemyStates.State.RangedAttack)
+        {
+            animatorIndex = ProjectileAnimationState();
+        }
     }
 
     private void Lunge()
@@ -62,6 +73,7 @@ public class EnemyAnimation : MonoBehaviour
     private void EndAttackState()
     {
         enemyStates.SetEnemyState(EnemyStates.State.Chase);
+        if(isFiringProjectile) isFiringProjectile = false;
     }
 
     private void SpawnCorpse()
@@ -70,5 +82,25 @@ public class EnemyAnimation : MonoBehaviour
         SpriteRenderer corpseSprite = _corpse.GetComponent<SpriteRenderer>();
         corpseSprite.sprite = sprite;
         Destroy(enemyParentObject.gameObject);
+    }
+
+    bool isFiringProjectile = false;
+    public int ProjectileAnimationState()
+    {
+        if (!isFiringProjectile) return 0;
+        else { return 5; }
+    }
+
+    private void OnEnable()
+    {
+        projectileEvent.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        projectileEvent.UnregisterListener(this);
+    }
+    public void OnEventRaised(GameEvent gameEvent)
+    {
+        if(gameEvent == projectileEvent) isFiringProjectile = true;
     }
 }

@@ -23,7 +23,7 @@ public class EnemyAI : MonoBehaviour, IEventListener
 
     protected Vector2 chaseDirection;
     public float chaseDelay;
-    bool facingRight = false;
+    [SerializeField] protected bool facingRight = false;
 
     public GameObject playerDetectedNotification;
     private void Awake()
@@ -35,41 +35,52 @@ public class EnemyAI : MonoBehaviour, IEventListener
 
         if (enemy.enemyData.enemyType == "Flying") enemyRigidbody.gravityScale = 0;
     }
+
+    protected bool isFiringProjectile;
     public void HandleAllMovement()
     {
         if (velocity.x < 0 && facingRight) Flip();
         else if (velocity.x > 0 && !facingRight) Flip();
 
-        if (enemyStates.currentState == EnemyStates.State.Patrol) PatrolArea();
-        if (enemyStates.currentState == EnemyStates.State.Search) { return; }
-        if (enemyStates.currentState == EnemyStates.State.Chase) ChaseTarget();
+        if (enemyStates.currentState == State.Patrol) PatrolArea();
+        if (enemyStates.currentState == State.Search) { return; }
+        if (enemyStates.currentState == State.Chase) ChaseTarget();
 
-        if (enemyStates.currentState == EnemyStates.State.Dead)
+        if (enemyStates.currentState == State.Dead)
         {
             enemyRigidbody.isKinematic = true;
             enemyCollider.enabled = false;
             enemyRigidbody.velocity = Vector2.zero;
         }
 
-        if (enemyStates.currentState == EnemyStates.State.Attack)
+        if(enemyStates.currentState == State.RangedAttack)
         {
+            PositionForProjectile();
+        }
+
+        if (enemyStates.currentState == State.Attack)
+        {
+            enemyStates.attackReady = false;
             if (!isLunging)
             {
                 AttackAnticipation();
             }
-            else
+            else if (isLunging)
             {
                 playerDetectedNotification.SetActive(false);
                 Lunge();
-                isLunging = false;
             }
         }
         else
         {
             playerDetectedNotification.SetActive(false);
-            Debug.Log(gameObject.name + " not currently attacking");
             SetVelocity(velocity);
         }
+    }
+
+    protected virtual void PositionForProjectile()
+    {
+        Debug.Log("preparing projectile");
     }
 
     protected virtual void AttackAnticipation()
@@ -140,6 +151,7 @@ public class EnemyAI : MonoBehaviour, IEventListener
 
     protected virtual void ChaseTarget()
     {
+        isLunging = false;
         chaseDirection = enemyStates.targetPosition - enemyRigidbody.position;
         if (chaseDirection.x > 0 && !facingRight) Flip();
         else if(chaseDirection.x < 0 && facingRight) Flip();
@@ -161,7 +173,7 @@ public class EnemyAI : MonoBehaviour, IEventListener
     {
         enemyLunge?.Invoke();
     }
-    bool isLunging;
+    protected bool isLunging;
     public void SetLungingTrue()
     {
         isLunging = true;

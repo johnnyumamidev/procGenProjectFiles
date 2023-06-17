@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,9 +14,10 @@ public class EnemyStates : MonoBehaviour
     public Transform attackHitbox;
 
     public bool attackReady = true;
+    public int chanceToFireProjecile = 5;
     public enum State
     {
-        Patrol, Chase, Attack, Search, Dead
+        Patrol, Chase, Attack, Search, Dead, RangedAttack
     }
     private void Awake()
     {
@@ -32,11 +32,43 @@ public class EnemyStates : MonoBehaviour
     public void HandleStates()
     {
         if (currentState == State.Dead) return;
+        if (enemy.enemyData.hasRangedWeapon) HandleRandomRangedAttack();
         DetectPlayerSphere();
-        if (!attackReady) return;
-        CheckTargetWithinAttackRange();
+        if (currentState == State.RangedAttack) return;
+        else
+        {
+            if (!attackReady) return;
+            CheckTargetWithinAttackRange();
+        }
     }
-    public void SetEnemyState(State newState)
+    bool hasRolled;
+    public float rollCooldownTime = 3f;
+    float rollCooldown;
+    private void HandleRandomRangedAttack()
+    {
+        if (!hasRolled) rollCooldown = rollCooldownTime;
+        if (currentState == State.Chase && !hasRolled && attackReady)
+        {
+            int randomRoll = Random.Range(0, 10);
+            hasRolled = true;
+            if (randomRoll >= chanceToFireProjecile)
+            {
+                Debug.Log(randomRoll + ", roll succeeded! firing projectile!");
+                currentState = State.RangedAttack;
+            }
+            else
+            {
+                Debug.Log(randomRoll + ", roll failed! will not fire projectile");
+                currentState = State.Chase;
+            }
+        }
+
+        if (hasRolled && rollCooldown > 0)
+            rollCooldown -= Time.deltaTime;
+        else { hasRolled = false; }
+    }
+
+        public void SetEnemyState(State newState)
     {
         currentState = newState;
     }
@@ -44,7 +76,7 @@ public class EnemyStates : MonoBehaviour
     private void CheckTargetWithinAttackRange()
     {
         Collider2D attackRange = Physics2D.OverlapCircle(attackHitbox.position, enemy.enemyData.attackRange, playerLayer);
-        if (attackRange)
+        if (attackRange && currentState != State.RangedAttack)
         {
             SetEnemyState(State.Attack);
         }
@@ -57,6 +89,8 @@ public class EnemyStates : MonoBehaviour
         {
             Vector2 playerPosition = overlap.transform.position;
             targetPosition = playerPosition;
+
+            if (currentState == State.RangedAttack) return;
             Vector2 enemyPosition = transform.position;
             float rayCastRange = Vector2.Distance(playerPosition, enemyPosition);
             RaycastHit2D lineOfSight = Physics2D.Raycast(enemyPosition, DirectionToTarget(playerPosition, enemyPosition), rayCastRange, obstaclesLayer);

@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemyData : ScriptableObject
 {
     public string enemyType;
+    public bool hasRangedWeapon;
 
     [Header("Movement")]
     public float speed;
