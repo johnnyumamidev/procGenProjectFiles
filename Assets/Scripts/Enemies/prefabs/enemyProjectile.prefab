@@ -139,4 +139,4 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  playerDamageEvent: {fileID: 0}
+  playerDamageEvent: {fileID: 11400000, guid: ced1e306c53c4f34e963f9f6edb0ba8f, type: 2}

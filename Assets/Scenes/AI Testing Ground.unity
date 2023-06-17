@@ -527,12 +527,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5961614246145486384, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
       propertyPath: bulletSpeed
-      value: 42
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486384, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
       propertyPath: firingPoint
       value: 
       objectReference: {fileID: 1333886269}
+    - target: {fileID: 5961614246145486384, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
+      propertyPath: bulletSpread
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486386, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -583,7 +587,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486390, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
       propertyPath: chanceToFireProjecile
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5961614246145486409, guid: 136dae1dbe3efd243b991314dcb5486b, type: 3}
       propertyPath: m_Name
@@ -633,7 +637,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1333886268}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.064286225, y: -0.014274456, z: 0}
+  m_LocalPosition: {x: -0.05714334, y: 0.050011776, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

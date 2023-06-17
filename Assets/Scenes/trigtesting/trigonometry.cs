@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 public class trigonometry : MonoBehaviour
 {
     public GameObject triangleBullet;
@@ -28,8 +28,7 @@ public class trigonometry : MonoBehaviour
         bulletFiredTime += Time.deltaTime;
         if(bulletFiredTime >= bulletLifetime)
         {
-            Destroy(bullets[0]);
-            bullets.RemoveAt(0);
+            foreach(GameObject bullet in bullets) { Destroy(bullet); }
             bulletFiredTime = 0;
         }
     }
@@ -40,17 +39,21 @@ public class trigonometry : MonoBehaviour
         float reticleYPos = reticle.position.y;
         float theta = Mathf.Atan2(reticleYPos, reticleXPos);
 
-        for(int i = 1; i <= bulletSpread; i++)
+        float spreadRadians = Mathf.PI * bulletSpread / 90f;
+
+        for(int i = 0; i <= bulletSpread; i++)
         {
             GameObject bullet = Instantiate(triangleBullet, transform.position, Quaternion.identity);
             bullets.Add(bullet);
 
+            float bulletSpreadMultiplier = spreadRadians * i;
             Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
-            Vector2 _velocity = new Vector2(Mathf.Cos(theta), Mathf.Sin(theta));
+            Vector2 _velocity = new Vector2(Mathf.Cos(theta + bulletSpreadMultiplier), Mathf.Sin(theta + bulletSpreadMultiplier));
             bulletRigidbody.velocity = _velocity.normalized * bulletSpeed;
 
             float reticlePosInDegrees = Mathf.Rad2Deg * theta;
             bullet.transform.rotation = Quaternion.Euler(0, 0, reticlePosInDegrees - 90);
         }
     }
+
 }

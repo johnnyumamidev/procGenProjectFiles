@@ -467,10 +467,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triangleBullet: {fileID: 1714565531913494625, guid: 14ed3aaa7aa43d741a1f8f63e5ce0d76, type: 3}
-  bulletLifetime: 0.25
-  bulletSpeed: 12
+  bulletLifetime: 1.25
+  bulletSpeed: 4
   reticle: {fileID: 960643459}
-  bulletSpread: 1
+  bulletSpread: 6
 --- !u!212 &1794166121
 SpriteRenderer:
   m_ObjectHideFlags: 0

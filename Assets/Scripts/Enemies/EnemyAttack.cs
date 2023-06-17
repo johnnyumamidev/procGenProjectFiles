@@ -13,6 +13,7 @@ public class EnemyAttack : MonoBehaviour, IEventListener
     [SerializeField] GameEvent projectileEvent;
     [SerializeField] UnityEvent fireProjectile;
     Enemy enemy;
+    EnemyAI enemyAI;
     EnemyStates enemyStates;
     public Transform attackPoint;
 
@@ -20,6 +21,7 @@ public class EnemyAttack : MonoBehaviour, IEventListener
     private void Awake()
     {
         enemy = GetComponent<Enemy>();
+        enemyAI = GetComponent<EnemyAI>();
         enemyStates = GetComponent<EnemyStates>();
     }
     private void Start()
@@ -42,25 +44,30 @@ public class EnemyAttack : MonoBehaviour, IEventListener
         }
     }
 
-    List<GameObject> projectiles = new List<GameObject>();
     List<GameObject> bullets = new List<GameObject>();
-    public int numberOfProjectiles = 5;
     public float bulletSpeed = 20f;
+    public int bulletSpread;
     public Transform firingPoint;
-
     public void FireProjectile()
     {
         Debug.Log(gameObject.name + " firing projectile");
-
-        if(projectiles.Count < numberOfProjectiles)
+        for (int i = 0; i < bulletSpread; i++)
         {
             GameObject bullet = Instantiate(enemyProjectilePrefab, firingPoint.position, Quaternion.identity);
             bullets.Add(bullet);
 
+            float theta = Mathf.Atan2(firingPoint.position.x, firingPoint.position.y);
+            float spreadRadians = Mathf.PI * bulletSpread / 90f;
+
+            float bulletSpreadMultiplier = spreadRadians * i;
+
             Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
-            Vector2 bulletDirection = firingPoint.position - transform.position;
-            Vector2 _velocity = bulletDirection.normalized * bulletSpeed * Time.fixedDeltaTime;
+            Vector2 _velocity = new Vector2(Mathf.Cos(theta - bulletSpreadMultiplier), Mathf.Sin(theta - bulletSpreadMultiplier));
+            if (!enemyAI.facingRight) _velocity *= -1;
             bulletRigidbody.velocity = _velocity;
+
+            float reticlePosInDegrees = Mathf.Rad2Deg * theta;
+            bullet.transform.rotation = Quaternion.Euler(0, 0, reticlePosInDegrees - 90);
         }
     }
 

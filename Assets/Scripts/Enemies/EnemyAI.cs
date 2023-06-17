@@ -23,7 +23,7 @@ public class EnemyAI : MonoBehaviour, IEventListener
 
     protected Vector2 chaseDirection;
     public float chaseDelay;
-    [SerializeField] protected bool facingRight = false;
+    [SerializeField] public bool facingRight = false;
 
     public GameObject playerDetectedNotification;
     private void Awake()

@@ -31,6 +31,7 @@ public class GargoyleAI : EnemyAI
         {
             enemyStates.attackReady = true;
             hasRolledForRangedPosition = false;
+            projectilesFired = false;
             if (enemyStates.targetPosition.x > enemyRigidbody.position.x && !facingRight) Flip();
             else if (enemyStates.targetPosition.x < enemyRigidbody.position.x && facingRight) Flip();
         }
@@ -38,6 +39,7 @@ public class GargoyleAI : EnemyAI
     }
     
     bool hasRolledForRangedPosition = false;
+    bool projectilesFired = false;
     int index = 0;
 
     public List<Transform> rangedAttackPositions = new List<Transform>();
@@ -57,9 +59,11 @@ public class GargoyleAI : EnemyAI
         else
         {
             velocity = Vector2.zero;
-            gargoyleProjectileEvent.Raise();
             if (enemyStates.targetPosition.x > enemyRigidbody.position.x && !facingRight) Flip();
             else if (enemyStates.targetPosition.x < enemyRigidbody.position.x && facingRight) Flip();
+            if (projectilesFired) return;
+            gargoyleProjectileEvent.Raise();
+            projectilesFired = true;
         }
     }
 
