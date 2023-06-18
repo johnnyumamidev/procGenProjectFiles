@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,10 @@ public class PlayerLocomotion : MonoBehaviour
     Rigidbody2D rigidBody;
 
     public bool isGrounded;
+    public bool isDodging;
+    float dodgeRollCooldownLength = 1f;
+    public float dodgeRollStartup = 0.3f;
+    [SerializeField] Vector2 dodgeDirection = new Vector2(1, 0.5f);
     float _moveSpeed;
     [SerializeField]private int remainingJumps;
     [SerializeField] float timeSinceFalling;
@@ -62,10 +67,38 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleAllMovement()
     {
-        HandleWalking();
-        HandleJump();
-        HandleClimbing();
+        if (isDodging) return;
+        else
+        {
+            HandleWalking();
+            HandleJump();
+            HandleClimbing();
+        }
         HandleHurtLaunch(playerHealth.playerHurtState);
+        HandleDodge();
+    }
+
+    private void HandleDodge()
+    {
+        if (playerInput.performDodge != 0 && !isDodging && isGrounded) 
+        {
+            StartCoroutine(DodgeRollCooldown());
+        }
+    }
+    private IEnumerator DodgeRollCooldown()
+    {
+        isDodging = true;
+        yield return new WaitForSeconds(dodgeRollStartup);
+
+        if ((!facingRight && dodgeDirection.x > 0) || (facingRight && dodgeDirection.x < 0))
+            dodgeDirection.x *= -1;
+        rigidBody.AddForce(dodgeDirection * playerData.dodgeForce, ForceMode2D.Impulse);
+
+        while (isDodging)
+        {
+            yield return new WaitForSeconds(dodgeRollCooldownLength);
+            isDodging = false;
+        }
     }
 
     private void HandleHurtLaunch(bool hurtState)

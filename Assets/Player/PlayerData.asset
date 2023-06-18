@@ -20,6 +20,7 @@ MonoBehaviour:
   maxSpeed: 3
   moveSpeed: 26
   jumpForce: 2.3
+  dodgeForce: 1.2
   groundCheckRadius: 0.0125
   groundLayer:
     serializedVersion: 2

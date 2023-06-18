@@ -23,6 +23,7 @@ public class PlayerData : ScriptableObject
     public float maxSpeed = 3;
     public float moveSpeed = 3;
     public float jumpForce = 3;
+    public float dodgeForce = 3;
 
     [Header("Grounded Checks")]
     public float groundCheckRadius;

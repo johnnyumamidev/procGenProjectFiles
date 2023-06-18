@@ -13,6 +13,7 @@ public class PlayerInput : MonoBehaviour
     InputAction attack;
     InputAction aim;
     InputAction shoot;
+    InputAction dodge;
 
     public float performCancel;
     public Vector2 movementInput;
@@ -21,6 +22,7 @@ public class PlayerInput : MonoBehaviour
     public float performAttack;
     public Vector2 aimDirection;
     public float performShoot;
+    public float performDodge;
     private void Awake()
     {
         inputActions = new PlayerInputActions();
@@ -38,12 +40,14 @@ public class PlayerInput : MonoBehaviour
         attack = inputActions.Player.Attack;
         aim = inputActions.Player.Aim;
         shoot = inputActions.Player.Shoot;
+        dodge = inputActions.Player.Dodge;
         movement.Enable();
         jump.Enable();
         interact.Enable();
         attack.Enable();
         aim.Enable();
         shoot.Enable();
+        dodge.Enable();
     }
 
     private void OnDisable()
@@ -56,6 +60,7 @@ public class PlayerInput : MonoBehaviour
         attack.Disable();
         aim.Disable();
         shoot.Disable();
+        dodge.Disable();
     }
 
     public void HandleAllInputs()
@@ -68,5 +73,6 @@ public class PlayerInput : MonoBehaviour
         performAttack = attack.ReadValue<float>();
         aimDirection = aim.ReadValue<Vector2>();
         performShoot = shoot.ReadValue<float>();
+        performDodge = dodge.ReadValue<float>();
     }
 }

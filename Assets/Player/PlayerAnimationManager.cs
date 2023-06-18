@@ -90,6 +90,7 @@ public class PlayerAnimationManager : MonoBehaviour, IEventListener
 
         if (playerHealth.playerHurtState) animStateIndex = 10;
         if (playerHealth.currentHealth == 0) animStateIndex = 11;
+        if (playerLocomotion.isDodging) animStateIndex = 15;
     }
 
     [SerializeField] GameEvent playerSpawnEvent;

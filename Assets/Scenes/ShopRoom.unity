@@ -373,6 +373,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: player
       objectReference: {fileID: 0}
+    - target: {fileID: 6614855453520299886, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
+      propertyPath: animStates.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6614855453520299886, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
+      propertyPath: animStates.Array.data[14]
+      value: Dodge
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
 --- !u!1 &397383414
