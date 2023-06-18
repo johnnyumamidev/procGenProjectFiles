@@ -404,6 +404,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   targetPosition: {x: 0, y: 0}
+  attackHitbox: {fileID: 4637821938144658065}
+  attackReady: 1
+  chanceToFireProjecile: 5
+  rollCooldownTime: 3
 --- !u!114 &5961614246145486384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,8 +438,15 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  projectileEvent: {fileID: 0}
   attackPoint: {fileID: 4637821938144658065}
-  attackActive: 0
+  enemyProjectilePrefab: {fileID: 0}
+  bulletSpeed: 20
+  bulletSpread: 0
+  angleMultiplier: 2
+  firingPoint: {fileID: 0}
+  reticle: {fileID: 0}
+  bulletSpreadAngle: 0
 --- !u!114 &4213994224559800261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -485,7 +496,9 @@ MonoBehaviour:
   waypointOffsetMultiplier: 0.25
   velocity: {x: 0, y: 0}
   chaseDelay: 0
+  facingRight: 0
   playerDetectedNotification: {fileID: 8507404225531032745}
+  projectilesFired: 0
   enemyLungeEvent: {fileID: 11400000, guid: 218d85f3371a21a478fbdc7603dcd84b, type: 2}
   enemyLunge:
     m_PersistentCalls:
@@ -502,6 +515,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5961614246145486390}
+        m_TargetAssemblyTypeName: EnemyStates, Assembly-CSharp
+        m_MethodName: ReadyAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  projectileEvent: {fileID: 11400000, guid: 120647fa01b22eb41a09e5db2875aed3, type: 2}
+  fireProjectile:
+    m_PersistentCalls:
+      m_Calls: []
   waypointMultiplier: 0.5
 --- !u!1 &6530765280802745200
 GameObject:
@@ -629,6 +658,7 @@ MonoBehaviour:
   animationStates: []
   corpse: {fileID: 4662250216327620568, guid: 02dce17e01391414dba67a384fc2134f, type: 3}
   enemyLungeEvent: {fileID: 11400000, guid: 218d85f3371a21a478fbdc7603dcd84b, type: 2}
+  projectileEvent: {fileID: 11400000, guid: 120647fa01b22eb41a09e5db2875aed3, type: 2}
 --- !u!331 &1690234238463045775
 SpriteMask:
   m_ObjectHideFlags: 0

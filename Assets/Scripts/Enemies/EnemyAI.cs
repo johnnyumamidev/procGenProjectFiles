@@ -41,6 +41,8 @@ public class EnemyAI : MonoBehaviour, IEventListener
     protected bool isFiringProjectile;
     public void HandleAllMovement()
     {
+        chaseDirection = enemyStates.targetPosition - enemyRigidbody.position;
+
         if (velocity.x < 0 && facingRight) Flip();
         else if (velocity.x > 0 && !facingRight) Flip();
 
@@ -62,9 +64,9 @@ public class EnemyAI : MonoBehaviour, IEventListener
 
         if (enemyStates.currentState == State.Attack)
         {
-            enemyStates.attackReady = false;
             if (!isLunging)
             {
+                enemyStates.attackReady = false;
                 AttackAnticipation();
             }
             else if (isLunging)
@@ -115,9 +117,8 @@ public class EnemyAI : MonoBehaviour, IEventListener
     }
     protected virtual void Lunge()
     {
-        Vector2 direction = Vector2.right;
-        if (!facingRight) direction = Vector2.left;
-        enemyRigidbody.AddRelativeForce(direction * enemy.enemyData.lungeForce);
+        enemyRigidbody.AddRelativeForce(chaseDirection * enemy.enemyData.lungeForce);
+        isLunging = false;
     }
     protected void Flip()
     {
@@ -154,7 +155,6 @@ public class EnemyAI : MonoBehaviour, IEventListener
     protected virtual void ChaseTarget()
     {
         isLunging = false;
-        chaseDirection = enemyStates.targetPosition - enemyRigidbody.position;
         if (chaseDirection.x > 0 && !facingRight) Flip();
         else if(chaseDirection.x < 0 && facingRight) Flip();
         velocity = chaseDirection.normalized * enemy.enemyData.speed * Time.fixedDeltaTime;

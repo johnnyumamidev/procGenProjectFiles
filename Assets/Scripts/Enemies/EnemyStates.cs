@@ -39,7 +39,6 @@ public class EnemyStates : MonoBehaviour
         if (currentState == State.RangedAttack) return;
         else
         {
-            if (!attackReady) return;
             CheckTargetWithinAttackRange();
         }
     }
@@ -113,6 +112,10 @@ public class EnemyStates : MonoBehaviour
         return _directionToTarget;
     }
 
+    public void ReadyAttack()
+    {
+        attackReady = true;
+    }
     Vector2 directionToTarget;
     private void OnDrawGizmos()
     {

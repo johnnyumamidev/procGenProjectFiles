@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: batData
   m_EditorClassIdentifier: 
   enemyType: Flying
+  hasRangedWeapon: 0
   speed: 9
   maxHealth: 2
   detectPlayerRadius: 0.5
-  attackRange: 0.1
+  attackRange: 0.6
   attackSpeed: 0
   attackRadius: 0.05
-  lungeForce: 225
+  lungeForce: 1200

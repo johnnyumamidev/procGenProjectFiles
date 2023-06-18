@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: SkeletonData
   m_EditorClassIdentifier: 
   enemyType: Grounded
+  hasRangedWeapon: 0
   speed: 7.5
   maxHealth: 4
   detectPlayerRadius: 0.3
   attackRange: 0.1
   attackSpeed: 2
   attackRadius: 0.03
-  lungeForce: 125
+  lungeForce: 600
