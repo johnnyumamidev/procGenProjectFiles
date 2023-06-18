@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: Flying
   hasRangedWeapon: 1
-  speed: 16
+  speed: 18
   maxHealth: 16
   detectPlayerRadius: 1.25
   attackRange: 0.2

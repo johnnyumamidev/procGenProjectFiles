@@ -49,19 +49,23 @@ public class GargoyleAI : EnemyAI
         RollRandomPosition:
             index = GetRandomIndex();
 
-            if (lastPositionChosen != null && rangedAttackPositions[index] == lastPositionChosen)
+            if (rangedAttackPositions[index] == lastPositionChosen)
             {
+                if (lastPositionChosen == null) return;
+                Debug.Log("repeated position, getting new firing position");
                 goto RollRandomPosition;
             }
-            hasRolledForRangedPosition = true;
+            else
+            {
+                Debug.Log("position found, going to firing position");
+                hasRolledForRangedPosition = true;
+            }
         }
         lastPositionChosen = rangedAttackPositions[index];
         Vector2 rangedPosition = rangedAttackPositions[index].position;
         Vector2 directionToPosition = rangedPosition - enemyRigidbody.position;
-
         if (Vector2.Distance(enemyRigidbody.position, rangedPosition) > 0.01f)
         {
-            enemyStates.attackReady = false;
             velocity = new Vector2(directionToPosition.normalized.x, 0) * enemy.enemyData.speed * Time.fixedDeltaTime;
         }
         else

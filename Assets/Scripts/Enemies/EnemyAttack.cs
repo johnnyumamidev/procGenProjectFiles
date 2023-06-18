@@ -46,28 +46,27 @@ public class EnemyAttack : MonoBehaviour, IEventListener
     List<GameObject> bullets = new List<GameObject>();
     public float bulletSpeed = 20f;
     public int bulletSpread;
-    public float angleDivider = 30f;
+    public float angleMultiplier = 2;
     public Transform firingPoint;
+    public Transform reticle;
+    public float bulletSpreadAngle;
     public void FireProjectile()
     {
         Debug.Log(gameObject.name + " firing projectile");
         for (int i = 0; i < bulletSpread; i++)
         {
+            
             GameObject bullet = Instantiate(enemyProjectilePrefab, firingPoint.position, Quaternion.identity);
             bullets.Add(bullet);
 
-            float theta = Mathf.Atan2(firingPoint.position.x, firingPoint.position.y);
-            float spreadRadians = Mathf.PI * bulletSpread / angleDivider;
-
-            float bulletSpreadMultiplier = spreadRadians * i;
-
-            Rigidbody2D bulletRigidbody = bullet.GetComponent<Rigidbody2D>();
-            Vector2 _velocity = new Vector2(Mathf.Cos(theta - bulletSpreadMultiplier), Mathf.Sin(theta - bulletSpreadMultiplier)) * bulletSpeed * Time.fixedDeltaTime;
-            if (!enemyAI.facingRight) _velocity *= -1;
-            bulletRigidbody.velocity = _velocity;
-
-            float reticlePosInDegrees = Mathf.Rad2Deg * theta;
-            bullet.transform.rotation = Quaternion.Euler(0, 0, reticlePosInDegrees - 90);
+            Vector2 centerVector = reticle.position - firingPoint.position;
+            float centerVectorAngle= Mathf.Atan2(centerVector.x, centerVector.y);
+            float remainingAngle = Mathf.PI / 2 - centerVectorAngle;
+            bulletSpreadAngle = (centerVectorAngle + remainingAngle) * angleMultiplier;
+            float angleStep = (bulletSpreadAngle / bulletSpread) * i;
+           
+            EnemyProjectileBehavior projectileBehavior = bullet.GetComponent<EnemyProjectileBehavior>();
+            projectileBehavior.SetVelocity(centerVectorAngle, angleStep, enemyAI.facingRight);
         }
     }
 
