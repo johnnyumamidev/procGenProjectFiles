@@ -35,6 +35,8 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
     public bool currentlyHoldingItem = false;
     public IInteractable currentlyHeldItem;
 
+    public bool hasKey = false;
+
     bool npcDetected;
     NPC currentNPC;
     private void Awake()
