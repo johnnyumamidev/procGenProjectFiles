@@ -1,0 +1,53 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+using UnityEngine;
+
+public class BoltBehavior : MonoBehaviour, ICollectable
+{
+    Rigidbody2D boltRigidbody;
+    public Collider2D boltCollider;
+    public LayerMask playerLayer;
+    public LayerMask groundLayer;
+    public float boltSpeed = 10f;
+    public Vector2 boltDirection;
+
+    [SerializeField] GameEvent collectBolt;
+    private void Awake()
+    {
+        boltRigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        boltRigidbody.AddForce(boltDirection * boltSpeed);
+    }
+
+    private void Update()
+    {
+        if (boltCollider.IsTouchingLayers(playerLayer))
+        {
+            Debug.Log("bolt collected");
+            Collect();
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(((1 << collision.gameObject.layer) & groundLayer) != 0)
+        {
+            Rigidbody2D bolt = GetComponent<Rigidbody2D>();
+            bolt.velocity = Vector2.zero;
+            bolt.isKinematic = true;
+            Vector2 point;
+            point = collision.GetContact(0).point;
+            transform.position = point;
+            bolt.freezeRotation = true;
+        }
+    }
+    public void Collect()
+    {
+        collectBolt.Raise();
+        Destroy(gameObject); 
+    }
+}

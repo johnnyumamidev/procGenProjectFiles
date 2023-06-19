@@ -32,7 +32,7 @@ public class GrapplingHook : MonoBehaviour
         playerPosition = player.position;
         point = playerInput.aimDirection.normalized * hookRange;
 
-        if (!aimingHook && playerInput.performShoot != 0)
+        if (!aimingHook && playerInput.performThrow != 0)
         {
             AimHook();
             aimingHook = true;

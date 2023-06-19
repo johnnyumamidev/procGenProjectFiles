@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Key : MonoBehaviour
+public class Key : MonoBehaviour, ICollectable
 {
     public float delayTime = 0.5f;
     Collider2D detectPlayer;
@@ -25,14 +25,18 @@ public class Key : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.GetComponent<PlayerInteraction>().hasKey = true;
-            keyTakenEvent.Raise();
-            DestroyKey();
+            Collect();
         }
     }
 
     public void DestroyKey()
     {
         Destroy(this.gameObject);
+    }
+
+    public void Collect()
+    {
+        keyTakenEvent.Raise();
+        DestroyKey();
     }
 }

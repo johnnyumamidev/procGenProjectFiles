@@ -130,15 +130,7 @@ public class PlayerLocomotion : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Chain"))
         {
-            if (playerInteraction.currentlyHoldingItem)
-            {
-                Debug.Log("currently holding item, cannot climb");
-                chain = null;
-            }
-            else
-            {
-                chain = collision;
-            }
+            chain = collision;
         }
     }
     private void FlipDirection()

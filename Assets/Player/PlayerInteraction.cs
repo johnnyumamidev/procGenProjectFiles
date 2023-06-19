@@ -117,11 +117,6 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
             }
         }
 
-        if (currentlyHoldingItem && playerHealth.playerHurtState)
-        {
-            Debug.Log("hurt !! dropping " + currentlyHeldItem.interactableObject.name);
-            if(currentlyHeldItem.GetType().ToString() != "Weapon") DropCurrentlyHeldItem();
-        }
         if(currentlyHoldingItem) { pointer.SetActive(false); }
     }
 
@@ -133,6 +128,11 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
         currentlyHeldItem = null;
     }
 
+    public void KeyCollected()
+    {
+        hasKey = true;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
@@ -141,16 +141,25 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
 
     [SerializeField] GameEvent unlockEvent;
     [SerializeField] UnityEvent unlock;
+    [SerializeField] GameEvent keyTakenEvent;
+    [SerializeField] UnityEvent keyTaken;
+
     private void OnEnable()
     {
         unlockEvent.RegisterListener(this);
+        keyTakenEvent.RegisterListener(this);
     }
     private void OnDisable()
     {
         unlockEvent.UnregisterListener(this);
+        keyTakenEvent.UnregisterListener(this);
     }
     public void OnEventRaised(GameEvent gameEvent)
     {
-        unlock?.Invoke();
+        if(gameEvent == unlockEvent) 
+            unlock?.Invoke();
+
+        if(gameEvent == keyTakenEvent)
+            keyTaken?.Invoke();
     }
 }

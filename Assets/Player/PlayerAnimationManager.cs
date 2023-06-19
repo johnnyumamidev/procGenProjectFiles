@@ -75,6 +75,11 @@ public class PlayerAnimationManager : MonoBehaviour, IEventListener
         
         if (playerInteraction.currentlyHoldingItem)
         {
+            if(playerLocomotion.isClimbing)
+            {
+                animStateIndex = 5;
+                return;
+            }
             var itemType = playerInteraction.currentlyHeldItem.GetType();
             if (itemType.ToString() == "Weapon")
             {
