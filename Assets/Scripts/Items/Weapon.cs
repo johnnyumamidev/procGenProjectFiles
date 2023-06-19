@@ -22,7 +22,6 @@ public class Weapon : Item, IEventListener
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = weaponData.weaponSprite;
-        this.gameObject.name = weaponData.weaponType;
     }
     protected override void Update()
     {
@@ -45,10 +44,12 @@ public class Weapon : Item, IEventListener
     }
     private void OnEnable()
     {
-        attackActiveEvent.RegisterListener(this);
-        attackInactiveEvent.RegisterListener(this);
-        playerFacingRight.RegisterListener(this);
-        playerFacingLeft.RegisterListener(this);
+        if(attackActiveEvent != null) attackActiveEvent.RegisterListener(this);
+        if(attackInactiveEvent != null) attackInactiveEvent.RegisterListener(this);
+        if (playerFacingRight != null)
+            playerFacingRight.RegisterListener(this);
+        if (playerFacingLeft != null)
+            playerFacingLeft.RegisterListener(this);
     }
     private void OnDisable()
     {

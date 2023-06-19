@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,9 +12,10 @@ public class PlayerAttack : MonoBehaviour, IEventListener
     [SerializeField] GameEvent fireProjectileEvent;
     [SerializeField] UnityEvent fireBolt;
 
-
     public Transform firingPoint;
     public GameObject boltPrefab;
+
+    Transform rangedWeapon;
 
     PlayerInteraction playerInteraction;
     PlayerInput playerInput;
@@ -28,8 +30,24 @@ public class PlayerAttack : MonoBehaviour, IEventListener
 
     public void HandleAllAttackActions()
     {
-        HandlePlayerAttack();
-        HandleRangedAttack();
+        if (!playerInteraction.currentlyHoldingItem) return;
+
+        if(playerInteraction.currentlyHoldingItem)
+        {
+            rangedWeapon = playerInteraction.itemObject.transform;
+        }
+        Weapon playerWeapon = rangedWeapon.GetComponent<Weapon>();
+        if (playerWeapon == null) return;
+
+        if (playerWeapon.weaponData.isRangedWeapon)
+        {
+            HandleRangedAttack();
+            return;
+        }
+        else
+        {
+            HandleMeleeAttack();
+        }
     }
     bool boltFired;
     public float crossbowCooldownTime = 1f;
@@ -48,7 +66,7 @@ public class PlayerAttack : MonoBehaviour, IEventListener
 
         firingDirection = firingPoint.position - firingPointPivot.position;
         firingPointPivot.rotation = Quaternion.Euler(0,0,firingAngle);
-
+        rangedWeapon.rotation = firingPoint.rotation;
         if(playerInput.performShoot != 0 && !boltFired)
         {
             fireProjectileEvent.Raise();
@@ -76,10 +94,8 @@ public class PlayerAttack : MonoBehaviour, IEventListener
             boltFired = false;
         }
     }
-    private void HandlePlayerAttack()
+    private void HandleMeleeAttack()
     {
-        if (!playerInteraction.currentlyHoldingItem) return;
-
         if (playerInput.performAttack != 0)
         {
             attackActive.Raise();

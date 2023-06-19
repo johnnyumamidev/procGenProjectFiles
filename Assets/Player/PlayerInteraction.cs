@@ -21,6 +21,7 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
 
     public Transform interactionHitbox;
     public Transform weaponHoldPosition;
+
     public float interactionRadius = 1f;
     [SerializeField]
     private LayerMask interactionLayerMask;
@@ -34,6 +35,7 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
 
     public bool currentlyHoldingItem = false;
     public IInteractable currentlyHeldItem;
+    public GameObject itemObject;
 
     public bool hasKey = false;
 
@@ -44,13 +46,7 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
         interactionTimer = interactionCooldown;
         playerInput = GetComponent<PlayerInput>();
         playerHealth = GetComponent<PlayerHealth>();
-        playerLocomotion= GetComponent<PlayerLocomotion>();
-    }
-
-    public void UnlockDoor()
-    {
-        Debug.Log("door unlocked, dropping held item");
-        currentlyHoldingItem = false;
+        playerLocomotion = GetComponent<PlayerLocomotion>();
     }
 
     void Update()
@@ -74,7 +70,8 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
 
         if (numberFound > 0 && interactionReady)
         {
-            var interactable = colliders[0].GetComponent<IInteractable>();
+            itemObject = colliders[0].gameObject;
+            var interactable = itemObject.GetComponent<IInteractable>();
             Vector2 objectPosition = colliders[0].transform.position;
             pointer.SetActive(true);
             pointer.transform.position = objectPosition + pointerOffset;

@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName ="Weapon/Data")]
 public class WeaponData : ScriptableObject
 {
-    public string weaponType;
+    public bool isRangedWeapon;
     public int damage;
     public Sprite weaponSprite;
 }
