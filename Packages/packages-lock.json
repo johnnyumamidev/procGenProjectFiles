@@ -280,6 +280,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "io.backtrace.unity": {
+      "version": "3.8.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "http://package.openupm.com"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

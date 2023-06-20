@@ -28,6 +28,8 @@ public class LoopEraseRandomWalk : MonoBehaviour
     public int pathLength;
     public bool pathActive;
 
+    [SerializeField] GameEvent walkCompleteEvent;
+
     private void Awake()
     {
         grid = GetComponent<Grid>();
@@ -165,6 +167,8 @@ public class LoopEraseRandomWalk : MonoBehaviour
     int branchingPathIndex;
     public int desiredBranchingPaths = 1;
     public int minimumCellsFromStartCell = 4;
+    public int minimumCellsFromExitCell = 4;
+
     List<Vector2> neighbors = new List<Vector2>();
     List<Vector2> neighborDirection = new List<Vector2>();
     List<Vector2> branchingCellPoints = new List<Vector2>();
@@ -181,10 +185,17 @@ public class LoopEraseRandomWalk : MonoBehaviour
         }
         GetKeyFromValue(cellPath, randomPointWithinPath, out int pathKey);
         GetKeyFromValue(cellPath, startCell.transform.position, out int startCellKey);
+        GetKeyFromValue(cellPath, exitCell.transform.position, out int exitCellKey);
+
         Debug.Log("branch start, Cell#: " + pathKey);
         if (Mathf.Abs(pathKey - startCellKey) < minimumCellsFromStartCell)
         {
             Debug.Log(randomPointWithinPath + " start branch cell set too close to start of level");
+            goto StartBranch;
+        }
+        else if (Mathf.Abs(pathKey - startCellKey) < minimumCellsFromExitCell)
+        {
+            Debug.Log(randomPointWithinPath + " start branch cell set too close to end of level");
             goto StartBranch;
         }
         else if (branchingCellPoints.Contains(randomPointWithinPath))
@@ -350,6 +361,12 @@ public class LoopEraseRandomWalk : MonoBehaviour
             cellColor.spriteRenderer.color = Color.black;
             gridIndex++;
             yield return new WaitForSeconds(timeBetweenIteration);
+        }
+
+        if(gridIndex >= gridPoints.Count)
+        {
+            Debug.Log("level generation complete !!");
+            walkCompleteEvent.Raise();
         }
     }
 

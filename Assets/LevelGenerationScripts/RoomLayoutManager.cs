@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class RoomLayoutManager : MonoBehaviour
+public class RoomLayoutManager : MonoBehaviour, IEventListener
 {
     WallsManager wallsManager;
     public GameObject startRoomPrefab;
@@ -39,6 +40,7 @@ public class RoomLayoutManager : MonoBehaviour
     }
     private void Update()
     {
+        if (!levelComplete) return;
         if (!startingRoomPlaced && gameObject.CompareTag("Start"))
         {
             foreach (GameObject room in roomLayouts)
@@ -85,12 +87,30 @@ public class RoomLayoutManager : MonoBehaviour
         }
     }
 
+    [SerializeField] GameEvent levelCompleteEvent;
+    [SerializeField] UnityEvent response;
+    bool levelComplete;
+    public void SetLevelCompleteTrue()
+    {
+        levelComplete = true;
+    }
+    private void OnEnable()
+    {
+        levelCompleteEvent.RegisterListener(this);
+    }
     private void OnDisable()
     {
+        levelCompleteEvent.UnregisterListener(this);
+
         foreach (GameObject room in roomLayouts)
         {
             room.SetActive(false);
         }
         roomsSet = false;
+    }
+
+    public void OnEventRaised(GameEvent gameEvent)
+    {
+        response?.Invoke();
     }
 }

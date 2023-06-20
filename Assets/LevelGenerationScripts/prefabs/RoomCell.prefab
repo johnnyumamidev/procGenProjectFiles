@@ -2395,6 +2395,23 @@ MonoBehaviour:
   wallsDisabled: 0
   roomIndex: 0
   isTreasureRoom: 0
+  walkCompleteEvent: {fileID: 11400000, guid: ab0712f1c8adc32439ac50d16c9fcd0a, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3867667982579454775}
+        m_TargetAssemblyTypeName: WallsManager, Assembly-CSharp
+        m_MethodName: SetLevelCompleteTrue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  wallsDisabledCompleteEvent: {fileID: 11400000, guid: 6f2047d13e05c6e47b8280bb1cb18d46, type: 2}
 --- !u!114 &7359826540274786714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2439,6 +2456,22 @@ MonoBehaviour:
   EW:
   - {fileID: 4585677414420695695}
   roomLayouts: []
+  levelCompleteEvent: {fileID: 11400000, guid: 6f2047d13e05c6e47b8280bb1cb18d46, type: 2}
+  response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6532209313232305566}
+        m_TargetAssemblyTypeName: RoomLayoutManager, Assembly-CSharp
+        m_MethodName: SetLevelCompleteTrue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &5696332704329739147
 BoxCollider2D:
   m_ObjectHideFlags: 0

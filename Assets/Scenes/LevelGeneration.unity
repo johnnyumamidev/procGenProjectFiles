@@ -1501,6 +1501,10 @@ PrefabInstance:
       value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
+      propertyPath: walkCompleteEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: ab0712f1c8adc32439ac50d16c9fcd0a, type: 2}
+    - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: timeBetweenIteration
       value: 0.001
       objectReference: {fileID: 0}
