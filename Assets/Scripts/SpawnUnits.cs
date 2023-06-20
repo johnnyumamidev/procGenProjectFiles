@@ -27,7 +27,7 @@ public class SpawnUnits : MonoBehaviour
             return;
         }
 
-        foreach (GameObject cell in levelGenerator.activeCells)
+        foreach (GameObject cell in levelGenerator.activeCells.Values)
         {
             if (cell.tag == "Start" && !playerSpawned)
             {

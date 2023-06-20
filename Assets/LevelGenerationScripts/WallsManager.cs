@@ -65,7 +65,7 @@ public class WallsManager : MonoBehaviour, IEventListener
         DisableWallTowardsNextRoom(direction);
     }
 
-    private void DisableWallTowardsNextRoom(Vector2 _direction)
+    public void DisableWallTowardsNextRoom(Vector2 _direction)
     {
         int directionIndex = 0;
         if (_direction == Vector2.up) directionIndex = 0;
@@ -77,7 +77,7 @@ public class WallsManager : MonoBehaviour, IEventListener
         _directionindex = directionIndex;
     }
 
-    private void DisableWallTowardsPreviousRoom()
+    public void DisableWallTowardsPreviousRoom()
     {
         int lastDirectionIndex = 0;
         if (lastDirection == Vector2.up) lastDirectionIndex = 2;
