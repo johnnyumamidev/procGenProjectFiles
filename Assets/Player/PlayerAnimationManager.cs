@@ -75,7 +75,12 @@ public class PlayerAnimationManager : MonoBehaviour, IEventListener
         
         if (playerInteraction.currentlyHoldingItem)
         {
-            if(playerLocomotion.isClimbing)
+            if (playerLocomotion.isDodging)
+            {
+                animStateIndex = 15;
+                return;
+            }
+            if (playerLocomotion.isClimbing)
             {
                 animStateIndex = 5;
                 return;

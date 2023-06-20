@@ -67,7 +67,7 @@ public class PlayerLocomotion : MonoBehaviour
 
     public void HandleAllMovement()
     {
-        if (isDodging) return;
+        if (isDodging) return; 
         else
         {
             HandleWalking();

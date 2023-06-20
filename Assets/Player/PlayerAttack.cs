@@ -21,6 +21,7 @@ public class PlayerAttack : MonoBehaviour, IEventListener
     PlayerInput playerInput;
     PlayerLocomotion playerLocomotion;
 
+    public bool isMeleeAttacking;
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -42,7 +43,6 @@ public class PlayerAttack : MonoBehaviour, IEventListener
         if (playerWeapon.weaponData.isRangedWeapon)
         {
             HandleRangedAttack();
-            return;
         }
         else
         {
@@ -71,6 +71,8 @@ public class PlayerAttack : MonoBehaviour, IEventListener
         {
             fireProjectileEvent.Raise();
         }
+
+        if (isMeleeAttacking) return;
     }
 
     public void FireBolt()
@@ -99,10 +101,12 @@ public class PlayerAttack : MonoBehaviour, IEventListener
         if (playerInput.performAttack != 0)
         {
             attackActive.Raise();
+            isMeleeAttacking = true;
         }
         else
         {
             attackInactive.Raise();
+            isMeleeAttacking = false;
         }
     }
     private void OnEnable()

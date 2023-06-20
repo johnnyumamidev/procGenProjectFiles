@@ -325,6 +325,10 @@ PrefabInstance:
       propertyPath: unlock.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 3372028177644992096, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6190944844710348070, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2326,11 +2330,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2725893363310912954, guid: 309611f317323c9439a618031451744b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -162.38628
+      value: -162.38629
       objectReference: {fileID: 0}
     - target: {fileID: 2725893363310912954, guid: 309611f317323c9439a618031451744b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -26.15181
+      value: -26.151794
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 309611f317323c9439a618031451744b, type: 3}

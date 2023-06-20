@@ -24,17 +24,17 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        playerInventory.HandleInventory();
         playerHealth.HandleHealth();
         if (GameStateManager.instance != null && GameStateManager.instance.currentState == "Game Over") return;
-        playerInput.HandleAllInputs();
         playerAttack.HandleAllAttackActions();
-        playerInventory.HandleInventory();
+        playerInput.HandleAllInputs();
     }
 
     private void FixedUpdate()
     {
-
         if (GameStateManager.instance != null && GameStateManager.instance.currentState == "Game Over") return;
+        if (playerAttack.isMeleeAttacking) return;
         playerLocomotion.HandleAllMovement();   
     }
 }
