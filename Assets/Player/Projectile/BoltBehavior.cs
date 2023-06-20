@@ -34,15 +34,15 @@ public class BoltBehavior : MonoBehaviour, ICollectable
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(((1 << collision.gameObject.layer) & groundLayer) != 0)
+        if(collision.gameObject.tag != "Player")
         {
             Rigidbody2D bolt = GetComponent<Rigidbody2D>();
+            bolt.freezeRotation = true;
             bolt.velocity = Vector2.zero;
             bolt.isKinematic = true;
             Vector2 point;
             point = collision.GetContact(0).point;
             transform.position = point;
-            bolt.freezeRotation = true;
         }
     }
     public void Collect()

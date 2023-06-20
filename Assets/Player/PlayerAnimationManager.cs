@@ -80,11 +80,11 @@ public class PlayerAnimationManager : MonoBehaviour, IEventListener
                 animStateIndex = 5;
                 return;
             }
-            var itemType = playerInteraction.currentlyHeldItem.GetType();
-            if (itemType.ToString() == "Weapon")
+            if (playerInteraction.currentlyHoldingItem)
             {
-                if (playerInput.performAttack != 0) animStateIndex = 12;
                 if (playerInput.movementInput.x != 0) animStateIndex = 13;
+                if (playerInteraction.itemObject.GetComponent<Weapon>().weaponData.isRangedWeapon) return;
+                if (playerInput.performAttack != 0) animStateIndex = 12;
                 return;
             }
             if (playerInput.movementInput == Vector2.zero) animStateIndex = 7;

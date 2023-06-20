@@ -123,16 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!61 &10989492 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 8873842418187318841, guid: 89adc7da8fbe6194e8e3f9d8f9bb1543, type: 3}
-  m_PrefabInstance: {fileID: 356916445}
-  m_PrefabAsset: {fileID: 0}
---- !u!50 &10989493 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 8693222863454005364, guid: 89adc7da8fbe6194e8e3f9d8f9bb1543, type: 3}
-  m_PrefabInstance: {fileID: 356916445}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &339236037 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5237456163975843966, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
@@ -199,14 +189,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4810547670471988328, guid: 89adc7da8fbe6194e8e3f9d8f9bb1543, type: 3}
-      propertyPath: itemCollider
-      value: 
-      objectReference: {fileID: 10989492}
-    - target: {fileID: 4810547670471988328, guid: 89adc7da8fbe6194e8e3f9d8f9bb1543, type: 3}
-      propertyPath: itemRigidbody
-      value: 
-      objectReference: {fileID: 10989493}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89adc7da8fbe6194e8e3f9d8f9bb1543, type: 3}
 --- !u!1 &416797897
@@ -764,6 +746,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1433683239459105268, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5237456163975843966, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
       propertyPath: fireBolt
       value: 
