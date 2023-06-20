@@ -53,19 +53,26 @@ public class PlayerAttack : MonoBehaviour, IEventListener
     public float verticalAimThreshold = 0.5f;
     float firingAngle;
     public Transform firingPointPivot;
+    public Transform weaponHoldPosition;
     public Vector2 firingDirection;
     private void HandleRangedAttack()
     {
         firingAngle = 0;
+        float flipRotation = 0;
         if (playerInput.aimDirection.normalized.y > verticalAimThreshold)
             firingAngle = 45f;
         else if (playerInput.aimDirection.normalized.y < 0)
             firingAngle = -45f;
-        if (!playerLocomotion.facingRight) firingAngle *= -1;
+        if (!playerLocomotion.facingRight)
+        {
+            firingAngle *= -1;
+            flipRotation = 180;
+        }
 
         firingDirection = firingPoint.position - firingPointPivot.position;
         firingPointPivot.rotation = Quaternion.Euler(0,0,firingAngle);
-        rangedWeapon.rotation = firingPointPivot.rotation;
+        weaponHoldPosition.rotation = Quaternion.Euler(flipRotation, -flipRotation, -90 + firingAngle);
+        rangedWeapon.rotation = weaponHoldPosition.rotation;
         if(playerInput.performShoot != 0 && !boltFired)
         {
             fireProjectileEvent.Raise();

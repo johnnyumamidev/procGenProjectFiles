@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &296141989 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4225212420695081728, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
+  m_PrefabInstance: {fileID: 1449906929}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &356916445
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -735,6 +740,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5237456163975843966, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
+      propertyPath: weaponHoldPosition
+      value: 
+      objectReference: {fileID: 296141989}
     - target: {fileID: 6190944844710348070, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -786,6 +795,14 @@ PrefabInstance:
     - target: {fileID: 6614855453520299886, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
       propertyPath: animStates.Array.size
       value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6614855453520299886, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
+      propertyPath: animStates.Array.data[14]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6614855453520299886, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
+      propertyPath: animStates.Array.data[15]
+      value: Dodge
       objectReference: {fileID: 0}
     - target: {fileID: 6614855453520299886, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
       propertyPath: animStates.Array.data[16]
