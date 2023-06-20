@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,7 +14,7 @@ public class PlayerAttack : MonoBehaviour, IEventListener
     public Transform firingPoint;
     public GameObject boltPrefab;
 
-    Transform rangedWeapon;
+    [SerializeField] Transform rangedWeapon;
 
     PlayerInteraction playerInteraction;
     PlayerInput playerInput;
@@ -66,7 +65,7 @@ public class PlayerAttack : MonoBehaviour, IEventListener
 
         firingDirection = firingPoint.position - firingPointPivot.position;
         firingPointPivot.rotation = Quaternion.Euler(0,0,firingAngle);
-        rangedWeapon.rotation = firingPoint.rotation;
+        rangedWeapon.rotation = firingPointPivot.rotation;
         if(playerInput.performShoot != 0 && !boltFired)
         {
             fireProjectileEvent.Raise();

@@ -54,6 +54,8 @@ MonoBehaviour:
   shootForce: 4.75
   offset: 0
   cooldownLength: 0.5
+  hookThrown: 0
+  aimingHook: 0
 --- !u!1 &1688399604
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c37787f4811a6474fb048baffb13fe46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grapplingHook: {fileID: 557477275}
   playerData: {fileID: 11400000, guid: aac8b2e13d0114144915ce3f7b29f346, type: 2}
   animStateIndex: 0
   animStates:
@@ -178,6 +181,8 @@ MonoBehaviour:
   - Attack
   - WeaponRun
   - Dodge
+  - AimHook
+  - ThrowHook
   armorState:
   - {fileID: 6560213727920785716}
   - {fileID: 4967453662229195638}
@@ -913,7 +918,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6132931144339845214}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1286,6 +1291,7 @@ MonoBehaviour:
         m_CallState: 2
   firingPoint: {fileID: 6761257277284734327}
   boltPrefab: {fileID: 3496748023275716667, guid: c1da66e0bf19cee47afbc18d2a2cb2b7, type: 3}
+  isMeleeAttacking: 0
   crossbowCooldownTime: 1
   verticalAimThreshold: 0.5
   firingPointPivot: {fileID: 5069766083796919693}

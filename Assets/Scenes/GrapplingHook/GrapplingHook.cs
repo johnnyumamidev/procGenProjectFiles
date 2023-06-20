@@ -16,8 +16,8 @@ public class GrapplingHook : MonoBehaviour
     public float offset;
     public float cooldownLength = 0.5f;
 
-    bool hookThrown = false;
-    bool aimingHook = false;
+    public bool hookThrown = false;
+    public bool aimingHook = false;
 
     Vector2 point;
     Vector2 playerPosition;
@@ -37,17 +37,13 @@ public class GrapplingHook : MonoBehaviour
             AimHook();
             aimingHook = true;
         }
-        else
-        {
-            aimingHook = false;
-        }
 
-        if(aimingHook && !hookThrown && playerInput.performShoot == 0)
+        if(aimingHook && !hookThrown && playerInput.performThrow == 0)
         {
             aimingHook = false;
             ThrowHook();
-            StartCoroutine(HookCooldown());
             hookThrown = true;
+            StartCoroutine(HookCooldown());
         }
     }
 

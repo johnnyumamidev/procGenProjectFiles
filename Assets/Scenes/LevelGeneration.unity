@@ -279,7 +279,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.503652, y: 3.7984738, z: -1.4030844}
+  m_LocalPosition: {x: 1.7750142, y: 1.5875127, z: -1.4030844}
   m_LocalScale: {x: 0.24999999, y: 0.22727273, z: 0.22727273}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -772,7 +772,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &913848932
 Transform:
   m_ObjectHideFlags: 0
@@ -1356,7 +1356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1984258745}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.503652, y: 3.7984738, z: -1.4030844}
+  m_LocalPosition: {x: 1.7750142, y: 1.5875127, z: -1.4030844}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1378,6 +1378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomToFollow: {fileID: 0}
   playerTransform: {fileID: 0}
+  moveSpeed: 10
   playerEntersRoomEvent: {fileID: 11400000, guid: 01209f0775204fd449cbfdf7baec49a4, type: 2}
   playerEntersRoom:
     m_PersistentCalls:

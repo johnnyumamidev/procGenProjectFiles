@@ -11,10 +11,28 @@ public class CameraPositioner : MonoBehaviour, IEventListener
     public static CameraPositioner instance;
     public Transform roomToFollow;
     public Transform playerTransform;
+
+    float horizontalInput;
+    float verticalInput;
+    public float moveSpeed = 20f;
     private void Awake()
     {
         if (instance == null) instance = this;
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
+    }
+
+    private void Update()
+    {
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
+        if (horizontalInput != 0)
+        {
+            virtualCamera.transform.Translate(horizontalInput * moveSpeed * Time.deltaTime, 0, 0);
+        }
+        else if(verticalInput != 0)
+        {
+            virtualCamera.transform.Translate(0, verticalInput * moveSpeed * Time.deltaTime, 0);
+        }
     }
 
     public void SetCamera()
