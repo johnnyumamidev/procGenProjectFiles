@@ -18,9 +18,9 @@ public class RoomLayoutManager : MonoBehaviour, IEventListener
 
     public List<GameObject> NE = new List<GameObject>();
     public List<GameObject> NW = new List<GameObject>();
-    public List<GameObject> NS = new List<GameObject>();
-    public List<GameObject> SW = new List<GameObject>();
     public List<GameObject> SE = new List<GameObject>();
+    public List<GameObject> SW = new List<GameObject>();
+    public List<GameObject> NS = new List<GameObject>();
     public List<GameObject> EW = new List<GameObject>();
 
     public List<GameObject> roomLayouts;
@@ -58,6 +58,7 @@ public class RoomLayoutManager : MonoBehaviour, IEventListener
             {
                 room.SetActive(false);
             }
+
             roomLayouts = new List<GameObject> { exitRoom };
             roomLayouts[0].SetActive(true);
             roomsSet = true;

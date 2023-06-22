@@ -169,6 +169,14 @@ public class PlayerLocomotion : MonoBehaviour
             remainingJumps--;
             rigidBody.AddRelativeForce(Vector2.up * playerData.jumpForce, ForceMode2D.Impulse);
         }
+
+        if (!onOneWayPlatform) return;
+        if(playerInput.movementInput.y < 0 && playerInput.performJump != 0)
+        {
+            OneWayPlatformBehavior platformBehavior = oneWayPlatform.GetComponent<OneWayPlatformBehavior>();
+            if (platformBehavior == null) return;
+            platformBehavior.PlayerFallThrough();
+        }
     }
 
     bool isOnSlope = false;
@@ -191,7 +199,8 @@ public class PlayerLocomotion : MonoBehaviour
         else if(playerInput.movementInput.x > 0 && !facingRight) FlipDirection();
         rigidBody.velocity = velocity;
     }
-
+    bool onOneWayPlatform = false;
+    GameObject oneWayPlatform;
     private void HandleGroundedCheck()
     {
         Collider2D grounded = Physics2D.OverlapCircle(playerPosition + playerData.groundCheckOffset, playerData.groundCheckRadius, playerData.groundLayer);
@@ -201,6 +210,17 @@ public class PlayerLocomotion : MonoBehaviour
             isOnSlope = true;
         }
         else { isOnSlope = false; }
+
+        if (playerCollider.IsTouchingLayers(playerData.platform))
+        {
+            onOneWayPlatform = true;
+            if(grounded) oneWayPlatform = grounded.gameObject;
+            Debug.Log("player is on a platform: " + oneWayPlatform.name);
+        }
+        else
+        {
+            onOneWayPlatform = false;
+        }
 
         if (rigidBody.velocity.y <= 0 && timeSinceFalling >= playerData.coyoteTime || isClimbing)
         {

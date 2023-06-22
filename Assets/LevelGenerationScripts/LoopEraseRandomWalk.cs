@@ -13,7 +13,6 @@ public class LoopEraseRandomWalk : MonoBehaviour
     List<Vector2> directions = new List<Vector2> { Vector2.up, Vector2.right, Vector2.down, Vector2.left };
     List<string> directionNames = new List<string> { "North", "East", "South", "West" };
     Vector2 lastDirection;
-    public string lastDirectionName;
 
     public Vector2 targetCell;
     Dictionary<int, Vector2> cellPath = new Dictionary<int, Vector2>();
@@ -52,16 +51,6 @@ public class LoopEraseRandomWalk : MonoBehaviour
         InvokeRepeating("HandleRandomWalk", 0, timeBetweenIteration);
     }
 
-    private void Update()
-    {
-        int directionIndex = 0;
-        if (lastDirection == Vector2.up) { directionIndex = 0; }
-        if (lastDirection == Vector2.right) { directionIndex = 1; }
-        if (lastDirection == Vector2.down) { directionIndex = 2; }
-        if (lastDirection == Vector2.left) { directionIndex = 3; }
-        lastDirectionName = directionNames[directionIndex]; 
-    }
-
     private Vector2 GetPoint()
     {
         int randomIndex = Random.Range(0, grid.points.Count);
@@ -94,6 +83,14 @@ public class LoopEraseRandomWalk : MonoBehaviour
             ResetNextPoint(randomDirection, out nextPoint, out randomDirectionIndex, out randomDirection);
             goto CheckPath;
         }
+        //TESTING
+        //make it so path cannot choose same direction twice
+        else if(randomDirection == lastDirection)
+        {
+            Debug.Log("same direction as previous");
+            ResetNextPoint(randomDirection, out nextPoint, out randomDirectionIndex, out randomDirection);
+            goto CheckPath;
+        }
         else if (!grid.points.Contains(nextPoint))
         {
             Debug.Log("out of bounds");
@@ -109,6 +106,10 @@ public class LoopEraseRandomWalk : MonoBehaviour
             for (int i = gridKey; i <= pathIndex; i++)
             {
                 cellObjectPool[i].SetActive(false);
+                if (i == 0)
+                {
+                    Debug.Log("!!!!!!! ********** !!!!!!!");
+                }
                 activeCells.Remove(cellPath[i]);
                 cellPath.Remove(i);
                 Debug.Log("destroying: " + cellObjectPool[i].name);
@@ -169,8 +170,6 @@ public class LoopEraseRandomWalk : MonoBehaviour
     int branchingPathIndex;
     public int desiredBranchingPaths = 1;
     public int minimumCellsFromStartCell = 4;
-    public int minimumCellsFromExitCell = 4;
-
     List<Vector2> neighbors = new List<Vector2>();
     List<Vector2> neighborDirection = new List<Vector2>();
     List<Vector2> branchingCellPoints = new List<Vector2>();
@@ -189,15 +188,11 @@ public class LoopEraseRandomWalk : MonoBehaviour
         GetKeyFromValue(cellPath, startCell.transform.position, out int startCellKey);
         GetKeyFromValue(cellPath, exitCell.transform.position, out int exitCellKey);
 
+
         Debug.Log("branch start, Cell#: " + pathKey);
         if (Mathf.Abs(pathKey - startCellKey) < minimumCellsFromStartCell)
         {
             Debug.Log(randomPointWithinPath + " start branch cell set too close to start of level");
-            goto StartBranch;
-        }
-        else if (Mathf.Abs(pathKey - startCellKey) < minimumCellsFromExitCell)
-        {
-            Debug.Log(randomPointWithinPath + " start branch cell set too close to end of level");
             goto StartBranch;
         }
         else if (branchingCellPoints.Contains(randomPointWithinPath))
@@ -238,6 +233,11 @@ public class LoopEraseRandomWalk : MonoBehaviour
         GameObject rootCell = cellObjectPool[pathKey];
         int randomNeighborIndex = Random.Range(0, neighbors.Count-1);
         Vector2 nextPoint = neighbors[randomNeighborIndex];
+        if(nextPoint.y > cellYPoint.Max())
+        {
+            Debug.Log("neighbor is above the exit room");
+            goto StartBranch;
+        }
 
         pathIndex++;
         cellPath.Add(pathIndex, nextPoint);
@@ -270,56 +270,6 @@ public class LoopEraseRandomWalk : MonoBehaviour
             treasureRooms[randomTreasureRoom].GetComponent<ColorManager>().spriteRenderer.color = Color.yellow;
         }
     }
-    public int numberOfConnectedRooms = 3;
-    private void RandomlyConnectNeighboringRooms()
-    {
-        points = new List<Vector2>(cellPath.Values);
-
-        int randomIndex = Random.Range(0, points.Count - 1);
-        Vector2 randomPoint = points[randomIndex];
-        GameObject randomCell = activeCells[randomPoint];
-        Dictionary<int, GameObject> possibleNeighbors = new Dictionary<int, GameObject>();
-        List<Vector2> possibleDirections = new List<Vector2>();
-        Vector2 neighborDirection = Vector2.zero;
-        
-        for (int i = 0; i < directions.Count; i++)
-        {
-            Vector2 neighborPoint = randomPoint + directions[i];
-            if (!activeCells.ContainsKey(neighborPoint)) continue;
-            neighborDirection = directions[i];
-            possibleNeighbors.Add(i, activeCells[neighborPoint]);
-            possibleDirections.Add(directions[i]);
-        }
-        foreach(int i in possibleNeighbors.Keys)
-        {
-            GameObject blank = new GameObject("blank");
-            blank.tag = "Blank";
-            if (possibleNeighbors[i] == null) possibleNeighbors.Add(i, blank);
-        }
-
-        GameObject neighborCell = new GameObject("blank");
-    GetNeighbor:
-        int randomNeighbor = Random.Range(0, possibleNeighbors.Keys.Count - 1);
-        if (possibleNeighbors.ContainsKey(randomNeighbor) && possibleNeighbors[randomNeighbor].tag != "Blank")
-        {
-            neighborCell = possibleNeighbors[randomNeighbor];
-        }
-        else
-        {
-            goto GetNeighbor;
-        }
-
-        WallsManager cellWallOne = randomCell.GetComponent<WallsManager>();
-        WallsManager cellWallTwo = neighborCell.GetComponent<WallsManager>();
-
-        cellWallOne.DisableWallTowardsNextRoom(neighborDirection);
-        cellWallTwo.lastDirection = -neighborDirection;
-        cellWallTwo.DisableWallTowardsPreviousRoom();
-
-        randomCell.GetComponent<ColorManager>().spriteRenderer.color = Color.red;
-        neighborCell.GetComponent<ColorManager>().spriteRenderer.color = Color.green;
-
-    }
 
     private void GetPointOnPath(out Vector2 randomPointWithinPath)
     {
@@ -351,7 +301,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
         Vector2 topLeftmostPointOnPath = new Vector2(lowestCellXPoint, highestCellYPoint);
 
         List<GameObject> possibleStartCells = new List<GameObject>();
-        foreach(GameObject cell in activeCells.Values)
+        foreach (GameObject cell in activeCells.Values)
         {
             if (cell.transform.position.y != lowestCellYPoint) continue;
             possibleStartCells.Add(cell);
@@ -360,15 +310,16 @@ public class LoopEraseRandomWalk : MonoBehaviour
         possibleStartCells[randomIndex].tag = "Start";
         startCell = possibleStartCells[randomIndex];
 
-        List<GameObject> possibleEndCells = new List<GameObject>(); 
-        foreach(GameObject cell in activeCells.Values)
+        List<GameObject> possibleEndCells = new List<GameObject>();
+        foreach (GameObject cell in activeCells.Values)
         {
-            if(cell.transform.position.y != highestCellYPoint) continue;
+            if (cell.transform.position.y != highestCellYPoint) continue;
             possibleEndCells.Add(cell);
         }
         int randomEndCellIndex = Random.Range(0, possibleEndCells.Count - 1);
-        possibleEndCells[randomEndCellIndex].tag = "Exit";
         exitCell = possibleEndCells[randomEndCellIndex];
+        exitCell.name = "Exit";
+        exitCell.tag = "Exit";
 
         //get list of all cells on highest level of grid
         //randomly select one to be the last room
@@ -377,6 +328,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
     List<Vector2> gridPoints;
     private void GetRemainingGridProints()
     {
+        points = new List<Vector2>(cellPath.Values);
         gridPoints = new List<Vector2>(grid.points);
 
         foreach (var cell in points)

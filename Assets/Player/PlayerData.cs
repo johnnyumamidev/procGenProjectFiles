@@ -27,6 +27,7 @@ public class PlayerData : ScriptableObject
     [Header("Grounded Checks")]
     public float groundCheckRadius;
     public LayerMask groundLayer;
+    public LayerMask platform;
     public Vector2 groundCheckOffset;
 
     [Header("Jump Properties")]
