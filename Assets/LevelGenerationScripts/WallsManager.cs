@@ -59,6 +59,24 @@ public class WallsManager : MonoBehaviour, IEventListener
         }
     }
 
+    public float chanceToDisableThirdWall = 0.25f;
+    private void RandomlyDisableThirdWall()
+    {
+        foreach (GameObject wall in walls)
+        {
+            if (wall.activeSelf == true && activeWalls.Count > 2)
+            {
+                float rollToDisableWall = Random.Range(0, 1f);
+                if (rollToDisableWall > chanceToDisableThirdWall)
+                {
+                    Debug.Log("disabling wall: " + wall.name);
+                    wall.SetActive(false);
+                    activeWalls.Remove(wall);
+                }
+            }
+        }
+    }
+
     public void DisableWallToTreasureRoom(Vector2 direction)
     {
         Debug.Log(gameObject.name + " creating path to treasure room " + direction);

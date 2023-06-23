@@ -742,7 +742,7 @@ GameObject:
   - component: {fileID: 1534994067452606063}
   m_Layer: 3
   m_Name: E (2)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1011,7 +1011,7 @@ GameObject:
   - component: {fileID: 2070793306350970230}
   m_Layer: 3
   m_Name: S (2)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1233,7 +1233,7 @@ GameObject:
   - component: {fileID: 7486033776683818878}
   m_Layer: 3
   m_Name: N (2)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1378,7 +1378,7 @@ GameObject:
   - component: {fileID: 8186529320148516341}
   m_Layer: 3
   m_Name: W (2)
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2235,8 +2235,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 5329304ce9172ab4486c8013daccc58a, type: 3}
+  m_SortingOrder: -10
+  m_Sprite: {fileID: 21300000, guid: 281c6ff17a7fa8b4ab769952f2d70059, type: 3}
   m_Color: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2327,8 +2327,6 @@ GameObject:
   - component: {fileID: 3867667982579454775}
   - component: {fileID: 7359826540274786714}
   - component: {fileID: 6532209313232305566}
-  - component: {fileID: 5696332704329739147}
-  - component: {fileID: 2293243910186625454}
   m_Layer: 0
   m_Name: RoomCell
   m_TagString: Untagged
@@ -2412,6 +2410,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   wallsDisabledCompleteEvent: {fileID: 11400000, guid: 6f2047d13e05c6e47b8280bb1cb18d46, type: 2}
+  chanceToDisableThirdWall: 0.25
 --- !u!114 &7359826540274786714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2472,45 +2471,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!61 &5696332704329739147
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7481954256667548557}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.05, y: 1.05}
-  m_EdgeRadius: 0
---- !u!114 &2293243910186625454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7481954256667548557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54beca7618aa2584a93c317e7385a69f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerEntersEvent: {fileID: 11400000, guid: 01209f0775204fd449cbfdf7baec49a4, type: 2}
 --- !u!1 &7604225106419681772
 GameObject:
   m_ObjectHideFlags: 0

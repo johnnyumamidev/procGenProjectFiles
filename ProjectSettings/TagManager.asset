@@ -16,6 +16,7 @@ TagManager:
   - Shop
   - Blank
   - TreasureRoom
+  - Wall
   layers:
   - Default
   - TransparentFX

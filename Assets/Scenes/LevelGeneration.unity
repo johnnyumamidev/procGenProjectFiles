@@ -255,7 +255,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 0.55
+  orthographic size: 0.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -279,7 +279,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.18714571, y: 0.2846198, z: -10}
+  m_LocalPosition: {x: -0.18714571, y: 0.15961981, z: -10}
   m_LocalScale: {x: 0.24999999, y: 0.22727273, z: 0.22727273}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1385,11 +1385,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7577643431785102184, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: gridWidth
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7577643431785102184, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: gridHeight
-      value: 7
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: cellPrefab
@@ -1397,7 +1397,7 @@ PrefabInstance:
       objectReference: {fileID: 7481954256667548557, guid: 75a5ccc4d63ba5649a98956dcde83862, type: 3}
     - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: pathLength
-      value: 13
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: walkCompleteEvent
@@ -1409,7 +1409,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: desiredBranchingPaths
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7577643431785102185, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
       propertyPath: minimumCellsFromStartCell
@@ -1465,3 +1465,50 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
+--- !u!1 &7577643433437600423 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7577643431785102189, guid: 1c534ecf04b20d04ca0f121369ce13f0, type: 3}
+  m_PrefabInstance: {fileID: 7577643433437600422}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7577643433437600424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7577643433437600423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c44bf759523f1194c85409f09392a5c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelGenerationComplete: {fileID: 11400000, guid: 6f2047d13e05c6e47b8280bb1cb18d46, type: 2}
+  spawnPlayer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7577643433437600424}
+        m_TargetAssemblyTypeName: SpawnUnits, Assembly-CSharp
+        m_MethodName: SpawnPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  playerPrefab: {fileID: 6190944844710348074, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
+  spawnPosition: {fileID: 0}
+--- !u!114 &7577643433437600428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7577643433437600423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d35d0b1f973cea4b987cd351426fb9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

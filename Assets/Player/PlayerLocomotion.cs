@@ -163,7 +163,7 @@ public class PlayerLocomotion : MonoBehaviour
         
         if (remainingJumps <= 0) return;
 
-        if (playerInput.performJump != 0 && remainingJumps > 0 && playerInput.movementInput.y >= 0)
+        if (playerInput.performJump != 0 && remainingJumps > 0 && playerInput.movementInput.y >= -0.7)
         {
             isGrounded = false;
             remainingJumps--;
@@ -172,7 +172,7 @@ public class PlayerLocomotion : MonoBehaviour
 
         if (onOneWayPlatform)
         {
-            if (playerInput.movementInput.y < 0 && playerInput.performJump != 0)
+            if (playerInput.movementInput.y < -0.25 && playerInput.performJump != 0)
             {
                 OneWayPlatformBehavior platformBehavior = oneWayPlatform.GetComponent<OneWayPlatformBehavior>();
                 if (platformBehavior == null) return;

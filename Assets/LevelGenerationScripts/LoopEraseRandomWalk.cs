@@ -210,7 +210,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
         }
         if (neighbors.Count <= 0)
         {
-            Debug.Log(rootCell.name + " is surrounded on all sides, get new starting point");
+            Debug.LogError(rootCell.name + " is surrounded on all sides, get new starting point");
             neighbors.Clear();
             neighborDirection.Clear();
             goto GetRootCell;

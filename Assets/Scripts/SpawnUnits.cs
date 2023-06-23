@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SpawnUnits : MonoBehaviour
+public class SpawnUnits : MonoBehaviour, IEventListener
 {
-    [SerializeField] GameEvent spawnPlayerEvent;
-    [SerializeField] UnityEvent spawnPlayerResponse;
+    [SerializeField] GameEvent levelGenerationComplete;
+    [SerializeField] UnityEvent spawnPlayer;
 
     public GameObject playerPrefab;
     GameObject player;
@@ -15,10 +15,13 @@ public class SpawnUnits : MonoBehaviour
     public Transform spawnPosition;
     void Awake()
     {
-        player = Instantiate(playerPrefab, spawnPosition.transform.position, Quaternion.identity);
         levelGenerator = GetComponent<LoopEraseRandomWalk>();
     }
 
+    public void GetStartingRoom()
+    {
+        if(levelGenerator == null) spawnPosition = GameObject.FindGameObjectWithTag("Start").transform;
+    }
     public void SpawnPlayer()
     {
         if (levelGenerator == null)
@@ -31,14 +34,23 @@ public class SpawnUnits : MonoBehaviour
         {
             if (cell.tag == "Start" && !playerSpawned)
             {
-                player.transform.position = cell.transform.position;
+                player = Instantiate(playerPrefab,cell.transform.position, Quaternion.identity);
                 playerSpawned = true;
             }
         }
     }
 
-    public void OnEventRaised()
+    public void OnEventRaised(GameEvent gameEvent)
     {
-        spawnPlayerResponse.Invoke();
+        spawnPlayer.Invoke();
+    }
+
+    private void OnEnable()
+    {
+        levelGenerationComplete.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        levelGenerationComplete.UnregisterListener(this);
     }
 }
