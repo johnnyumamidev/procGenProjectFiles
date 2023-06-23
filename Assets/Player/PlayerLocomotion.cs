@@ -163,19 +163,21 @@ public class PlayerLocomotion : MonoBehaviour
         
         if (remainingJumps <= 0) return;
 
-        if (playerInput.performJump != 0 && remainingJumps > 0)
+        if (playerInput.performJump != 0 && remainingJumps > 0 && playerInput.movementInput.y >= 0)
         {
             isGrounded = false;
             remainingJumps--;
             rigidBody.AddRelativeForce(Vector2.up * playerData.jumpForce, ForceMode2D.Impulse);
         }
 
-        if (!onOneWayPlatform) return;
-        if(playerInput.movementInput.y < 0 && playerInput.performJump != 0)
+        if (onOneWayPlatform)
         {
-            OneWayPlatformBehavior platformBehavior = oneWayPlatform.GetComponent<OneWayPlatformBehavior>();
-            if (platformBehavior == null) return;
-            platformBehavior.PlayerFallThrough();
+            if (playerInput.movementInput.y < 0 && playerInput.performJump != 0)
+            {
+                OneWayPlatformBehavior platformBehavior = oneWayPlatform.GetComponent<OneWayPlatformBehavior>();
+                if (platformBehavior == null) return;
+                platformBehavior.PlayerFallThrough();
+            }
         }
     }
 

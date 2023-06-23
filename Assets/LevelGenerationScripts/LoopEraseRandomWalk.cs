@@ -65,39 +65,43 @@ public class LoopEraseRandomWalk : MonoBehaviour
             pathActive = true;
             if (cellPath.ContainsKey(pathIndex)) return;
             cellPath.Add(pathIndex, GetPoint());
-            Debug.Log("start point: " + cellPath[pathIndex]);
         }
 
         GameObject cell = NewActiveCell();
-
-        GetRandomDirection(out int randomDirectionIndex, out Vector2 randomDirection);
-        Vector2 nextPoint = cellPath[pathIndex] + (randomDirection * cell.GetComponent<RoomDimensions>().roomDimensions);
-
-        Debug.Log(cellObjectPool[pathIndex].name + " walking to => " + directionNames[randomDirectionIndex] + " // " + nextPoint);
-        Debug.Log("direction: " + directionNames[randomDirectionIndex] + ", " + randomDirection);
-
-    CheckPath:
-        if (pathIndex > 0 && randomDirection == -lastDirection)
+        Vector2 cellPoint = cellPath[pathIndex];
+        Debug.Log("cell#: " + pathIndex + " @ "+ cellPoint);
+        
+        for(int i = 0; i < directions.Count; i++)
         {
-            Debug.Log("backpedal");
-            ResetNextPoint(randomDirection, out nextPoint, out randomDirectionIndex, out randomDirection);
-            goto CheckPath;
+            Vector2 neighbor = cellPoint + directions[i];
+            if (!grid.points.Contains(neighbor))
+            {
+                Debug.Log(neighbor + " goes out of bounds/ " + i);
+                continue;
+            }
+            else if (directions[i] == -lastDirection)
+            {
+                Debug.Log(neighbor + " backpedals/ " + i);
+                continue;
+            }
+            else if (directions[i] == lastDirection)
+            {
+                Debug.Log(directions[i] + " is repeat of last step/ " + i);
+            }
+            else
+            {
+                neighbors.Add(neighbor);
+                neighborDirection.Add(directions[i]);
+                Debug.Log("adding " + neighbor + " to possible neighbors/ " + i);
+            }
         }
-        //TESTING
-        //make it so path cannot choose same direction twice
-        else if(randomDirection == lastDirection)
+        if(neighbors.Count <= 0)
         {
-            Debug.Log("same direction as previous");
-            ResetNextPoint(randomDirection, out nextPoint, out randomDirectionIndex, out randomDirection);
-            goto CheckPath;
+            Debug.LogError("no valid direction");
         }
-        else if (!grid.points.Contains(nextPoint))
-        {
-            Debug.Log("out of bounds");
-            ResetNextPoint(randomDirection, out nextPoint, out randomDirectionIndex, out randomDirection);
-            goto CheckPath;
-        }
-
+        int randomNeighborIndex = Random.Range(0, neighbors.Count);
+        Vector2 nextPoint = neighbors[randomNeighborIndex];
+        Vector2 randomDirection = neighborDirection[randomNeighborIndex];
         if (cellPath.ContainsValue(nextPoint))
         {
             GetKeyFromValue(cellPath, nextPoint, out int gridKey);
@@ -106,10 +110,6 @@ public class LoopEraseRandomWalk : MonoBehaviour
             for (int i = gridKey; i <= pathIndex; i++)
             {
                 cellObjectPool[i].SetActive(false);
-                if (i == 0)
-                {
-                    Debug.Log("!!!!!!! ********** !!!!!!!");
-                }
                 activeCells.Remove(cellPath[i]);
                 cellPath.Remove(i);
                 Debug.Log("destroying: " + cellObjectPool[i].name);
@@ -118,11 +118,12 @@ public class LoopEraseRandomWalk : MonoBehaviour
             pathIndex = gridKey - 1;
             numberOfLoops++;
         }
-        
         lastDirection = randomDirection;
         DisableCellWalls(cell, randomDirection);
+        neighbors.Clear();
+        neighborDirection.Clear();
 
-        if (pathIndex < pathLength)
+        if (pathIndex + 1 < pathLength)
         {
             pathIndex++;
             if (pathIndex == 0) return;
@@ -159,9 +160,9 @@ public class LoopEraseRandomWalk : MonoBehaviour
         cellWalls.direction = randomDirection;
     }
 
-    private void GetRandomDirection(out int randomDirectionIndex, out Vector2 randomDirection)
+    private void GetRandomDirection(out Vector2 randomDirection)
     {
-        randomDirectionIndex = Random.Range(0, directions.Count - 1);
+        int randomDirectionIndex = Random.Range(0, directions.Count - 1);
         randomDirection = directions[randomDirectionIndex];
     }
 
@@ -176,33 +177,12 @@ public class LoopEraseRandomWalk : MonoBehaviour
     private void CreateBranchingPaths()
     {
         List<Vector2> availablePoints = new List<Vector2>(cellPath.Values);
-    //get starting point
-    StartBranch:
-        GetPointOnPath(out Vector2 randomPointWithinPath);
-        if (!availablePoints.Contains(randomPointWithinPath))
-        {
-            Debug.Log(randomPointWithinPath + ", cell is not a valid branching point");
-            goto StartBranch;
-        }
+    GetRootCell:
+        int random = Random.Range(minimumCellsFromStartCell, availablePoints.Count);
+        Vector2 randomPointWithinPath = availablePoints[random];
         GetKeyFromValue(cellPath, randomPointWithinPath, out int pathKey);
-        GetKeyFromValue(cellPath, startCell.transform.position, out int startCellKey);
-        GetKeyFromValue(cellPath, exitCell.transform.position, out int exitCellKey);
+        GameObject rootCell = cellObjectPool[pathKey];
 
-
-        Debug.Log("branch start, Cell#: " + pathKey);
-        if (Mathf.Abs(pathKey - startCellKey) < minimumCellsFromStartCell)
-        {
-            Debug.Log(randomPointWithinPath + " start branch cell set too close to start of level");
-            goto StartBranch;
-        }
-        else if (branchingCellPoints.Contains(randomPointWithinPath))
-        {
-            Debug.Log(randomPointWithinPath + " is already a branching point");
-            goto StartBranch;
-        }
-
-        //check neighbors and ensure that cell has at least one open neighbor
-        //if no available neighbors, get new starting point
         for (int i = 0; i < directions.Count; i++)
         {
             Vector2 neighborPoint = randomPointWithinPath + directions[i];
@@ -217,6 +197,11 @@ public class LoopEraseRandomWalk : MonoBehaviour
                 Debug.Log(neighborPoint + " is out of bounds");
                 continue;
             }
+            else if(neighborPoint.y > cellYPoint.Max())
+            {
+                Debug.Log("neighbor is above the exit room");
+                continue;
+            }
             else
             {
                 neighbors.Add(neighborPoint);
@@ -225,25 +210,24 @@ public class LoopEraseRandomWalk : MonoBehaviour
         }
         if (neighbors.Count <= 0)
         {
-            Debug.Log("cell is surrounded on all sides, get new starting point");
-            goto StartBranch;
+            Debug.Log(rootCell.name + " is surrounded on all sides, get new starting point");
+            neighbors.Clear();
+            neighborDirection.Clear();
+            goto GetRootCell;
         }
-        availablePoints.Remove(randomPointWithinPath);
 
-        GameObject rootCell = cellObjectPool[pathKey];
+
+        rootCell.name += " branch";
         int randomNeighborIndex = Random.Range(0, neighbors.Count-1);
         Vector2 nextPoint = neighbors[randomNeighborIndex];
-        if(nextPoint.y > cellYPoint.Max())
-        {
-            Debug.Log("neighbor is above the exit room");
-            goto StartBranch;
-        }
+        availablePoints.Remove(randomPointWithinPath);
 
         pathIndex++;
         cellPath.Add(pathIndex, nextPoint);
         GameObject cell = NewActiveCell();
         Debug.Log("!! starting branching path @ point: " + rootCell.name + " heading to: " + nextPoint + " " + cell.name); ;
-
+        cell.name = cell.name + " Treasure Room";
+        cell.tag = "TreasureRoom";
         WallsManager cellOnPathWallManager = rootCell.GetComponent<WallsManager>();
         cellOnPathWallManager.DisableWallToTreasureRoom(neighborDirection[randomNeighborIndex]);
         
@@ -255,7 +239,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
         colorManager.spriteRenderer.color = Color.cyan;
 
         branchingPathLoopCount++;
-        branchingCellPoints.Add(nextPoint);
+        branchingCellPoints.Add(randomPointWithinPath);
         neighbors.Clear();
         neighborDirection.Clear();
         treasureRooms.Add(cell);
@@ -273,8 +257,8 @@ public class LoopEraseRandomWalk : MonoBehaviour
 
     private void GetPointOnPath(out Vector2 randomPointWithinPath)
     {
-        int randomXIndex = Random.Range(2, cellXPoint.Count - 2);
-        int randomYIndex = Random.Range(2, cellYPoint.Count - 2);
+        int randomXIndex = Random.Range(1, cellXPoint.Count - 1);
+        int randomYIndex = Random.Range(1, cellYPoint.Count - 1);
         randomPointWithinPath = new(cellXPoint[randomXIndex], cellYPoint[randomYIndex]);
     }
 
@@ -373,7 +357,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
         }
     }
 
-    private void ResetNextPoint(Vector2 currentDirection, out Vector2 nextPoint, out int index, out Vector2 direction)
+    private void ResetNextPoint(Vector2 currentDirection, out Vector2 nextPoint, out Vector2 direction)
     {
         int invalidIndex = directions.IndexOf(currentDirection);
     GetNewDirection:
@@ -386,9 +370,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
 
         Vector2 newDirection = directions[newIndex];
         nextPoint = cellPath[pathIndex] + newDirection;
-        index = newIndex;
         direction = newDirection;
-        Debug.Log("new direction: " + direction + " " + directionNames[index]);
     }
     public void GetKeyFromValue(Dictionary<int, Vector2> dictionary, Vector2 value, out int key)
     {

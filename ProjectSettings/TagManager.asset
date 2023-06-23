@@ -15,6 +15,7 @@ TagManager:
   - NPC
   - Shop
   - Blank
+  - TreasureRoom
   layers:
   - Default
   - TransparentFX

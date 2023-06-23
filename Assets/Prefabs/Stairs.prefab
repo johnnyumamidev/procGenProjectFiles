@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5602144649755201315}
   - component: {fileID: 8721326582044708403}
   - component: {fileID: 7387269290419593130}
-  - component: {fileID: 5734867113627883523}
+  - component: {fileID: 6728187948587269388}
   m_Layer: 3
   m_Name: Stairs
   m_TagString: Slope
@@ -127,7 +127,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.64}
+    oldSize: {x: 0.2, y: 0.2}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -170,7 +170,7 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
---- !u!114 &5734867113627883523
+--- !u!114 &6728187948587269388
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,6 +179,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 393360717583913724}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 674de2174bdff9844a7fd141441a40ef, type: 3}
+  m_Script: {fileID: 11500000, guid: 025ae9d16e6e4374da33be3bd81e447b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resetColliderTime: 0.5
