@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7577643431785102187}
   - component: {fileID: 7577643431785102184}
   - component: {fileID: 7577643431785102185}
+  - component: {fileID: 7577643433437600424}
+  - component: {fileID: 6788462687011952805}
   m_Layer: 0
   m_Name: LevelGenerator
   m_TagString: Untagged
@@ -46,8 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a2a29162086b54c84539b85e595d12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 4
-  gridHeight: 12
+  gridWidth: 6
+  gridHeight: 4
   cellWidth: 1
   cellHeight: 1
   startGridPosition: {fileID: 7577643433265375664}
@@ -65,19 +67,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 7481954256667548557, guid: 75a5ccc4d63ba5649a98956dcde83862, type: 3}
-  lastDirectionName: 
   targetCell: {x: 0, y: 0}
   cellPoints: []
   cellObjectPool: []
-  activeCells: []
   fillerCells: []
   pathIndex: 0
-  timeBetweenIteration: 0.01
+  timeBetweenIteration: 0.001
   numberOfLoops: 0
-  pathLength: 20
+  pathLength: 12
   pathActive: 0
-  desiredBranchingPaths: 6
+  walkCompleteEvent: {fileID: 11400000, guid: ab0712f1c8adc32439ac50d16c9fcd0a, type: 2}
+  emptyCell: {fileID: 7481954256667548557, guid: f7b5cbd13cfaa5f4bace743e071498cb, type: 3}
+  desiredBranchingPaths: 3
   minimumCellsFromStartCell: 4
+--- !u!114 &7577643433437600424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7577643431785102189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c44bf759523f1194c85409f09392a5c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelGenerationComplete: {fileID: 11400000, guid: 6f2047d13e05c6e47b8280bb1cb18d46, type: 2}
+  spawnPlayer:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7577643433437600424}
+        m_TargetAssemblyTypeName: SpawnUnits, Assembly-CSharp
+        m_MethodName: SpawnPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  playerPrefab: {fileID: 6190944844710348074, guid: 1640c1c75bc231b489fba7b98daf7a60, type: 3}
+  spawnPosition: {fileID: 0}
+--- !u!114 &6788462687011952805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7577643431785102189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e613539ae927c41429367e9116cfd9fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7577643433265375667
 GameObject:
   m_ObjectHideFlags: 0

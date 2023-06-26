@@ -30,6 +30,8 @@ public class LoopEraseRandomWalk : MonoBehaviour
 
     [SerializeField] GameEvent walkCompleteEvent;
 
+    public GameObject emptyCell;
+
     private void Awake()
     {
         grid = GetComponent<Grid>();
@@ -86,7 +88,7 @@ public class LoopEraseRandomWalk : MonoBehaviour
             }
             else if (directions[i] == lastDirection)
             {
-                Debug.Log(directions[i] + " is repeat of last step/ " + i);
+                continue;
             }
             else
             {
@@ -178,9 +180,12 @@ public class LoopEraseRandomWalk : MonoBehaviour
     {
         List<Vector2> availablePoints = new List<Vector2>(cellPath.Values);
     GetRootCell:
-        int random = Random.Range(minimumCellsFromStartCell, availablePoints.Count);
+        neighbors.Clear();
+        neighborDirection.Clear();
+        int random = Random.Range(0, availablePoints.Count);
         Vector2 randomPointWithinPath = availablePoints[random];
         GetKeyFromValue(cellPath, randomPointWithinPath, out int pathKey);
+        GetKeyFromValue(cellPath, startCell.transform.position, out int startKey);
         GameObject rootCell = cellObjectPool[pathKey];
 
         for (int i = 0; i < directions.Count; i++)
@@ -210,9 +215,12 @@ public class LoopEraseRandomWalk : MonoBehaviour
         }
         if (neighbors.Count <= 0)
         {
-            Debug.LogError(rootCell.name + " is surrounded on all sides, get new starting point");
-            neighbors.Clear();
-            neighborDirection.Clear();
+            Debug.Log(rootCell.name + " is surrounded on all sides, get new starting point");
+            goto GetRootCell;
+        }
+        else if(Mathf.Abs(pathKey - startKey) < minimumCellsFromStartCell)
+        {
+            Debug.Log(rootCell.name + " too close to starting room");
             goto GetRootCell;
         }
 
@@ -228,12 +236,6 @@ public class LoopEraseRandomWalk : MonoBehaviour
         Debug.Log("!! starting branching path @ point: " + rootCell.name + " heading to: " + nextPoint + " " + cell.name); ;
         cell.name = cell.name + " Treasure Room";
         cell.tag = "TreasureRoom";
-        WallsManager cellOnPathWallManager = rootCell.GetComponent<WallsManager>();
-        cellOnPathWallManager.DisableWallToTreasureRoom(neighborDirection[randomNeighborIndex]);
-        
-        WallsManager cellWalls = cell.GetComponent<WallsManager>();
-        cellWalls.lastDirection = neighborDirection[randomNeighborIndex];
-        cellWalls.isTreasureRoom = true;
 
         ColorManager colorManager = cell.GetComponent<ColorManager>();
         colorManager.spriteRenderer.color = Color.cyan;
@@ -323,20 +325,28 @@ public class LoopEraseRandomWalk : MonoBehaviour
             }
         }
 
+        AssignCellsToFloorLevel();
         StartCoroutine(FillRemainingPointsOnGrid());
     }
+
+    private void AssignCellsToFloorLevel()
+    {
+        foreach(GameObject cell in activeCells.Values)
+        {
+
+        }
+    }
+
     private IEnumerator FillRemainingPointsOnGrid()
     {
         int gridIndex = 0;
         int cellIndex = pathIndex+1;
         while (gridIndex < gridPoints.Count)
         {
-            GameObject cell = cellObjectPool[cellIndex];
+            GameObject cell = Instantiate(emptyCell);
             cell.SetActive(true);
             cell.tag = "Filler";
             cell.name = "Empty Cell";
-            WallsManager cellWalls = cell.GetComponent<WallsManager>();
-            cellWalls.wallsDisabled = true;
             fillerCells.Add(cell);
             if (cellIndex < cellObjectPool.Count - 1)
             {
@@ -344,8 +354,6 @@ public class LoopEraseRandomWalk : MonoBehaviour
             }
             if (gridIndex == gridPoints.Count) break;
             cell.transform.position = gridPoints[gridIndex];
-            ColorManager cellColor = cell.GetComponent<ColorManager>();
-            cellColor.spriteRenderer.color = Color.black;
             gridIndex++;
             yield return new WaitForSeconds(timeBetweenIteration);
         }

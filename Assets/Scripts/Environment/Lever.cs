@@ -7,6 +7,7 @@ public class Lever : MonoBehaviour, IInteractable
     public GameObject interactableObject => this.gameObject;
     public GameObject gear;
 
+    [SerializeField] GameEvent leverPulled;
     public bool DropItem()
     {
         throw new System.NotImplementedException();
@@ -15,7 +16,8 @@ public class Lever : MonoBehaviour, IInteractable
     public bool Interact(PlayerInteraction interactor)
     {
         Debug.Log("pull lever");
-        gear.transform.rotation = Quaternion.Euler(0, 0, 15);
+        gear.transform.rotation = Quaternion.Euler(0, 0, 135);
+        leverPulled.Raise();
         return false;
     }
 }

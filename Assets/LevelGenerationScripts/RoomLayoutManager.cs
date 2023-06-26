@@ -17,11 +17,12 @@ public class RoomLayoutManager : MonoBehaviour, IEventListener
     public List<GameObject> shopRoom = new List<GameObject>();
 
     public List<GameObject> NE = new List<GameObject>();
-    public List<GameObject> NW = new List<GameObject>();
     public List<GameObject> SE = new List<GameObject>();
-    public List<GameObject> SW = new List<GameObject>();
     public List<GameObject> NS = new List<GameObject>();
     public List<GameObject> EW = new List<GameObject>();
+    public List<GameObject> NWE = new List<GameObject>();
+    public List<GameObject> SWE = new List<GameObject>();
+    public List<GameObject> NSW = new List<GameObject>();
 
     public List<GameObject> roomLayouts;
     void Awake()
@@ -32,14 +33,19 @@ public class RoomLayoutManager : MonoBehaviour, IEventListener
         exitRoom.SetActive(false);
         wallsManager = GetComponent<WallsManager>();
     }
+
+    bool flipRoom = false;
     private void SetRoomLayout()
     {
         int randomIndex = Random.Range(0, roomLayouts.Count - 1);
         if (roomLayouts.Count == 1) randomIndex = 0;
-        roomLayouts[randomIndex].SetActive(true);
+        GameObject room = roomLayouts[randomIndex];
+        room.SetActive(true);
+        if (flipRoom) room.transform.rotation = Quaternion.Euler(0, 180, 0);
     }
     private void Update()
     {
+        List<GameObject> _walls = wallsManager.walls;
         if (!levelComplete) return;
         if (!startingRoomPlaced && gameObject.CompareTag("Start"))
         {
@@ -67,12 +73,18 @@ public class RoomLayoutManager : MonoBehaviour, IEventListener
 
         if (roomsSet) return;
 
-        if (wallsManager.walls[0].activeSelf && wallsManager.walls[1].activeSelf) roomLayouts = SW;
-        else if (wallsManager.walls[0].activeSelf && wallsManager.walls[3].activeSelf) roomLayouts = SE;
-        else if (wallsManager.walls[1].activeSelf && wallsManager.walls[2].activeSelf) roomLayouts = NW;
-        else if (wallsManager.walls[2].activeSelf && wallsManager.walls[3].activeSelf) roomLayouts = NE;
-        else if (wallsManager.walls[0].activeSelf && wallsManager.walls[2].activeSelf) roomLayouts = EW;
-        else if (wallsManager.walls[1].activeSelf && wallsManager.walls[3].activeSelf) roomLayouts = NS;
+        else if (_walls[2].activeSelf && (_walls[3].activeSelf || _walls[2].activeSelf)) roomLayouts = NE;
+        else if (_walls[0].activeSelf && (_walls[3].activeSelf || _walls[2].activeSelf)) roomLayouts = SE;
+        else if (_walls[1].activeSelf && _walls[3].activeSelf) roomLayouts = NS;
+        else if (_walls[0].activeSelf && _walls[2].activeSelf) roomLayouts = EW;
+        else if (_walls[0].activeSelf) roomLayouts = SWE;
+        else if (_walls[1].activeSelf) roomLayouts = NSW;
+        else if (_walls[2].activeSelf) roomLayouts = NWE;
+        
+        if (gameObject.tag == "TreasureRoom") roomLayouts = treasureRoom;
+
+        if ((_walls[2].activeSelf && _walls[1].activeSelf) || (_walls[0].activeSelf && _walls[2].activeSelf)) flipRoom = true;
+        else { flipRoom = false; }
 
         if (gameObject.CompareTag("Filler"))
         {

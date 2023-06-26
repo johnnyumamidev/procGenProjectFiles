@@ -43,7 +43,7 @@ public class WallsManager : MonoBehaviour, IEventListener
         if (!levelComplete) return;
         if (isTreasureRoom)
         {
-            DisableWallTowardsPreviousRoom();
+            //DisableWallTowardsPreviousRoom();
         }
 
         if (!wallsDisabled)
