@@ -17,6 +17,8 @@ TagManager:
   - Blank
   - TreasureRoom
   - Wall
+  - Stop
+  - Cell
   layers:
   - Default
   - TransparentFX

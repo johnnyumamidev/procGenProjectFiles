@@ -23,7 +23,7 @@ public class RoomLayoutManager : MonoBehaviour, IEventListener
     public List<GameObject> NWE = new List<GameObject>();
     public List<GameObject> SWE = new List<GameObject>();
     public List<GameObject> NSW = new List<GameObject>();
-
+    public List<GameObject> elevator = new List<GameObject>();
     public List<GameObject> roomLayouts;
     void Awake()
     {
@@ -73,9 +73,8 @@ public class RoomLayoutManager : MonoBehaviour, IEventListener
 
         if (roomsSet) return;
 
-        else if (_walls[2].activeSelf && (_walls[3].activeSelf || _walls[2].activeSelf)) roomLayouts = NE;
+        if (!_walls[0].activeSelf) roomLayouts = elevator;
         else if (_walls[0].activeSelf && (_walls[3].activeSelf || _walls[2].activeSelf)) roomLayouts = SE;
-        else if (_walls[1].activeSelf && _walls[3].activeSelf) roomLayouts = NS;
         else if (_walls[0].activeSelf && _walls[2].activeSelf) roomLayouts = EW;
         else if (_walls[0].activeSelf) roomLayouts = SWE;
         else if (_walls[1].activeSelf) roomLayouts = NSW;

@@ -101,8 +101,6 @@ public class PlayerAnimationManager : MonoBehaviour, IEventListener
         if (playerHealth.playerHurtState) animStateIndex = 10;
         if (playerHealth.currentHealth == 0) animStateIndex = 11;
         if (playerLocomotion.isDodging) animStateIndex = 15;
-        if (grapplingHook.aimingHook) animStateIndex = 16;
-        if (grapplingHook.hookThrown) animStateIndex = 18;
     }
 
     [SerializeField] GameEvent playerSpawnEvent;

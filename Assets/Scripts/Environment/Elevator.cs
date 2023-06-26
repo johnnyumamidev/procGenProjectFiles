@@ -4,32 +4,31 @@ using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Elevator : MonoBehaviour, IEventListener
+public class Elevator : MonoBehaviour
 {
+    [SerializeField] Rigidbody2D elevatorRb;
     bool elevatorActive = false;
     public float speed = 2;
-    [SerializeField] GameEvent leverPulled;
-    [SerializeField] UnityEvent response;
-    private void OnEnable()
-    {
-        leverPulled.RegisterListener(this);
-    }
-    private void OnDisable()
-    {
-        leverPulled.UnregisterListener(this);
-    }
-    public void OnEventRaised(GameEvent gameEvent)
-    {
-        response?.Invoke();
-    }
-
+    
     private void Update()
     {
-        if(elevatorActive)
-        transform.Translate(Vector2.up * speed * Time.deltaTime);
+        Vector2 velocity = Vector2.zero;
+        if (elevatorActive)
+            velocity = Vector2.up * speed * Time.deltaTime;
+
+        elevatorRb.velocity = velocity;
     }
     public void ActivateElevator()
     {
         elevatorActive = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Stop"))
+        {
+            elevatorActive = false;
+            Debug.Log("stop");
+        }
     }
 }

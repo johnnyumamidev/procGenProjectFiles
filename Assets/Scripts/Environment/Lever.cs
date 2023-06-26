@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Lever : MonoBehaviour, IInteractable
 {
     public GameObject interactableObject => this.gameObject;
     public GameObject gear;
 
-    [SerializeField] GameEvent leverPulled;
+    [SerializeField] UnityEvent pullLever;
     public bool DropItem()
     {
         throw new System.NotImplementedException();
@@ -17,7 +18,7 @@ public class Lever : MonoBehaviour, IInteractable
     {
         Debug.Log("pull lever");
         gear.transform.rotation = Quaternion.Euler(0, 0, 135);
-        leverPulled.Raise();
+        pullLever.Invoke();
         return false;
     }
 }

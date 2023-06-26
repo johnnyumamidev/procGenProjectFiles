@@ -49,31 +49,10 @@ public class WallsManager : MonoBehaviour, IEventListener
         if (!wallsDisabled)
         {
             DisableWallTowardsNextRoom(direction);
-            if (roomIndex > 0)
-            {
-                DisableWallTowardsPreviousRoom();
-            }
+            DisableWallTowardsPreviousRoom();
 
             wallsDisabled = true;
             wallsDisabledCompleteEvent.Raise();
-        }
-    }
-
-    public float chanceToDisableThirdWall = 0.25f;
-    private void RandomlyDisableThirdWall()
-    {
-        foreach (GameObject wall in walls)
-        {
-            if (wall.activeSelf == true && activeWalls.Count > 2)
-            {
-                float rollToDisableWall = Random.Range(0, 1f);
-                if (rollToDisableWall > chanceToDisableThirdWall)
-                {
-                    Debug.Log("disabling wall: " + wall.name);
-                    wall.SetActive(false);
-                    activeWalls.Remove(wall);
-                }
-            }
         }
     }
 
