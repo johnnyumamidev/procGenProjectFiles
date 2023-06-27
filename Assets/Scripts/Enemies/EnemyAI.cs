@@ -169,7 +169,7 @@ public class EnemyAI : MonoBehaviour, IEventListener
     private void OnEnable()
     {
         enemyLungeEvent.RegisterListener(this);
-        projectileEvent.RegisterListener(this);
+        if(projectileEvent != null) projectileEvent.RegisterListener(this);
     }
     private void OnDisable()
     {

@@ -31,7 +31,6 @@ public class Lock : MonoBehaviour, IInteractable
             unlockEvent.Raise();
             Destroy(this.gameObject);
             Instantiate(openEffect, transform.position, Quaternion.identity);
-            AudioManager.instance.DoorUnlockSFX();
             door.UnlockDoor();
         }
         else

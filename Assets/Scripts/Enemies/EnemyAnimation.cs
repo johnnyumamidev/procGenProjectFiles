@@ -93,7 +93,7 @@ public class EnemyAnimation : MonoBehaviour, IEventListener
 
     private void OnEnable()
     {
-        projectileEvent.RegisterListener(this);
+        if (projectileEvent != null) projectileEvent.RegisterListener(this);
     }
     private void OnDisable()
     {

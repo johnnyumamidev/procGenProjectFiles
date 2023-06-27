@@ -186,7 +186,7 @@ public class PlayerLocomotion : MonoBehaviour
     private void HandleWalking()
     {
         _moveSpeed = playerData.moveSpeed;
-        float playerMoveInput = playerInput.movementInput.x;
+        float playerMoveInput = playerInput.movementInput.normalized.x;
         if (isOnSlope && playerInput.movementInput.x != 0)
         {
             if (!facingRight && slopeModifier > 0) slopeModifier *= -1;

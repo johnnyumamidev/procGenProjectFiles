@@ -5,6 +5,7 @@ using UnityEngine;
 public class Door : MonoBehaviour, IInteractable
 {
     bool doorLocked = true;
+    [SerializeField] GameEvent doorOpenedEvent;
 
     public GameObject interactableObject => this.gameObject;
 
@@ -18,7 +19,7 @@ public class Door : MonoBehaviour, IInteractable
         if (doorLocked) { Debug.Log("door locked"); }
         else
         {
-            AudioManager.instance.OpenDoor();
+            doorOpenedEvent.Raise();
             Debug.Log("door unlocked, proceed to next room");
         }
 

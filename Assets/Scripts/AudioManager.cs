@@ -4,17 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : MonoBehaviour, IEventListener
 {
-    public static AudioManager instance;
+    [SerializeField] GameEvent playerDamageEvent;
+    [SerializeField] UnityEvent playerDamage;
+    [SerializeField] GameEvent unlockEvent;
+    [SerializeField] UnityEvent unlock;
+    [SerializeField] GameEvent doorOpenedEvent;
+    [SerializeField] UnityEvent doorOpened;
     public AudioSource audioSource;
     public AudioClip openDoorSFX;
     public AudioClip unlockSFX;
     public AudioClip playerDamageSFX;
-    private void Awake()
-    {
-        instance = this;
-    }
     public void DoorUnlockSFX()
     {
         audioSource.clip = unlockSFX;
@@ -31,5 +32,23 @@ public class AudioManager : MonoBehaviour
     {
         audioSource.clip = playerDamageSFX;
         audioSource.Play();
+    }
+    private void OnEnable()
+    {
+        playerDamageEvent.RegisterListener(this);
+        unlockEvent.RegisterListener(this);
+        doorOpenedEvent.RegisterListener(this);
+    }
+    private void OnDisable()
+    {
+        playerDamageEvent.UnregisterListener(this);
+        unlockEvent.UnregisterListener(this);
+        doorOpenedEvent.UnregisterListener(this);
+    }
+    public void OnEventRaised(GameEvent gameEvent)
+    {
+        if (gameEvent == unlockEvent) unlock?.Invoke();
+        if(gameEvent == playerDamageEvent) playerDamage?.Invoke();
+        if(gameEvent == doorOpenedEvent) doorOpened?.Invoke();
     }
 }

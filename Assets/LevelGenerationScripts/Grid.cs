@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
+    DungeonManager dungeonManager;
+    [SerializeField] int numberOfElevatorRooms = 2;
     public int gridWidth;
     public int gridHeight;
     public int cellWidth;
@@ -13,7 +16,14 @@ public class Grid : MonoBehaviour
     public List<Vector2> points = new List<Vector2>();
     void Awake()
     {
+        dungeonManager = GetComponent<DungeonManager>();
+        DetermineGridSize();
         GenerateGrid(); 
+    }
+
+    private void DetermineGridSize()
+    {
+        gridWidth = numberOfElevatorRooms + dungeonManager.currentFloor;
     }
 
     private void GenerateGrid()

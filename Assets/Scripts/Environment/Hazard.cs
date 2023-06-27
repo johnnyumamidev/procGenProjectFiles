@@ -11,7 +11,6 @@ public class Hazard : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             playerDamage.Raise();
-            AudioManager.instance.PlayerDamage();
         }
     }
 }
