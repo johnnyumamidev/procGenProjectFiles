@@ -53,10 +53,10 @@ public class Weapon : Item, IEventListener
     }
     private void OnDisable()
     {
-        attackActiveEvent.UnregisterListener(this);
-        attackInactiveEvent.UnregisterListener(this);
-        playerFacingRight.UnregisterListener(this);
-        playerFacingLeft.UnregisterListener(this);
+        attackActiveEvent?.UnregisterListener(this);
+        attackInactiveEvent?.UnregisterListener(this);
+        playerFacingRight?.UnregisterListener(this);
+        playerFacingLeft?.UnregisterListener(this);
     }
     public void OnEventRaised(GameEvent gameEvent)
     {

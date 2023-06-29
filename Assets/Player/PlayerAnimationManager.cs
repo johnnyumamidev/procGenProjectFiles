@@ -66,41 +66,28 @@ public class PlayerAnimationManager : MonoBehaviour, IEventListener
 
     private void HandlePlayerInput()
     {
-        if (playerLocomotion.isGrounded && playerInput.movementInput.x != 0) { animStateIndex = 1; }
+        if (playerLocomotion.isGrounded && playerInput.movementInput.x != 0) { animStateIndex = 8; }
         else if (!playerLocomotion.isGrounded && !playerLocomotion.isNearChain) { animStateIndex = 2; }
         else if (playerLocomotion.isNearChain && playerInput.movementInput == Vector2.zero && playerLocomotion.isGrounded) { animStateIndex = 4; }
         else if (playerLocomotion.isClimbing && !playerLocomotion.isGrounded) { animStateIndex = 5; }
         else if (!playerLocomotion.isGrounded && playerLocomotion.isNearChain && !playerLocomotion.isClimbing) { animStateIndex = 6; }
         else { animStateIndex = 0; }
-        
-        if (playerInteraction.currentlyHoldingItem)
+
+        if (playerLocomotion.isDodging)
         {
-            if (playerLocomotion.isDodging)
-            {
-                animStateIndex = 15;
-                return;
-            }
-            if (playerLocomotion.isClimbing)
-            {
-                animStateIndex = 5;
-                return;
-            }
-            if (playerInteraction.currentlyHoldingItem)
-            {
-                if (playerInput.movementInput.x != 0) animStateIndex = 13;
-                if (playerInteraction.itemObject.GetComponent<Weapon>().weaponData.isRangedWeapon) return;
-                if (playerInput.performAttack != 0) animStateIndex = 12;
-                return;
-            }
-            if (playerInput.movementInput == Vector2.zero) animStateIndex = 7;
-            else if (playerInput.movementInput.x != 0) animStateIndex = 8;
-            
-            if (!playerLocomotion.isGrounded) animStateIndex = 9;
+            animStateIndex = 9;
+            return;
         }
+        if (playerLocomotion.isClimbing)
+        {
+            animStateIndex = 5;
+            return;
+        }
+
+        if (playerInput.performAttack != 0) animStateIndex = 7;
 
         if (playerHealth.playerHurtState) animStateIndex = 10;
         if (playerHealth.currentHealth == 0) animStateIndex = 11;
-        if (playerLocomotion.isDodging) animStateIndex = 15;
     }
 
     [SerializeField] GameEvent playerSpawnEvent;

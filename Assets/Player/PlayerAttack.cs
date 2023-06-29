@@ -14,40 +14,89 @@ public class PlayerAttack : MonoBehaviour, IEventListener
     public Transform firingPoint;
     public GameObject boltPrefab;
 
+    [SerializeField] Transform currentWeapon;
     [SerializeField] Transform rangedWeapon;
+    [SerializeField] Transform meleeWeapon;
 
     PlayerInteraction playerInteraction;
     PlayerInput playerInput;
     PlayerLocomotion playerLocomotion;
 
     public bool isMeleeAttacking;
+
+    public float switchWeaponCooldown = 0.25f;
+    bool switchWeaponReady = true;
+    bool weaponsDisabled = false;
     private void Awake()
     {
+        playerLocomotion= GetComponent<PlayerLocomotion>(); 
         playerInput = GetComponent<PlayerInput>();
         playerInteraction = GetComponent<PlayerInteraction>();
-        playerLocomotion= GetComponent<PlayerLocomotion>(); 
     }
 
     public void HandleAllAttackActions()
     {
-        if (!playerInteraction.currentlyHoldingItem) return;
+        AssignEquippedWeaponToSlot();
 
-        if(playerInteraction.currentlyHoldingItem)
-        {
-            rangedWeapon = playerInteraction.itemObject.transform;
-        }
-        Weapon playerWeapon = rangedWeapon.GetComponent<Weapon>();
-        if (playerWeapon == null) return;
-
-        if (playerWeapon.weaponData.isRangedWeapon)
-        {
-            HandleRangedAttack();
-        }
-        else
+        CountTimeUntilSwitchWeaponReady();
+        if (playerInput.performSwitch != 0 && switchWeaponReady) SwitchBetweenMeleeAndRangedWeapon();
+        if (currentWeapon == meleeWeapon)
         {
             HandleMeleeAttack();
         }
+        else
+        {
+            HandleRangedAttack();
+        }
     }
+
+    private void AssignEquippedWeaponToSlot()
+    {
+        meleeWeapon = playerInteraction.equippedMeleeWeapon.transform;
+        rangedWeapon = playerInteraction.equippedRangedWeapon.transform;
+        if (!weaponsDisabled)
+        {
+            meleeWeapon.GetComponent<SpriteRenderer>().enabled = false;
+            rangedWeapon.GetComponent<SpriteRenderer>().enabled = false;
+            weaponsDisabled = true;
+        }
+
+        if (currentWeapon == null)
+        {
+            currentWeapon = meleeWeapon;
+            currentWeapon.GetComponent<SpriteRenderer>().enabled = true;
+        }
+    }
+
+    private void CountTimeUntilSwitchWeaponReady()
+    {
+        if (!switchWeaponReady)
+        {
+            float timer = 0;
+            timer += Time.deltaTime;
+            if(timer >= switchWeaponCooldown)
+            {
+                switchWeaponReady = true;
+            }
+        }
+    }
+
+    private void SwitchBetweenMeleeAndRangedWeapon()
+    {
+        currentWeapon.GetComponent<SpriteRenderer>().enabled = false;
+        if (rangedWeapon != null && currentWeapon != rangedWeapon)
+        {
+            Debug.Log("equipping: " + rangedWeapon);
+            currentWeapon = rangedWeapon;
+        }
+        else if (meleeWeapon != null && currentWeapon != meleeWeapon)
+        {
+            Debug.Log("equipping: " + meleeWeapon);
+            currentWeapon = meleeWeapon;
+        }
+        currentWeapon.GetComponent<SpriteRenderer>().enabled = true;
+    }
+
     bool boltFired;
     public float crossbowCooldownTime = 1f;
     public float verticalAimThreshold = 0.5f;
@@ -117,11 +166,11 @@ public class PlayerAttack : MonoBehaviour, IEventListener
     }
     private void OnEnable()
     {
-        fireProjectileEvent.RegisterListener(this);
+        fireProjectileEvent?.RegisterListener(this);
     }
     private void OnDisable()
     {
-        fireProjectileEvent.UnregisterListener(this);
+        fireProjectileEvent?.UnregisterListener(this);
     }
     public void OnEventRaised(GameEvent gameEvent)
     {

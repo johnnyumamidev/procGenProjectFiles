@@ -16,14 +16,7 @@ public class Lock : MonoBehaviour, IInteractable
     {
         door = GetComponentInParent<Door>();
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Key key = collision.GetComponent<Key>();
-        if (key != null)
-        {
-        }
-    }
-
+   
     public bool Interact(PlayerInteraction interactor)
     {
         if (interactor.hasKey)

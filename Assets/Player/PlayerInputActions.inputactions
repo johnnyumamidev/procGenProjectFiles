@@ -69,7 +69,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Throw",
+                    "name": "Switch",
                     "type": "Button",
                     "id": "0552bd0d-d818-43b2-a7fe-1d5d98689cf2",
                     "expectedControlType": "Button",
@@ -306,7 +306,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Throw",
+                    "action": "Switch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

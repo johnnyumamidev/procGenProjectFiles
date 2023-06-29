@@ -32,13 +32,13 @@ public class GrapplingHook : MonoBehaviour
         playerPosition = player.position;
         point = playerInput.aimDirection.normalized * hookRange;
 
-        if (playerInput.performThrow != 0)
+        if (playerInput.performSwitch != 0)
         {
             AimHook();
             aimingHook = true;
         }
 
-        if(aimingHook && !hookThrown && playerInput.performThrow == 0)
+        if(aimingHook && !hookThrown && playerInput.performSwitch == 0)
         {
             aimingHook = false;
             ThrowHook();

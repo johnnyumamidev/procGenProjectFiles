@@ -26,101 +26,148 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
 
     //component references
     PlayerInput playerInput;
-    PlayerHealth playerHealth;
     PlayerLocomotion playerLocomotion;
-    private readonly Collider2D[] colliders = new Collider2D[2];
-    [SerializeField] private int numberFound;
+    private readonly Collider2D[] interactableColliders = new Collider2D[2];
+    [SerializeField] private int numberOfInteractablesInRange;
 
-    public bool currentlyHoldingItem = false;
-    public IInteractable currentlyHeldItem;
     public GameObject itemObject;
-
     public bool hasKey = false;
+
+    [Header("Starting Weapons")]
+    public GameObject startingMeleeWeapon;
+    public GameObject startingRangedWeapon;
+
+    [Header("Equipped Weapons")]
+    public GameObject equippedMeleeWeapon;
+    public GameObject equippedRangedWeapon;
+
+    [SerializeField] GameEvent assignWeaponEvent;
 
     bool npcDetected;
     NPC currentNPC;
     private void Awake()
     {
+        GameObject melee = Instantiate(startingMeleeWeapon, transform.position, Quaternion.identity);
+        GameObject ranged = Instantiate(startingRangedWeapon, transform.position, Quaternion.identity);
+        Weapon meleeWeapon = melee.GetComponent<Weapon>();
+        Weapon rangedWeapon = ranged.GetComponent<Weapon>();
+        PickUpItem(meleeWeapon, meleeWeapon.interactableObject);
+        PickUpItem(rangedWeapon, rangedWeapon.interactableObject);
+        
         interactionTimer = interactionCooldown;
         playerInput = GetComponent<PlayerInput>();
-        playerHealth = GetComponent<PlayerHealth>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
     }
 
-    void Update()
+    public void HandleInteraction()
     {
         npcDetected = false;
         pointer.SetActive(false);
         if (!playerLocomotion.isGrounded) return;
+        GetInteractableObjects();
+        CountTimeUntilInteractionReady();
+        if (interactionReady && numberOfInteractablesInRange > 0)
+        {
+            EnablePointer();
+            DetectPlayerInteractionInput();
+        }
+        else
+        {
+            pointer.SetActive(false);
+        }
+    }
 
+    private void DetectPlayerInteractionInput()
+    {
+        if (playerInput.performInteract != 0)
+        {
+            itemObject = interactableColliders[0].gameObject;
+            IInteractable interactable = itemObject.GetComponent<IInteractable>();
+            GameObject interactableObj = interactable.interactableObject;
+            //if (interactable == null) return;
+
+            PickUpItem(interactable, interactableObj);
+
+            DetectNPC();
+        }
+    }
+
+    private void PickUpItem(IInteractable interactable, GameObject interactableObj)
+    {
+        interactionReady = false;
+        if (interactableObj.CompareTag("Holdable"))
+        {
+            audioSource.clip = pickUpSFX;
+            audioSource.Play();
+            interactableObj.layer = 0;
+            Weapon weapon = interactableObj.GetComponent<Weapon>();
+            bool isRangedWeapon = weapon.weaponData.isRangedWeapon;
+            if (weapon != null)
+            {
+                interactable.Interact(this);
+                if (equippedMeleeWeapon != null && equippedRangedWeapon != null)
+                {
+                    if (!isRangedWeapon) DropCurrentlyHeldItem(equippedMeleeWeapon);
+                    else { DropCurrentlyHeldItem(equippedRangedWeapon); }
+                }
+                AssignEquippedWeapons(interactableObj, isRangedWeapon);
+            }
+        }
+    }
+
+    private void AssignEquippedWeapons(GameObject weapon, bool ranged)
+    {
+        Debug.Log("assigning " + weapon.name + " to appropriate slot");
+        if (ranged) equippedRangedWeapon = weapon;
+        else { equippedMeleeWeapon = weapon; }
+    }
+
+    private void DetectNPC()
+    {
+        if (interactableColliders[0].CompareTag("NPC"))
+        {
+            npcDetected = true;
+            currentNPC = interactableColliders[0].GetComponent<NPC>();
+        }
+        if (npcDetected)
+        {
+            if (currentNPC != null) currentNPC.NPCAction();
+        }
+    }
+
+    private void EnablePointer()
+    {
+        Vector2 objectPosition = interactableColliders[0].transform.position;
+        pointer.SetActive(true);
+        pointer.transform.position = objectPosition + pointerOffset;
+    }
+
+    private void GetInteractableObjects()
+    {
+        numberOfInteractablesInRange = Physics2D.OverlapCircleNonAlloc(interactionHitbox.position, interactionRadius, interactableColliders, interactionLayerMask);
+    }
+    private void CountTimeUntilInteractionReady()
+    {
         if (!interactionReady)
         {
             interactionTimer -= Time.deltaTime;
         }
-
         if (interactionTimer <= 0)
         {
             interactionReady = true;
             interactionTimer = interactionCooldown;
         }
-
-        numberFound = Physics2D.OverlapCircleNonAlloc(interactionHitbox.position, interactionRadius, colliders, interactionLayerMask);
-
-        if (numberFound > 0 && interactionReady)
-        {
-            itemObject = colliders[0].gameObject;
-            var interactable = itemObject.GetComponent<IInteractable>();
-            Vector2 objectPosition = colliders[0].transform.position;
-            pointer.SetActive(true);
-            pointer.transform.position = objectPosition + pointerOffset;
-
-            if (!currentlyHoldingItem && interactable != null && playerInput.performInteract != 0)
-            {
-                interactable.Interact(this);
-                interactionReady = false;
-
-                if (interactable.interactableObject.CompareTag("Holdable"))
-                {
-                    audioSource.clip = pickUpSFX;
-                    audioSource.Play();
-                    currentlyHoldingItem = true;
-                    currentlyHeldItem = interactable;
-                    Debug.Log("current item: " + currentlyHeldItem.ToString());
-                }
-            }
-
-            if (colliders[0].CompareTag("NPC"))
-            {
-                npcDetected = true;
-                currentNPC = colliders[0].GetComponent<NPC>();
-            }
-        }
-
-        if (playerInput.performInteract != 0 && interactionReady)
-        {
-            if (currentlyHoldingItem)
-            {
-                audioSource.clip = pickUpSFX;
-                audioSource.Play();
-                DropCurrentlyHeldItem();
-                interactionReady = false;
-            }
-
-            if (npcDetected)
-            {
-                if (currentNPC != null) currentNPC.NPCAction();
-            }
-        }
-
-        if(currentlyHoldingItem) { pointer.SetActive(false); }
     }
 
-    private void DropCurrentlyHeldItem()
+    private void DropCurrentlyHeldItem(GameObject obj)
     {
-        Debug.Log("dropping current item: " + currentlyHeldItem.ToString());
-        currentlyHeldItem.DropItem();
-        currentlyHoldingItem = false;
-        currentlyHeldItem = null;
+        audioSource.clip = pickUpSFX;
+        audioSource.Play();
+        obj.transform.parent = null;
+        interactionReady = false;
+        obj.layer = 6;
+        Weapon weapon = obj.GetComponent<Weapon>();
+        if (weapon != null) weapon.DropItem();
     }
 
     public void KeyCollected()

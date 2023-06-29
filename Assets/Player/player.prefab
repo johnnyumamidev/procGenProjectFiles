@@ -117,14 +117,11 @@ MonoBehaviour:
   - LookUpIdle
   - Climb
   - ClimbIdle
-  - HoldIdle
-  - HoldRun
-  - HoldJump
-  - Hurt
-  - Dead
   - Attack
   - WeaponRun
   - Dodge
+  - Hurt
+  - Dead
   armorState:
   - {fileID: 6560213727920785716}
   - {fileID: 4967453662229195638}
@@ -1127,7 +1124,7 @@ MonoBehaviour:
   aimDirection: {x: 0, y: 0}
   performShoot: 0
   performDodge: 0
-  performThrow: 0
+  performSwitch: 0
 --- !u!114 &3082843066818496674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1229,17 +1226,21 @@ MonoBehaviour:
   pickUpSFX: {fileID: 8300000, guid: 3d877f7ce6d987a4e86d33b39e8ef51a, type: 3}
   interactionCooldown: 0.6
   pointer: {fileID: 8994837338288673200}
-  pointerOffset: {x: 0, y: 0.07}
+  pointerOffset: {x: 0, y: 0.125}
   interactionHitbox: {fileID: 2640057195080109582}
   weaponHoldPosition: {fileID: 4225212420695081728}
   interactionRadius: 0.05
   interactionLayerMask:
     serializedVersion: 2
     m_Bits: 64
-  numberFound: 0
-  currentlyHoldingItem: 0
+  numberOfInteractablesInRange: 0
   itemObject: {fileID: 2553591014198905397, guid: 2bf1d731ee9e2bb44af011b43ba02679, type: 3}
   hasKey: 0
+  startingMeleeWeapon: {fileID: 2553591014198905397, guid: 2bf1d731ee9e2bb44af011b43ba02679, type: 3}
+  startingRangedWeapon: {fileID: 1888186156286691954, guid: 89adc7da8fbe6194e8e3f9d8f9bb1543, type: 3}
+  equippedMeleeWeapon: {fileID: 0}
+  equippedRangedWeapon: {fileID: 0}
+  assignWeaponEvent: {fileID: 0}
   unlockEvent: {fileID: 11400000, guid: e3d840b40cd3d50429745670df3254ba, type: 2}
   unlock:
     m_PersistentCalls:
@@ -1304,12 +1305,15 @@ MonoBehaviour:
         m_CallState: 2
   firingPoint: {fileID: 6761257277284734327}
   boltPrefab: {fileID: 3496748023275716667, guid: c1da66e0bf19cee47afbc18d2a2cb2b7, type: 3}
+  currentWeapon: {fileID: 0}
   rangedWeapon: {fileID: 0}
+  meleeWeapon: {fileID: 0}
   isMeleeAttacking: 0
-  crossbowCooldownTime: 1
+  switchWeaponCooldown: 0.25
+  crossbowCooldownTime: 0.3
   verticalAimThreshold: 0.5
   firingPointPivot: {fileID: 5069766083796919693}
-  weaponHoldPosition: {fileID: 0}
+  weaponHoldPosition: {fileID: 4225212420695081728}
   firingDirection: {x: 0, y: 0}
 --- !u!114 &3748327625944530278
 MonoBehaviour:

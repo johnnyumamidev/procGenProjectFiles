@@ -10,10 +10,12 @@ public class PlayerManager : MonoBehaviour
     PlayerAttack playerAttack;
     public PlayerInput playerInput;
     public PlayerInventory playerInventory;
+    PlayerInteraction playerInteraction;
 
     void Start()
     {
         if(UIManager.instance != null) UIManager.instance.playerManager = this;
+        playerInteraction = GetComponent<PlayerInteraction>();
         playerInput = GetComponent<PlayerInput>();
         playerLocomotion = GetComponent<PlayerLocomotion>();
         playerHealth = GetComponent<PlayerHealth>();
@@ -25,6 +27,7 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         playerInventory.HandleInventory();
+        playerInteraction.HandleInteraction();
         playerHealth.HandleHealth();
         if (GameStateManager.instance != null && GameStateManager.instance.currentState == "Game Over") return;
         playerAttack.HandleAllAttackActions();

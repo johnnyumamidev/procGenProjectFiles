@@ -14,7 +14,7 @@ public class PlayerInput : MonoBehaviour
     InputAction aim;
     InputAction shoot;
     InputAction dodge;
-    InputAction throwHook;
+    InputAction switchWeapon;
     public float performCancel;
     public Vector2 movementInput;
     public float performJump;
@@ -23,7 +23,7 @@ public class PlayerInput : MonoBehaviour
     public Vector2 aimDirection;
     public float performShoot;
     public float performDodge;
-    public float performThrow;
+    public float performSwitch;
     private void Awake()
     {
         inputActions = new PlayerInputActions();
@@ -42,7 +42,7 @@ public class PlayerInput : MonoBehaviour
         aim = inputActions.Player.Aim;
         shoot = inputActions.Player.Shoot;
         dodge = inputActions.Player.Dodge;
-        throwHook = inputActions.Player.Throw;
+        switchWeapon = inputActions.Player.Switch;
         movement.Enable();
         jump.Enable();
         interact.Enable();
@@ -50,7 +50,7 @@ public class PlayerInput : MonoBehaviour
         aim.Enable();
         shoot.Enable();
         dodge.Enable();
-        throwHook.Enable();
+        switchWeapon.Enable();
     }
 
     private void OnDisable()
@@ -64,7 +64,7 @@ public class PlayerInput : MonoBehaviour
         aim.Disable();
         shoot.Disable();
         dodge.Disable();
-        throwHook.Disable();
+        switchWeapon.Disable();
     }
 
     public void HandleAllInputs()
@@ -78,6 +78,6 @@ public class PlayerInput : MonoBehaviour
         aimDirection = aim.ReadValue<Vector2>();
         performShoot = shoot.ReadValue<float>();
         performDodge = dodge.ReadValue<float>();
-        performThrow = throwHook.ReadValue<float>();
+        performSwitch = switchWeapon.ReadValue<float>();
     }
 }

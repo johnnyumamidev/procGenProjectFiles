@@ -36,13 +36,13 @@ public class UIManager : MonoBehaviour, IEventListener
     private void OnEnable()
     {
         instance = this;
-        if(playerDeathEvent != null) playerDeathEvent.RegisterListener(this);
-        shopkeepEvent.RegisterListener(this);
+        playerDeathEvent?.RegisterListener(this);
+        shopkeepEvent?.RegisterListener(this);
     }
     private void OnDisable()
     {
-        playerDeathEvent.UnregisterListener(this);
-        shopkeepEvent.UnregisterListener(this);
+        playerDeathEvent?.UnregisterListener(this);
+        shopkeepEvent?.UnregisterListener(this);
     }
     public void OnEventRaised(GameEvent gameEvent)
     {
@@ -58,7 +58,7 @@ public class UIManager : MonoBehaviour, IEventListener
     }
     public void CloseMenu()
     {
-        if (playerManager.playerInput.performCancel != 0)
+        if (playerManager?.playerInput.performCancel != 0)
         {
             Debug.Log("close menu");
             if(itemsDisplay != null) itemsDisplay.SetActive(false);

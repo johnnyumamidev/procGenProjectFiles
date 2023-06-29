@@ -47,10 +47,10 @@ public class SpawnUnits : MonoBehaviour, IEventListener
 
     private void OnEnable()
     {
-        levelGenerationComplete.RegisterListener(this);
+        levelGenerationComplete?.RegisterListener(this);
     }
     private void OnDisable()
     {
-        levelGenerationComplete.UnregisterListener(this);
+        levelGenerationComplete?.UnregisterListener(this);
     }
 }

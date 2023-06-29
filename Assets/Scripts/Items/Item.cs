@@ -13,7 +13,6 @@ public abstract class Item : MonoBehaviour, IInteractable
     PlayerLocomotion playerLocomotion;
 
     public Vector2 carryOffset;
-
     public GameObject interactableObject { get => this.gameObject; }
 
     private void OnEnable()
