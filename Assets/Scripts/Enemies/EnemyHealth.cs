@@ -15,7 +15,7 @@ public class EnemyHealth : MonoBehaviour, IEventListener
     public GameObject bloodParticles;
 
     bool deathEvent;
-
+    [SerializeField] GameEvent enemyDefeatedEvent;
     private void Awake()
     {
         if(enemyDamageEvent == null) enemyDamageEvent = new GameEvent();
@@ -34,6 +34,7 @@ public class EnemyHealth : MonoBehaviour, IEventListener
             Instantiate(bloodParticles, transform.position, Quaternion.identity);
             enemyStates.SetEnemyState(EnemyStates.State.Dead);
             deathEvent = true;
+            enemyDefeatedEvent.Raise();
         }
     }
     public void TakeDamage()

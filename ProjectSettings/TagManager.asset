@@ -19,6 +19,9 @@ TagManager:
   - Wall
   - Stop
   - Cell
+  - EnemySpawn
+  - Enemy
+  - LockedRoom
   layers:
   - Default
   - TransparentFX

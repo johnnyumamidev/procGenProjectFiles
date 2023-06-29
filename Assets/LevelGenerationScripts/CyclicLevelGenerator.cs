@@ -4,18 +4,44 @@ using UnityEngine;
 
 public class CyclicLevelGenerator : MonoBehaviour
 {
-    Grid grid;
+    [SerializeField] DungeonManager dungeonManager;
+    [SerializeField] int numberOfElevatorRooms = 2;
+    [SerializeField] int width;
+    [SerializeField] int height;
+    public List<Vector2> points = new List<Vector2>();
+    public Transform startGridPosition;
+
     public GameObject cellPrefab;
     public Dictionary<int, GameObject> cellObjectPool = new Dictionary<int, GameObject>();
     [SerializeField] GameObject startCell;
     [SerializeField] GameObject exitCell;
+    [SerializeField] GameObject lockedRoomCell;
     [SerializeField] GameObject nextCell;
     int cellNumber;
     [SerializeField] Transform activeCellsParent;
     bool reachedEnd = false;
     private void Awake()
     {
-        grid = GetComponent<Grid>();
+        DetermineGridSize();
+        GenerateGrid();
+    }
+
+    private void DetermineGridSize()
+    {
+        width = numberOfElevatorRooms + dungeonManager.currentDungeon.startingFloorCount;
+        Debug.Log("determine grid width: " + width);
+    }
+
+    private void GenerateGrid()
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                Vector2 point = new Vector2(startGridPosition.position.x + x, startGridPosition.position.y + y);
+                points.Add(point);
+            }
+        }
     }
     private void Start()
     {
@@ -30,18 +56,32 @@ public class CyclicLevelGenerator : MonoBehaviour
     }
     private void GenerateCells()
     {
-        for (int x = 0; x < grid.gridWidth; x++)
+        for (int i = 0; i < width; i++)
         {
-            for (int y = 0; y < grid.gridHeight; y++)
+            Debug.Log("spawning cell" + i);
+            Vector2 point = new Vector2(i, 0);
+            GameObject cell = Instantiate(cellPrefab, point, Quaternion.identity, transform);
+            cellObjectPool.Add(i, cell);
+            cell.SetActive(false);
+            RoomDimensions cellDimensions = cell.GetComponent<RoomDimensions>();
+            cellDimensions.roomDimensions = new Vector3(1, 1, 0);
+        }
+        /*
+        int i = 0;
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
             {
+                Debug.Log("spawning cell");
                 Vector2 point = new Vector2(x, y);
                 GameObject cell = Instantiate(cellPrefab, point, Quaternion.identity, transform);
-                cellObjectPool.Add(x, cell);
+                cellObjectPool.Add(i, cell);
                 cell.SetActive(false);
                 RoomDimensions cellDimensions = cell.GetComponent<RoomDimensions>();
-                cellDimensions.roomDimensions = new Vector3(grid.cellWidth, grid.cellHeight, 0);
+                cellDimensions.roomDimensions = new Vector3(1, 1, 0);
+                i++;
             }
-        }
+        */
     }
     private void SetStartCell()
     {
@@ -67,6 +107,11 @@ public class CyclicLevelGenerator : MonoBehaviour
             exitCell = cell;
             exitCell.tag = "Exit";
             exitCell.GetComponent<ColorManager>().spriteRenderer.color = Color.red;
+        }
+        else if(cellNumber == cellObjectPool.Count - 1)
+        {
+            lockedRoomCell = cell;
+            lockedRoomCell.tag = "LockedRoom";
         }
     }
     private GameObject GetNextCell(GameObject cell)

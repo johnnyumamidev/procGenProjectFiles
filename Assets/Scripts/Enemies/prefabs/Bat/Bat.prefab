@@ -309,7 +309,7 @@ GameObject:
   - component: {fileID: 1415922434}
   m_Layer: 8
   m_Name: Bat
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -365,7 +365,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.005}
@@ -477,6 +477,7 @@ MonoBehaviour:
         m_CallState: 2
   enemy: {fileID: 5961614246145486385}
   bloodParticles: {fileID: 3284542681884259800, guid: ed9323130985624439312500935413cd, type: 3}
+  enemyDefeatedEvent: {fileID: 0}
 --- !u!114 &1415922434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,6 +491,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallCheckCollider: {fileID: 5924207724553433080}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundCheckRange: 0.1
   westWaypointPosition: {x: -1, y: 0}
   eastWaypointPosition: {x: 1, y: 0}
   lastWaypointReached: {fileID: 0}

@@ -12,6 +12,8 @@ public class EnemyAI : MonoBehaviour, IEventListener
     protected Rigidbody2D enemyRigidbody;
     protected CapsuleCollider2D enemyCollider;
     public CircleCollider2D wallCheckCollider;
+    public LayerMask groundLayer;
+    public float groundCheckRange = 0.1f;
 
     Transform westWaypoint;
     Transform eastWaypoint;
@@ -130,17 +132,26 @@ public class EnemyAI : MonoBehaviour, IEventListener
 
     protected virtual void PatrolArea()
     {
-        Debug.Log(gameObject.name + " patrolling");
         if (wallCheckCollider.IsTouchingLayers(enemyStates.obstaclesLayer))
         {
             if (enemyRigidbody.velocity.x > 0) lastWaypointReached = eastWaypoint;
             else { lastWaypointReached = westWaypoint; }
         }
 
+        if(enemy.enemyData.enemyType != "Flying")
+        {
+            RaycastHit2D groundCheck = Physics2D.Raycast(wallCheckCollider.transform.position, Vector2.down, groundCheckRange, groundLayer);
+            if (!groundCheck)
+            {
+                Flip();
+                if (lastWaypointReached == eastWaypoint) lastWaypointReached = westWaypoint;
+                else { lastWaypointReached = eastWaypoint; }
+            }
+        }
+
         if (Vector2.Distance(transform.position, westWaypoint.position) < 0.1f) lastWaypointReached = westWaypoint;
         else if (Vector2.Distance(transform.position, eastWaypoint.position) < 0.1f) lastWaypointReached = eastWaypoint;
 
-        Vector2 currentPosition = transform.position;
         if (lastWaypointReached == null)
         {
             velocity = Vector2.right * enemy.enemyData.speed * Time.fixedDeltaTime;
@@ -174,7 +185,7 @@ public class EnemyAI : MonoBehaviour, IEventListener
     private void OnDisable()
     {
         enemyLungeEvent.UnregisterListener(this);
-        projectileEvent.UnregisterListener(this);
+        projectileEvent?.UnregisterListener(this);
     }
     public void OnEventRaised(GameEvent gameEvent)
     {
@@ -185,5 +196,11 @@ public class EnemyAI : MonoBehaviour, IEventListener
     public void SetLungingTrue()
     {
         isLunging = true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(wallCheckCollider.transform.position, Vector2.down * groundCheckRange);
     }
 }

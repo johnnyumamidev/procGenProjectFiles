@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Chest : MonoBehaviour, IInteractable
 {
@@ -54,5 +55,4 @@ public class Chest : MonoBehaviour, IInteractable
             yield return new WaitForSeconds(timeBetweenItemSpawn);
         }
     }
-
 }

@@ -97,7 +97,7 @@ public class EnemyAnimation : MonoBehaviour, IEventListener
     }
     private void OnDisable()
     {
-        projectileEvent.UnregisterListener(this);
+        projectileEvent?.UnregisterListener(this);
     }
     public void OnEventRaised(GameEvent gameEvent)
     {

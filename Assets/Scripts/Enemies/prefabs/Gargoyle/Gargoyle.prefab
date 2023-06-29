@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 6385500433272083514}
   m_Layer: 0
   m_Name: Gargoyle
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -311,24 +311,14 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   projectileEvent: {fileID: 11400000, guid: 120647fa01b22eb41a09e5db2875aed3, type: 2}
-  fireProjectile:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5961614246145486384}
-        m_TargetAssemblyTypeName: EnemyAttack, Assembly-CSharp
-        m_MethodName: FireProjectile
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   attackPoint: {fileID: 4637821938144658065}
   enemyProjectilePrefab: {fileID: 2404388226896190599, guid: aac9c9a7b962fc546ad1b39add644814, type: 3}
-  numberOfProjectiles: 5
+  bulletSpeed: 20
+  bulletSpread: 0
+  angleMultiplier: 2
+  firingPoint: {fileID: 0}
+  reticle: {fileID: 0}
+  bulletSpreadAngle: 0
 --- !u!114 &4213994224559800261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,6 +349,7 @@ MonoBehaviour:
         m_CallState: 2
   enemy: {fileID: 5961614246145486385}
   bloodParticles: {fileID: 3284542681884259800, guid: ed9323130985624439312500935413cd, type: 3}
+  enemyDefeatedEvent: {fileID: 0}
 --- !u!114 &6385500433272083514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,13 +363,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallCheckCollider: {fileID: 5924207724553433080}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  groundCheckRange: 0.1
   westWaypointPosition: {x: -1, y: 0}
   eastWaypointPosition: {x: 1, y: 0}
   lastWaypointReached: {fileID: 0}
   waypointOffsetMultiplier: 0.25
   velocity: {x: 0, y: 0}
   chaseDelay: 0
+  facingRight: 0
   playerDetectedNotification: {fileID: 5967726805485700070}
+  projectilesFired: 0
   enemyLungeEvent: {fileID: 11400000, guid: 218d85f3371a21a478fbdc7603dcd84b, type: 2}
   enemyLunge:
     m_PersistentCalls:
@@ -395,13 +392,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  projectileEvent: {fileID: 0}
+  fireProjectile:
+    m_PersistentCalls:
+      m_Calls: []
   gargoylePatrolModifier: 0.6
   flightHeight: 2.5
-  gargoyleProjectileEvent: {fileID: 11400000, guid: 120647fa01b22eb41a09e5db2875aed3, type: 2}
+  hasRolledForRangedPosition: 0
   rangedAttackPositions:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  projectileCooldownTime: 1
 --- !u!1 &6530765280802745200
 GameObject:
   m_ObjectHideFlags: 0

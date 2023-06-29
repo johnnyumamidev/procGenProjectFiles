@@ -125,8 +125,6 @@ MonoBehaviour:
   - Attack
   - WeaponRun
   - Dodge
-  - AimHook
-  - ThrowHook
   armorState:
   - {fileID: 6560213727920785716}
   - {fileID: 4967453662229195638}
@@ -1203,7 +1201,7 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: aac8b2e13d0114144915ce3f7b29f346, type: 2}
   isGrounded: 0
   isDodging: 0
-  dodgeRollStartup: 0.3
+  dodgeRollStartup: 0.125
   dodgeDirection: {x: 1, y: 0.7}
   remainingJumps: 0
   timeSinceFalling: 0

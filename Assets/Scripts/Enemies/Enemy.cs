@@ -11,10 +11,12 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
+        transform.name = transform.name.Replace("(Clone)", "").Trim();
         enemyStates = GetComponent<EnemyStates>();
         enemyHealth = GetComponent<EnemyHealth>();
         enemyAI = GetComponent<EnemyAI>();
     }
+    
     private void Update()
     {
         enemyHealth.HandleHealth();
