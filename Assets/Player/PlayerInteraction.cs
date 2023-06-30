@@ -86,7 +86,15 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
             GameObject interactableObj = interactable.interactableObject;
             //if (interactable == null) return;
 
-            PickUpItem(interactable, interactableObj);
+            Weapon weapon = interactableObj.GetComponent<Weapon>();
+            if (weapon != null)
+            {
+                PickUpItem(interactable, interactableObj);
+            }
+            else
+            {
+                interactable.Interact(this);
+            }
 
             DetectNPC();
         }
@@ -102,7 +110,6 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
             interactableObj.layer = 0;
             Weapon weapon = interactableObj.GetComponent<Weapon>();
             bool isRangedWeapon = weapon.weaponData.isRangedWeapon;
-            if (weapon != null)
             {
                 interactable.Interact(this);
                 if (equippedMeleeWeapon != null && equippedRangedWeapon != null)

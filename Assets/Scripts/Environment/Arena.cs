@@ -34,7 +34,7 @@ public class Arena : MonoBehaviour, IEventListener
 
     void Start()
     {
-        enemy = Instantiate(enemyPrefabs[0], enemySpawnPoints[0].position, Quaternion.identity);
+        //enemy = Instantiate(enemyPrefabs[0], enemySpawnPoints[0].position, Quaternion.identity);
     }
 
     private void Update()

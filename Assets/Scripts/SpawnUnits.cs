@@ -6,43 +6,33 @@ using UnityEngine.Events;
 public class SpawnUnits : MonoBehaviour, IEventListener
 {
     [SerializeField] GameEvent levelGenerationComplete;
-    [SerializeField] UnityEvent spawnPlayer;
+    [SerializeField] UnityEvent setSpawnPosition;
 
+    [SerializeField] CyclicLevelGenerator levelGenerator;
     public GameObject playerPrefab;
-    GameObject player;
-    bool playerSpawned = false;
-    LoopEraseRandomWalk levelGenerator;
     public Transform spawnPosition;
-    void Awake()
-    {
-        levelGenerator = GetComponent<LoopEraseRandomWalk>();
-    }
-
     public void GetStartingRoom()
     {
-        if(levelGenerator == null) spawnPosition = GameObject.FindGameObjectWithTag("Start").transform;
+        GameObject startCellLayout = levelGenerator.startCell.GetComponent<CellLayout>().elevatorEnter;
+        Transform parent = startCellLayout.transform;
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            Transform child = parent.GetChild(i);
+            if (child.CompareTag("Player")) spawnPosition = child;
+        }
     }
     public void SpawnPlayer()
     {
-        if (levelGenerator == null)
-        {
-            player.transform.position = spawnPosition.position;
-            return;
-        }
-
-        foreach (GameObject cell in levelGenerator.activeCells.Values)
-        {
-            if (cell.tag == "Start" && !playerSpawned)
-            {
-                player = Instantiate(playerPrefab,cell.transform.position, Quaternion.identity);
-                playerSpawned = true;
-            }
-        }
+        Instantiate(playerPrefab, spawnPosition.position, Quaternion.identity);
     }
 
     public void OnEventRaised(GameEvent gameEvent)
     {
-        spawnPlayer.Invoke();
+        if(gameEvent == levelGenerationComplete)
+        {
+            Debug.Log("** level generation complete **");
+            setSpawnPosition?.Invoke();
+        }
     }
 
     private void OnEnable()

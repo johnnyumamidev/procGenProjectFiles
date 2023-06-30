@@ -6,7 +6,7 @@ public class CellLayout : MonoBehaviour
 {
     CellWalls cellWalls;
     bool setLayout = false;
-    [SerializeField] GameObject elevatorEnter;
+    public GameObject elevatorEnter;
     [SerializeField] GameObject elevatorExit;
     [SerializeField] GameObject lockedDoorRoom;
     public List<GameObject> arenas = new List<GameObject>();

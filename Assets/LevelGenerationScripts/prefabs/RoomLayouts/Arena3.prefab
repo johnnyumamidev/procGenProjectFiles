@@ -505,6 +505,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stairs (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 393360717583913724, guid: baacdd3fa2ebec646b663e4c48a5c615, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: baacdd3fa2ebec646b663e4c48a5c615, type: 3}
 --- !u!4 &1116574134420272529 stripped
@@ -723,6 +727,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stairs
       objectReference: {fileID: 0}
+    - target: {fileID: 393360717583913724, guid: baacdd3fa2ebec646b663e4c48a5c615, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: baacdd3fa2ebec646b663e4c48a5c615, type: 3}
 --- !u!4 &7208649885530619976 stripped
@@ -785,6 +793,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stairs (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 393360717583913724, guid: baacdd3fa2ebec646b663e4c48a5c615, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: baacdd3fa2ebec646b663e4c48a5c615, type: 3}
 --- !u!4 &7875445078979962191 stripped
@@ -806,6 +818,10 @@ PrefabInstance:
     - target: {fileID: 5893646483962433064, guid: e75853214d2805240b78fee956c90eb0, type: 3}
       propertyPath: m_Name
       value: woodplank
+      objectReference: {fileID: 0}
+    - target: {fileID: 5893646483962433064, guid: e75853214d2805240b78fee956c90eb0, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6562563959021403034, guid: e75853214d2805240b78fee956c90eb0, type: 3}
       propertyPath: m_RootOrder
@@ -1060,6 +1076,10 @@ PrefabInstance:
     - target: {fileID: 393360717583913724, guid: baacdd3fa2ebec646b663e4c48a5c615, type: 3}
       propertyPath: m_Name
       value: Stairs (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 393360717583913724, guid: baacdd3fa2ebec646b663e4c48a5c615, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: baacdd3fa2ebec646b663e4c48a5c615, type: 3}

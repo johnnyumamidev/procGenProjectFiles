@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CyclicLevelGenerator : MonoBehaviour
 {
+    [SerializeField] GameEvent levelGenerationCompleteEvent;
+
     [SerializeField] DungeonManager dungeonManager;
     [SerializeField] int numberOfElevatorRooms = 2;
     [SerializeField] int width;
@@ -12,8 +14,8 @@ public class CyclicLevelGenerator : MonoBehaviour
     public Transform startGridPosition;
 
     public GameObject cellPrefab;
-    public Dictionary<int, GameObject> cellObjectPool = new Dictionary<int, GameObject>();
-    [SerializeField] GameObject startCell;
+    public Dictionary<int, GameObject> activeCells = new Dictionary<int, GameObject>();
+    public GameObject startCell;
     [SerializeField] GameObject exitCell;
     [SerializeField] GameObject lockedRoomCell;
     [SerializeField] GameObject nextCell;
@@ -61,7 +63,7 @@ public class CyclicLevelGenerator : MonoBehaviour
             Debug.Log("spawning cell" + i);
             Vector2 point = new Vector2(i, 0);
             GameObject cell = Instantiate(cellPrefab, point, Quaternion.identity, transform);
-            cellObjectPool.Add(i, cell);
+            activeCells.Add(i, cell);
             cell.SetActive(false);
             RoomDimensions cellDimensions = cell.GetComponent<RoomDimensions>();
             cellDimensions.roomDimensions = new Vector3(1, 1, 0);
@@ -85,7 +87,7 @@ public class CyclicLevelGenerator : MonoBehaviour
     }
     private void SetStartCell()
     {
-        startCell = cellObjectPool[cellNumber];
+        startCell = activeCells[cellNumber];
         startCell.name = "Cell#" + cellNumber;
         startCell.tag = "Start";
         startCell.transform.parent = activeCellsParent;
@@ -101,14 +103,15 @@ public class CyclicLevelGenerator : MonoBehaviour
         nextCell.transform.parent = activeCellsParent;
         nextCell.GetComponent<ColorManager>().spriteRenderer.color = Color.yellow;
         cellNumber++;
-        if (cellNumber == cellObjectPool.Count)
+        if (cellNumber == activeCells.Count)
         {
             reachedEnd = true;
+            levelGenerationCompleteEvent?.Raise();
             exitCell = cell;
             exitCell.tag = "Exit";
             exitCell.GetComponent<ColorManager>().spriteRenderer.color = Color.red;
         }
-        else if(cellNumber == cellObjectPool.Count - 1)
+        else if(cellNumber == activeCells.Count - 1)
         {
             lockedRoomCell = cell;
             lockedRoomCell.tag = "LockedRoom";
@@ -118,7 +121,7 @@ public class CyclicLevelGenerator : MonoBehaviour
     {
         CellWalls startCellWalls = cell.GetComponent<CellWalls>();
         startCellWalls.directionTowardsNextRoom = Vector2.right;
-        GameObject _nextCell = cellObjectPool[cellNumber];
+        GameObject _nextCell = activeCells[cellNumber];
         CellWalls cellWalls = _nextCell.GetComponent<CellWalls>();
         cellWalls.previousRoomDirection = Vector2.right;
         return _nextCell;
