@@ -11,7 +11,7 @@ public class PlayerAnimationManager : MonoBehaviour, IEventListener
     PlayerInput playerInput;
     PlayerLocomotion playerLocomotion;
     PlayerHealth playerHealth;
-
+    PlayerAttack playerAttack;
     public int currentHealth;
     public ArmorState[] armorState;
     [SerializeField] GameObject spriteObject;
@@ -26,7 +26,7 @@ public class PlayerAnimationManager : MonoBehaviour, IEventListener
     {
         spriteRenderer = spriteObject.GetComponent<SpriteRenderer>();
         animator = spriteObject.GetComponent<Animator>();
-
+        playerAttack = GetComponentInParent<PlayerAttack>();
         playerHealth = GetComponentInParent<PlayerHealth>();
         if (playerInput == null) playerInput = GetComponentInParent<PlayerInput>();
         if (playerLocomotion == null) playerLocomotion = GetComponentInParent<PlayerLocomotion>();
@@ -37,10 +37,11 @@ public class PlayerAnimationManager : MonoBehaviour, IEventListener
         if (spriteRenderer.sprite.name.Contains("fullArmor"))
         {
             string spriteName = spriteRenderer.sprite.name;
-            spriteName = spriteName.Replace("fullArmor_","");
+            spriteName = spriteName.Replace("fullArmor_", "");
             int spriteNumber = int.Parse(spriteName);
 
-            spriteRenderer.sprite = armorState[currentHealth-1].sprites[spriteNumber];
+            if (currentHealth == 0) spriteRenderer.sprite = armorState[0].sprites[spriteNumber];
+            else { spriteRenderer.sprite = armorState[currentHealth - 1].sprites[spriteNumber]; }
         }
     }
 
@@ -75,7 +76,7 @@ public class PlayerAnimationManager : MonoBehaviour, IEventListener
             return;
         }
 
-        if (playerInput.performAttack != 0) animStateIndex = 7;
+        if (playerInput.performAttack != 0 && !playerAttack.currentWeapon.GetComponent<Weapon>().weaponData.isRangedWeapon) animStateIndex = 7;
 
         if (playerHealth.playerHurtState) animStateIndex = 10;
         if (playerHealth.currentHealth == 0) animStateIndex = 11;

@@ -104,7 +104,6 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
             bool isRangedWeapon = weapon.weaponData.isRangedWeapon;
             if (weapon != null)
             {
-                weaponPickUpEvent?.Raise();
                 interactable.Interact(this);
                 if (equippedMeleeWeapon != null && equippedRangedWeapon != null)
                 {
@@ -112,6 +111,12 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
                     else { DropCurrentlyHeldItem(equippedRangedWeapon); }
                 }
                 AssignEquippedWeapons(interactableObj, isRangedWeapon);
+
+                if (numberOfInteractablesInRange != 0)
+                {
+                    PlayerAttack playerAttack = GetComponent<PlayerAttack>();
+                    if (playerAttack != null) playerAttack.DropCurrentWeapon(interactableObj);
+                }
             }
         }
     }
