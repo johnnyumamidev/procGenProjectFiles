@@ -10,6 +10,8 @@ public class PlayerAttack : MonoBehaviour, IEventListener
     [SerializeField] GameEvent attackInactive;
     [SerializeField] GameEvent fireProjectileEvent;
     [SerializeField] UnityEvent fireBolt;
+    [SerializeField] GameEvent weaponPickupEvent;
+    [SerializeField] UnityEvent weaponPickup;
 
     public Transform firingPoint;
     public GameObject boltPrefab;
@@ -50,6 +52,10 @@ public class PlayerAttack : MonoBehaviour, IEventListener
         }
     }
 
+    public void DropCurrentWeapon()
+    {
+        currentWeapon = null;
+    }
     private void AssignEquippedWeaponToSlot()
     {
         meleeWeapon = playerInteraction.equippedMeleeWeapon.transform;
@@ -167,13 +173,16 @@ public class PlayerAttack : MonoBehaviour, IEventListener
     private void OnEnable()
     {
         fireProjectileEvent?.RegisterListener(this);
+        weaponPickupEvent?.RegisterListener(this);
     }
     private void OnDisable()
     {
         fireProjectileEvent?.UnregisterListener(this);
+        weaponPickupEvent?.UnregisterListener(this);
     }
     public void OnEventRaised(GameEvent gameEvent)
     {
-        fireBolt?.Invoke();
+        if(gameEvent == fireProjectileEvent) fireBolt?.Invoke();
+        if(gameEvent == weaponPickupEvent) weaponPickup?.Invoke();
     }
 }

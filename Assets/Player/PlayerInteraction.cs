@@ -41,7 +41,7 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
     public GameObject equippedMeleeWeapon;
     public GameObject equippedRangedWeapon;
 
-    [SerializeField] GameEvent assignWeaponEvent;
+    [SerializeField] GameEvent weaponPickUpEvent;
 
     bool npcDetected;
     NPC currentNPC;
@@ -104,6 +104,7 @@ public class PlayerInteraction : MonoBehaviour, IEventListener
             bool isRangedWeapon = weapon.weaponData.isRangedWeapon;
             if (weapon != null)
             {
+                weaponPickUpEvent?.Raise();
                 interactable.Interact(this);
                 if (equippedMeleeWeapon != null && equippedRangedWeapon != null)
                 {

@@ -10,61 +10,52 @@ public class PlayerAnimationManager : MonoBehaviour, IEventListener
     Animator animator;
     PlayerInput playerInput;
     PlayerLocomotion playerLocomotion;
-    PlayerInteraction playerInteraction;
     PlayerHealth playerHealth;
-    public GrapplingHook grapplingHook;
-    public PlayerData playerData;
-    
-    public int animStateIndex;
+
+    public int currentHealth;
+    public ArmorState[] armorState;
+    [SerializeField] GameObject spriteObject;
+    [SerializeField] Transform weaponPosition;
+    SpriteRenderer spriteRenderer;
+
+    public int animStateIndex = 0;
     public List<string> animStates = new List<string> { "Idle", "Run", "Jump", "Falling" };
-    public List<GameObject> armorState = new List<GameObject>();
-    [SerializeField] int armorIndex = 3;
 
     public Transform weaponHolder;
     private void Awake()
     {
-        playerInteraction = GetComponentInParent<PlayerInteraction>();
+        spriteRenderer = spriteObject.GetComponent<SpriteRenderer>();
+        animator = spriteObject.GetComponent<Animator>();
+
         playerHealth = GetComponentInParent<PlayerHealth>();
         if (playerInput == null) playerInput = GetComponentInParent<PlayerInput>();
         if (playerLocomotion == null) playerLocomotion = GetComponentInParent<PlayerLocomotion>();
     }
 
-    public void UpdateAnimator()
+    private void LateUpdate()
     {
-        if (armorIndex > 0)
+        if (spriteRenderer.sprite.name.Contains("fullArmor"))
         {
-            animator.gameObject.SetActive(false);
-            armorIndex--;
-            armorState[armorIndex].SetActive(true);
+            string spriteName = spriteRenderer.sprite.name;
+            spriteName = spriteName.Replace("fullArmor_","");
+            int spriteNumber = int.Parse(spriteName);
+
+            spriteRenderer.sprite = armorState[currentHealth-1].sprites[spriteNumber];
         }
-    }
-
-    public void ResetAnimator()
-    {
-        animator.gameObject.SetActive(false);
-        armorIndex = 3;
-        armorState[armorIndex].SetActive(true);
-    }
-
-    private void Start()
-    {
-        animStateIndex = 0;
     }
 
     private void Update()
     {
-        armorIndex = Mathf.Clamp(armorIndex, 0, armorState.Count - 1);
-        animator = armorState[armorIndex].GetComponent<Animator>();
-        Transform weapon = armorState[armorIndex].GetComponentInChildren<Transform>();
-        if(weapon.CompareTag("Weapon")) weaponHolder.transform.position = weapon.position;
+        currentHealth = (int)playerHealth.currentHealth;
+        weaponHolder.transform.position = weaponPosition.position;
 
-        HandlePlayerInput();
+        SetAnimationBasedOnPlayerState();
 
         animStateIndex = Mathf.Clamp(animStateIndex, 0, animStates.Count-1);
         animator.CrossFade(animStates[animStateIndex], 0, 0);
     }
 
-    private void HandlePlayerInput()
+    private void SetAnimationBasedOnPlayerState()
     {
         if (playerLocomotion.isGrounded && playerInput.movementInput.x != 0) { animStateIndex = 8; }
         else if (!playerLocomotion.isGrounded && !playerLocomotion.isNearChain) { animStateIndex = 2; }
@@ -88,6 +79,12 @@ public class PlayerAnimationManager : MonoBehaviour, IEventListener
 
         if (playerHealth.playerHurtState) animStateIndex = 10;
         if (playerHealth.currentHealth == 0) animStateIndex = 11;
+    }
+
+    [System.Serializable]
+    public struct ArmorState
+    {
+        public Sprite[] sprites;
     }
 
     [SerializeField] GameEvent playerSpawnEvent;
