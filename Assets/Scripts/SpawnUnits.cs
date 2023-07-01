@@ -15,10 +15,21 @@ public class SpawnUnits : MonoBehaviour, IEventListener
     {
         GameObject startCellLayout = levelGenerator.startCell.GetComponent<CellLayout>().elevatorEnter;
         Transform parent = startCellLayout.transform;
+
         for (int i = 0; i < parent.childCount; i++)
         {
-            Transform child = parent.GetChild(i);
-            if (child.CompareTag("Player")) spawnPosition = child;
+            Transform elevator = parent.GetChild(i);
+            if (elevator.CompareTag("Elevator"))
+            {
+                for (int j = 0; j < elevator.childCount; j++)
+                {
+                    Transform spawnPoint = elevator.GetChild(j);
+                    if (spawnPoint.CompareTag("PlayerSpawn"))
+                    {
+                        spawnPosition = spawnPoint;
+                    }
+                }
+            }
         }
     }
     public void SpawnPlayer()

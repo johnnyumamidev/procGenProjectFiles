@@ -22,6 +22,8 @@ TagManager:
   - EnemySpawn
   - Enemy
   - LockedRoom
+  - PlayerSpawn
+  - Elevator
   layers:
   - Default
   - TransparentFX
