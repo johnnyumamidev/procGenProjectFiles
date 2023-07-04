@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-[CreateAssetMenu(menuName ="Enemy/Data")]
+[CreateAssetMenu(menuName = "Enemy/Data")]
 public class EnemyData : ScriptableObject
 {
     public string enemyType;
@@ -22,4 +23,7 @@ public class EnemyData : ScriptableObject
     public float attackSpeed;
     public float attackRadius = 0.05f;
     public float lungeForce = 10f;
+
+    public UnityEvent eventResponse;
+    public GameEvent testEvent;
 }
